@@ -1,6 +1,7 @@
 export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
+    '@nuxtjs/i18n',
     '@nuxt/ui',
   ],
   components: [
@@ -19,6 +20,15 @@ export default defineNuxtConfig({
     preference: 'light',
   },
   compatibilityDate: '2025-07-15',
+  i18n: {
+    baseUrl: 'https://tryandcatch.dev',
+    defaultLocale: 'es',
+    locales: [
+      { code: 'es', language: 'es-ES', file: 'es.json' },
+    ],
+    langDir: 'locales',
+    restructureDir: './app',
+  },
   pinia: {
     storesDirs: ['./stores/**.store.ts'],
   },
