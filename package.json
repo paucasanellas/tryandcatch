@@ -1,5 +1,6 @@
 {
   "name": "tryandcatch",
+  "version": "0.0.1",
   "type": "module",
   "private": true,
   "scripts": {
@@ -7,11 +8,33 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "typecheck": "vue-tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky"
   },
   "dependencies": {
+    "@nuxt/ui": "^4.3.0",
+    "@nuxtjs/i18n": "^10.2.1",
+    "@pinia/nuxt": "^0.11.3",
     "nuxt": "^4.2.2",
-    "vue": "^3.5.27",
-    "vue-router": "^4.6.4"
+    "pinia": "^3.0.4"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.3.1",
+    "@commitlint/config-conventional": "^20.3.1",
+    "@nuxt/eslint-config": "^1.12.1",
+    "@tailwindcss/typography": "^0.5.19",
+    "eslint": "^9.39.2",
+    "husky": "^9.1.7",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.2.2"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }
