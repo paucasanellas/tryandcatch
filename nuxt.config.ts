@@ -1,6 +1,7 @@
 export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
+    '@nuxt/ui',
   ],
   components: [
     { path: '@/components', pathPrefix: false },
