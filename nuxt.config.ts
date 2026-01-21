@@ -1,4 +1,7 @@
 export default defineNuxtConfig({
+  modules: [
+    '@pinia/nuxt',
+  ],
   components: [
     { path: '@/components', pathPrefix: false },
   ],
@@ -12,4 +15,7 @@ export default defineNuxtConfig({
     '@/assets/css/main.css',
   ],
   compatibilityDate: '2025-07-15',
+  pinia: {
+    storesDirs: ['./stores/**.store.ts'],
+  },
 })
