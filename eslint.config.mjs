@@ -4,4 +4,8 @@ export default createConfigForNuxt({
   features: {
     stylistic: true,
   },
+}, {
+  rules: {
+    'nuxt/nuxt-config-keys-order': 'warn',
+  },
 })
