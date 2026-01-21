@@ -15,6 +15,9 @@ export default defineNuxtConfig({
   css: [
     '@/assets/css/main.css',
   ],
+  colorMode: {
+    preference: 'light',
+  },
   compatibilityDate: '2025-07-15',
   pinia: {
     storesDirs: ['./stores/**.store.ts'],
