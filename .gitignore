@@ -17,8 +17,12 @@ logs
 .DS_Store
 .fleet
 .idea
+.nuxtrc
 
 # Local env files
 .env
 .env.*
 !.env.example
+
+# Tests
+coverage
