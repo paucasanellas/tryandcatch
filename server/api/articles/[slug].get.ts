@@ -3,12 +3,12 @@ export default defineEventHandler(async (event) => {
     const { slug } = await getValidatedRouterParams(event, ArticleFindParams.parse)
     const { locale } = await getValidatedQuery(event, ArticleFindQuery.parse)
 
-    const serverArticle = new ServerArticle(event)
+    const article = new ServerArticle(event)
 
-    const article = await serverArticle.find(slug, locale)
+    const data = await article.find(slug, locale)
 
     return {
-      article,
+      data,
     }
   }
   catch (error) {

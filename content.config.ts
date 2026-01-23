@@ -1,4 +1,4 @@
-import { defineContentConfig, defineCollection } from '@nuxt/content'
+import { defineContentConfig, defineCollection, z } from '@nuxt/content'
 
 export default defineContentConfig({
   collections: {
@@ -8,6 +8,12 @@ export default defineContentConfig({
         include: '**/articles/**/*.md',
         prefix: '',
       },
+      schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        date: z.date(),
+        readTime: z.number().min(1),
+      }),
     }),
   },
 })
