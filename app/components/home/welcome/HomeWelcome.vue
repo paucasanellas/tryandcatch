@@ -1,7 +1,7 @@
 <template>
   <header>
     <AppContainer>
-      HomeWelcome
+      <h1>HomeWelcome</h1>
     </AppContainer>
   </header>
 </template>
