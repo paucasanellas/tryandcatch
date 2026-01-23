@@ -1,7 +1,7 @@
 <template>
-  <header>
+  <footer>
     <AppContainer>
-      HomeWelcome
+      Footer
     </AppContainer>
-  </header>
+  </footer>
 </template>
