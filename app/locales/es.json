@@ -1,5 +1,7 @@
 {
   "home.meta.title": "Inicio",
+  "article.slug.toc.title": "En esta página",
+  "article.slug.readTime": "{readTime} tiempo de lectura",
   "footer.copyright": "© {year} {name}. Todos los sistemas operativos.",
   "footer.version": "v{version}"
 }

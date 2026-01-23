@@ -3,6 +3,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/i18n',
     '@nuxt/ui',
+    '@nuxt/content',
   ],
   components: [
     { path: '@/components', pathPrefix: false },
