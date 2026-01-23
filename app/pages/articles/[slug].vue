@@ -34,4 +34,15 @@ const { data, error } = await useAsyncData(`article-${params.slug}`, async () =>
 if (error.value) {
   handleError(error.value)
 }
+
+useSeoMeta({
+  title: data.value?.article.title,
+  description: data.value?.article.description,
+})
+
+defineI18nRoute({
+  paths: {
+    es: '/[slug]',
+  },
+})
 </script>
