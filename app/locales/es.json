@@ -1,3 +1,5 @@
 {
-  "home.meta.title": "Inicio"
+  "home.meta.title": "Inicio",
+  "footer.copyright": "© {year} {name}. Todos los sistemas operativos.",
+  "footer.version": "v{version}"
 }

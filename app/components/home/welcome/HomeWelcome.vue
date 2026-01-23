@@ -1,11 +1,7 @@
 <template>
   <header>
-    <h1 class="text-3xl font-bold">
-      {{ app.name }}
-    </h1>
+    <AppContainer>
+      <h1>HomeWelcome</h1>
+    </AppContainer>
   </header>
 </template>
-
-<script lang="ts" setup>
-const { app } = useAppConfig()
-</script>

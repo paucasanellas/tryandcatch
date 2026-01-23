@@ -7,7 +7,7 @@ describe('Component: HomeWelcome', () => {
 
     const title = screen.getByRole('heading', {
       level: 1,
-      name: `Try & Catch`,
+      name: `HomeWelcome`,
     })
     expect(title).toBeInTheDocument()
   })
