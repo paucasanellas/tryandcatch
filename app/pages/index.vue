@@ -20,9 +20,7 @@ const { locale } = useI18n()
 const { handleError } = useServerError()
 
 const { data, error } = await useAsyncData(`home-${locale.value}`, async () => {
-  const { data } = await useHome().get()
-
-  return data
+  return useHome().get()
 })
 
 if (error.value) {

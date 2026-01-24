@@ -10,9 +10,7 @@ export default defineEventHandler(async (event) => {
     })
 
     return {
-      data: {
-        featured,
-      },
+      featured,
     }
   }
   catch (error) {

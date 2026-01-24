@@ -4,8 +4,6 @@ export const HomeQuery = z.object({
   locale: z.string(),
 })
 
-export type Home = {
+export type HomeResponse = {
   featured?: Article
 }
-
-export type HomeResponse = ServerSingleResponse<Home>
