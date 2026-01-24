@@ -16,6 +16,6 @@ export class ServerArticle {
   }
 
   private getPath(slug: string, locale: string) {
-    return `/${locale}/articles/${slug}`
+    return `/articles/${locale}/${slug}`
   }
 }
