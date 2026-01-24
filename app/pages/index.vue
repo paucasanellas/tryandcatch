@@ -1,14 +1,14 @@
 <template>
   <UMain v-if="data">
     <AppContainer>
-      <UPage>
+      <UPage :ui>
         <HomeFeatured
           v-if="data.featured"
           :article="data.featured"
         />
 
         <template #right>
-          <div>Aside</div>
+          <HomeAside />
         </template>
       </UPage>
     </AppContainer>
@@ -16,6 +16,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { PageProps } from '@nuxt/ui'
+
 const { locale } = useI18n()
 const { handleError } = useServerError()
 
@@ -30,4 +32,9 @@ if (error.value) {
 useSeoMeta({
   title: $t('home.meta.title'),
 })
+
+const ui: PageProps['ui'] = {
+  right: 'lg:col-span-3 order-last',
+  center: 'lg:col-span-7',
+}
 </script>

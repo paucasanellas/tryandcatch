@@ -26,6 +26,7 @@ export type Article = {
   title: string
   description: string
   slug: string
+  cover: string
   locale: string
   featured: boolean
   date: string

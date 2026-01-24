@@ -9,7 +9,7 @@ describe('Component: HomeFeatured', () => {
 
     within(article).getByRole('link', { name: 'Featured Article' })
     within(article).getByRole('heading', { name: 'Featured Article', level: 2 })
-    within(article).getByText('Jan 1, 2023')
+    within(article).getByText('hace 5 años')
     within(article).getByRole('img', { name: 'Featured Article' })
   })
 })
@@ -19,8 +19,9 @@ async function renderComponent() {
     props: {
       article: {
         title: 'Featured Article',
+        cover: 'imageUrl',
         description: 'This is a featured article.',
-        date: '2023-01-01',
+        date: '2021-02-06',
         slug: 'featured-article',
         locale: 'es',
         featured: true,

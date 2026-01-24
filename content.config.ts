@@ -11,6 +11,7 @@ export default defineContentConfig({
         title: z.string(),
         slug: z.string(),
         locale: z.string(),
+        cover: z.string().url(),
         featured: z.boolean().default(false),
         description: z.string(),
         date: z.date(),
