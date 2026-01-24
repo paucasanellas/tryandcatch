@@ -9,6 +9,9 @@ export default defineContentConfig({
       },
       schema: z.object({
         title: z.string(),
+        slug: z.string(),
+        locale: z.string(),
+        featured: z.boolean().default(false),
         description: z.string(),
         date: z.date(),
         readTime: z.number().min(1),

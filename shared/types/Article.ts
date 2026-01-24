@@ -8,20 +8,29 @@ export class ArticleNotFound extends NotFoundError {
   }
 }
 
-export const ArticleFindParams = z.object({
+export const ArticleSlugParams = z.object({
   slug: z.string(),
 })
 
-export const ArticleFindQuery = z.object({
+export const ArticleSlugQuery = z.object({
   locale: z.string(),
 })
+
+export type ArticleSearchQuery = {
+  locale?: string
+  slug?: string
+  featured?: boolean
+}
 
 export type Article = {
   title: string
   description: string
+  slug: string
+  locale: string
+  featured: boolean
   date: string
   readTime: number
   body: MarkdownRoot
 }
 
-export type ArticleFindResponse = ServerSingleResponse<Article>
+export type ArticleSlugResponse = ServerSingleResponse<Article>
