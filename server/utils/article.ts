@@ -1,11 +1,20 @@
-import type { H3Event } from 'h3'
 import { queryCollection } from '@nuxt/content/server'
 
 export class ServerArticle {
-  constructor(private readonly event: H3Event) { }
+  constructor(private readonly event: ServerEvent) {}
 
   async search(query: ArticleSearchQuery) {
-    return this.searchCriteria(query).all()
+    const articles = await this.searchCriteria(query).all()
+    const categories = await queryCollection(this.event, 'categories').all()
+
+    return articles.map((article) => {
+      const category = categories.find(category => category.slug === article.category)
+
+      return {
+        ...article,
+        category,
+      }
+    })
   }
 
   private searchCriteria(query: ArticleSearchQuery) {

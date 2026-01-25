@@ -22,10 +22,16 @@ async function renderComponent() {
         cover: 'imageUrl',
         description: 'This is a featured article.',
         date: '2021-02-06',
+        category: {
+          name: 'Category Name',
+          slug: 'category-slug',
+          locale: 'es',
+        },
         slug: 'featured-article',
         locale: 'es',
         featured: true,
         readTime: 8,
+        body: { type: 'minimark', value: [] },
       },
     },
   })
