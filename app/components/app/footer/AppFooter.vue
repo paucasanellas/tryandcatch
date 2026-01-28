@@ -11,6 +11,7 @@
         <UChip
           standalone
           inset
+          color="success"
         />
         <p class="text-muted text-sm font-brand">
           {{ version }}
