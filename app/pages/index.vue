@@ -6,7 +6,7 @@
           v-if="data.featured"
           :article="data.featured"
         />
-
+        <HomeLatests :articles="data.latests" />
         <template #right>
           <HomeAside />
         </template>

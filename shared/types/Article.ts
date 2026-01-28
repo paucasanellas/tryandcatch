@@ -16,10 +16,10 @@ export const ArticleSlugQuery = z.object({
   locale: z.string(),
 })
 
-export type ArticleSearchQuery = {
+export type ArticleCriteria = {
   locale?: string
-  slug?: string
   featured?: boolean
+  slug?: string
 }
 
 export type Article = {
@@ -27,9 +27,9 @@ export type Article = {
   description: string
   slug: string
   cover: string
-  category: Category
+  category?: Category
   locale: string
-  featured: boolean
+  featured?: boolean
   date: string
   readTime: number
   body: MarkdownRoot

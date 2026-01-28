@@ -4,7 +4,7 @@
       :title="article.title"
       :image="article.cover"
       :badge="{
-        label: article.category.name,
+        label: article.category ? article.category.name : $t('article.featured'),
         color: 'primary',
       }"
       :to="$localePath({ name: 'articles-slug', params: { slug: article.slug } })"
@@ -43,7 +43,7 @@ import type { BlogPostProps } from '@nuxt/ui'
 
 const { locale } = useI18n()
 
-defineProps<{
+const { article } = defineProps<{
   article: Article
 }>()
 

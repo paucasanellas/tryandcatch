@@ -3,16 +3,12 @@ export default defineEventHandler(async (event) => {
     const { slug } = await getValidatedRouterParams(event, ArticleSlugParams.parse)
     const { locale } = await getValidatedQuery(event, ArticleSlugQuery.parse)
 
-    const $article = new ServerArticle(event)
+    const { articleFind } = useContainer(event)
 
-    const [article] = await $article.search({
+    const article = await articleFind.handle({
       slug,
       locale,
     })
-
-    if (!article) {
-      throw new ArticleNotFound(slug)
-    }
 
     return {
       data: article,

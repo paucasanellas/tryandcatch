@@ -6,4 +6,5 @@ export const HomeQuery = z.object({
 
 export type HomeResponse = {
   featured?: Article
+  latests: Article[]
 }

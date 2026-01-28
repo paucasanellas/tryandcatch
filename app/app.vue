@@ -42,7 +42,7 @@ async function initApp() {
   init(appData)
 }
 
-await callOnce(async () => {
+await callOnce('app', async () => {
   await initApp()
 })
 
