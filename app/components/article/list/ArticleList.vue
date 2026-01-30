@@ -1,24 +1,18 @@
 <template>
-  <UPageHeader :ui="{ root: 'border-none' }">
+  <UBlogPosts :ui="{ base: 'lg:grid-cols-2' }">
     <UBlogPost
+      v-for="article in articles"
+      :key="article.slug"
       :title="article.title"
-      :image="article.cover"
       :badge="{
         label: article.category ? article.category.name : $t('article.featured'),
         color: 'primary',
       }"
       :to="$localePath({ name: 'articles-slug', params: { slug: article.slug } })"
-      orientation="horizontal"
-      variant="outline"
+      :image="article.cover"
       :ui
     >
       <template #description>
-        <p class="text-muted">
-          {{ article.description }}
-        </p>
-        <USeparator
-          class="h-8"
-        />
         <p class="text-muted/70 text-sm">
           // <NuxtTime
             class="text-sm"
@@ -35,20 +29,19 @@
         </p>
       </template>
     </UBlogPost>
-  </UPageHeader>
+  </UBlogPosts>
 </template>
 
 <script lang="ts" setup>
 import type { BlogPostProps } from '@nuxt/ui'
 
-const { article } = defineProps<{
-  article: ArticleWithoutBody
+defineProps<{
+  articles: ArticleWithoutBody[]
 }>()
 
 const ui: BlogPostProps['ui'] = {
   root: 'dark:bg-elevated/50',
-  header: 'aspect-[1/1]',
-  title: 'text-4xl font-brand',
+  title: 'text-2xl font-brand',
   body: 'lg:pr-4 font-monospace',
 }
 </script>

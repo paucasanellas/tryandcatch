@@ -1,5 +1,7 @@
 {
   "home.meta.title": "Inicio",
+  "home.section.title.prefix": "function",
+  "home.latest.title": "ultimosArticulos()",
   "article.featured": "Destacado",
   "article.slug.toc.title": "En esta página",
   "article.slug.readTime": "{readTime} tiempo de lectura",

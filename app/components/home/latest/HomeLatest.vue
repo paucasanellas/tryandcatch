@@ -1,34 +1,23 @@
 <template>
-  <div>
-    <UPageHeader :ui="{ root: 'border-none', title: 'font-brand sm:text-2xl' }">
-      <template #title>
-        <span class="text-primary">function</span> getRecentPosts()
-      </template>
-    </UPageHeader>
-    <UBlogPosts :ui="{ base: 'lg:grid-cols-2' }">
-      <UBlogPost
-        v-for="article in articles"
-        :key="article.slug"
-        :title="article.title"
-        :to="$localePath({ name: 'articles-slug', params: { slug: article.slug } })"
-        :description="article.description"
-        :image="article.cover"
-        :ui
-      />
-    </UBlogPosts>
-  </div>
+  <UPageSection :ui>
+    <template #title>
+      <span class="text-primary">{{ $t('home.section.title.prefix') }}</span>
+      {{ $t('home.latest.title') }}
+    </template>
+
+    <ArticleList :articles />
+  </UPageSection>
 </template>
 
 <script lang="ts" setup>
-import type { BlogPostProps } from '@nuxt/ui'
+import type { PageSectionProps } from '@nuxt/ui'
 
 defineProps<{
   articles: ArticleWithoutBody[]
 }>()
 
-const ui: BlogPostProps['ui'] = {
-  root: 'dark:bg-elevated/50',
-  title: 'text-2xl font-brand',
-  body: 'lg:pr-4 font-monospace',
+const ui: PageSectionProps['ui'] = {
+  title: 'text-2xl sm:text-2xl lg:text-3xl text-left',
+  container: 'py-8 sm:py-8 lg:py-12 px-0 sm:px-0 lg:px-0 gap-8 sm:gap-8',
 }
 </script>
