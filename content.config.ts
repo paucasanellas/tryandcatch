@@ -25,6 +25,7 @@ export default defineContentConfig({
       schema: z.object({
         name: z.string(),
         slug: z.string(),
+        color: z.string(),
         locale: z.string(),
       }),
     }),

@@ -20,6 +20,7 @@ export class ContentCategoryRepository implements CategoryRepository {
       name: category.title,
       slug: category.slug,
       locale: category.locale,
+      color: category.color,
     }
   }
 }

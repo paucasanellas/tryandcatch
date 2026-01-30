@@ -2,6 +2,7 @@
   "home.meta.title": "Inicio",
   "home.section.title.prefix": "function",
   "home.latest.title": "ultimosArticulos()",
+  "home.aside.categories.title": "Categorías",
   "article.featured": "Destacado",
   "article.slug.toc.title": "En esta página",
   "article.slug.readTime": "{readTime} tiempo de lectura",

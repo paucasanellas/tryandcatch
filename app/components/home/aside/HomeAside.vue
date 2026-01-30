@@ -1,5 +1,5 @@
 <template>
-  <UPageAside>
-    <USkeleton class="h-64 w-full" />
+  <UPageAside :ui="{ root: 'block' }">
+    <LazyHomeAsideCategories hydrate-never />
   </UPageAside>
 </template>
