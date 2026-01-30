@@ -1,22 +1,24 @@
 export default defineCachedEventHandler(async (event) => {
   try {
-    const { locale } = await getValidatedQuery(event, HomeQuery.parse)
+    const { locale } = await getValidatedQuery(event, PageHomeQuery.parse)
 
     const { articleSearch } = useContainer(event)
 
-    const [featured] = await articleSearch.handle({
+    const [featuredArticle] = await articleSearch.handle({
       locale,
       featured: true,
     })
 
-    const latests = await articleSearch.handle({
+    const latestArticles = await articleSearch.handle({
       locale,
     })
 
     return {
-      featured,
-      latests,
-    }
+      data: {
+        featuredArticle,
+        latestArticles,
+      },
+    } satisfies PageHomeResponse
   }
   catch (error) {
     new ServerError(error)

@@ -3,10 +3,10 @@
     <AppContainer>
       <UPage :ui>
         <HomeFeatured
-          v-if="data.featured"
-          :article="data.featured"
+          v-if="data.featuredArticle"
+          :article="data.featuredArticle"
         />
-        <HomeLatests :articles="data.latests" />
+        <HomeLatest :articles="data.latestArticles" />
         <template #right>
           <HomeAside />
         </template>
@@ -22,7 +22,12 @@ const { locale } = useI18n()
 const { handleError } = useServerError()
 
 const { data, error } = await useAsyncData(`home-${locale.value}`, async () => {
-  return useHome().get()
+  const { data } = await useHome().get()
+
+  return {
+    featuredArticle: data.featuredArticle,
+    latestArticles: data.latestArticles,
+  }
 })
 
 if (error.value) {

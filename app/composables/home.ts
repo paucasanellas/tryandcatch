@@ -2,7 +2,7 @@ export const useHome = () => {
   const { locale } = useI18n()
 
   async function get() {
-    return $fetch<HomeResponse>(`/api/home`, {
+    return $fetch<PageHomeResponse>(`/api/home`, {
       query: {
         locale: locale.value,
       },
