@@ -7,6 +7,7 @@
     :title="$t('article.slug.toc.title')"
     :ui="{
       title: 'uppercase',
+      container: 'border-none',
     }"
   />
 </template>

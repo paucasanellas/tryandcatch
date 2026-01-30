@@ -5,6 +5,8 @@ WORKDIR /src
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
+ENV NODE_OPTIONS="--max_old_space_size=4096"
+
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 

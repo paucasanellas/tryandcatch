@@ -28,7 +28,7 @@ export class ContentCategoryRepository implements CategoryRepository {
 
   private categoryToDomain(category: CategoriesCollectionItem): Category {
     return {
-      name: category.title,
+      name: category.name,
       slug: category.slug,
       description: category.description,
       locale: category.locale,

@@ -1,20 +1,37 @@
 <template>
   <UMain>
     <AppContainer>
-      <UPage v-if="data">
+      <UPage
+        v-if="data"
+        :ui
+      >
         <ArticleSlugHeader
           :title="data.article.title"
           :date="data.article.date"
           :read-time="data.article.readTime"
         />
         <UPageBody>
-          <ContentRenderer :value="data.article" />
+          <NuxtImg
+            :src="data.article.cover"
+            :alt="data.article.title"
+          />
+          <ContentRenderer
+            :value="data.article"
+            class="prose prose-lg dark:text-white prose-headings:prose-a:no-underline prose-headings:font-brand"
+          />
         </UPageBody>
         <template #left>
-          <ArticleSlugToc
-            v-if="data.article.body.toc"
-            :links="data.article.body.toc.links"
-          />
+          <UPageAside>
+            <ArticleSlugToc
+              v-if="data.article.body.toc"
+              :links="data.article.body.toc.links"
+            />
+          </UPageAside>
+        </template>
+        <template #right>
+          <UPageAside>
+            <USkeleton class="h-48 w-full" />
+          </UPageAside>
         </template>
       </UPage>
     </AppContainer>
@@ -22,6 +39,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { PageProps } from '@nuxt/ui'
+
 const { params } = useRoute()
 const { handleError } = useServer()
 
@@ -47,4 +66,11 @@ defineI18nRoute({
     es: '/[slug]',
   },
 })
+
+const ui: PageProps['ui'] = {
+  root: 'lg:grid-cols-12 lg:gap-8',
+  left: 'block lg:col-span-2',
+  center: 'lg:col-span-7',
+  right: 'order-last block lg:col-span-3',
+}
 </script>

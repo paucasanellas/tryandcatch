@@ -3,7 +3,7 @@
     <UPageHeader
       :title="title"
       :ui="{
-        root: 'border-none',
+        root: 'border-none pb-0',
         title: 'sm:text-5xl',
         description: 'flex items-center gap-4 text-sm',
       }"
