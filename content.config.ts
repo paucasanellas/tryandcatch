@@ -24,6 +24,7 @@ export default defineContentConfig({
       source: 'categories/**/*.md',
       schema: z.object({
         name: z.string(),
+        description: z.string(),
         slug: z.string(),
         color: z.string(),
         locale: z.string(),

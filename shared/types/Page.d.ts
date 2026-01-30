@@ -6,3 +6,8 @@ export type PageHomeResponse = ServerSingleResponse<{
 export type PageArticlesSlug = ServerSingleResponse<{
   article: Article
 }>
+
+export type PageCategoriesSlug = ServerSingleResponse<{
+  category: Category
+  articles: ArticleWithoutBody[]
+}>
