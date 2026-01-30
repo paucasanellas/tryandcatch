@@ -1,10 +1,20 @@
 import { defineContentConfig, defineCollection, z } from '@nuxt/content'
 
+const repository = {
+  url: import.meta.env.NUXT_CONTENT_URL,
+  branch: import.meta.env.NUXT_CONTENT_BRANCH,
+  auth: {
+    username: import.meta.env.NUXT_CONTENT_USERNAME,
+    token: import.meta.env.NUXT_CONTENT_AUTH,
+  },
+}
+
 export default defineContentConfig({
   collections: {
     articles: defineCollection({
       type: 'page',
       source: {
+        repository,
         include: 'articles/**/*.md',
       },
       schema: z.object({
@@ -21,7 +31,10 @@ export default defineContentConfig({
     }),
     categories: defineCollection({
       type: 'page',
-      source: 'categories/**/*.md',
+      source: {
+        repository,
+        include: 'categories/**/*.md',
+      },
       schema: z.object({
         name: z.string(),
         description: z.string(),
