@@ -14,7 +14,7 @@ export default defineContentConfig({
     articles: defineCollection({
       type: 'page',
       source: {
-        repository,
+        repository: repository.url ? repository : undefined,
         include: 'articles/**/*.md',
       },
       schema: z.object({
@@ -32,7 +32,7 @@ export default defineContentConfig({
     categories: defineCollection({
       type: 'page',
       source: {
-        repository,
+        repository: repository.url ? repository : undefined,
         include: 'categories/**/*.md',
       },
       schema: z.object({
