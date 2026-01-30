@@ -6,6 +6,6 @@
   "article.featured": "Destacado",
   "article.slug.toc.title": "En esta página",
   "article.slug.readTime": "{readTime} tiempo de lectura",
-  "footer.copyright": "© {year} {name}. Todos los sistemas operativos.",
+  "footer.copyright": "© {year} {name}. Todos los sistemas operativos. De momento...",
   "footer.version": "v{version}"
 }

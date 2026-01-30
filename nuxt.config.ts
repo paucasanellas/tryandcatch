@@ -4,6 +4,7 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxt/ui',
     '@nuxt/content',
+    '@nuxt/image',
   ],
   components: [
     { path: '@/components', pathPrefix: false },
@@ -19,6 +20,11 @@ export default defineNuxtConfig({
   ],
   colorMode: {
     preference: 'light',
+  },
+  content: {
+    experimental: {
+      sqliteConnector: 'native',
+    },
   },
   compatibilityDate: '2025-07-15',
   i18n: {
