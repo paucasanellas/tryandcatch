@@ -1,8 +1,8 @@
-export const useArticle = () => {
+export const useCategory = () => {
   const { locale } = useI18n()
 
   async function getBySlug(slug: string) {
-    return $fetch<PageArticlesSlug>(`/api/pages/articles/${slug}`, {
+    return $fetch<PageCategoriesSlug>(`/api/pages/categories/${slug}`, {
       query: {
         locale: locale.value,
       },

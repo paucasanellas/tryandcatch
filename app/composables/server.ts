@@ -1,7 +1,7 @@
 import type { NuxtError } from 'nuxt/app'
 import type { H3Error } from 'h3'
 
-export const useServerError = () => {
+export const useServer = () => {
   function handleError(error: NuxtError, fatal: boolean = false) {
     const { statusCode, message } = error.data as H3Error
 

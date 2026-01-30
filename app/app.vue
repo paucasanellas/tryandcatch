@@ -12,6 +12,7 @@ import { es } from '@nuxt/ui/locale'
 
 const { app } = useAppConfig()
 const { locale } = useI18n()
+const { init } = useAppStore()
 
 const currentLocale = computed(() => {
   const locales = {
@@ -34,5 +35,19 @@ useHead({
     lang: head.value.htmlAttrs?.lang,
     class: 'scroll-smooth',
   },
+})
+
+async function initApp() {
+  const { data } = await useApp().get()
+
+  init(data)
+}
+
+await callOnce('app', async () => {
+  await initApp()
+})
+
+watch(locale, async () => {
+  await initApp()
 })
 </script>
