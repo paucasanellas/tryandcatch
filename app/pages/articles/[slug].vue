@@ -17,7 +17,7 @@
           />
           <ContentRenderer
             :value="data.article"
-            class="prose prose-lg dark:text-white prose-headings:prose-a:no-underline prose-headings:font-brand"
+            class="prose prose-lg dark:text-white dark:prose-headings:prose-a:text-white prose-headings:prose-a:no-underline prose-headings:font-brand"
           />
         </UPageBody>
         <template #left>
