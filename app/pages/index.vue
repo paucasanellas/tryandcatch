@@ -19,7 +19,7 @@
 import type { PageProps } from '@nuxt/ui'
 
 const { locale } = useI18n()
-const { handleError } = useServerError()
+const { handleError } = useServer()
 
 const { data, error } = await useAsyncData(`home-${locale.value}`, async () => {
   const { data } = await useHome().get()

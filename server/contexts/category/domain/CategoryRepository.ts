@@ -1,3 +1,5 @@
+import type { CategoryFindAllCriteria } from '@@/server/contexts/category/domain/Category'
+
 export interface CategoryRepository {
-  all(criteria: CategoryGetCriteria): Promise<Category[]>
+  all(criteria: CategoryFindAllCriteria): Promise<Category[]>
 }

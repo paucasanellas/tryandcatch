@@ -21,7 +21,7 @@ export default defineCachedEventHandler(async (event) => {
     } satisfies PageHomeResponse
   }
   catch (error) {
-    new ServerError(error)
+    throw useServerError(error)
   }
 }, {
   name: 'home',

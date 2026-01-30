@@ -23,12 +23,14 @@
 
 <script lang="ts" setup>
 const { params } = useRoute()
-const { handleError } = useServerError()
+const { handleError } = useServer()
 
 const { data, error } = await useAsyncData(`article-${params.slug}`, async () => {
-  const { data: article } = await useArticle().find(params.slug as string)
+  const { data } = await useArticle().getBySlug(params.slug as string)
 
-  return { article }
+  return {
+    article: data.article,
+  }
 })
 
 if (error.value) {

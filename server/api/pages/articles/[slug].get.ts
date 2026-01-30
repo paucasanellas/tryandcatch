@@ -11,10 +11,12 @@ export default defineEventHandler(async (event) => {
     })
 
     return {
-      data: article,
-    }
+      data: {
+        article,
+      },
+    } satisfies PageArticlesSlug
   }
   catch (error) {
-    new ServerError(error)
+    throw useServerError(error)
   }
 })

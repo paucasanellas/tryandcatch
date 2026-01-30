@@ -1,4 +1,4 @@
-export class AppError extends Error {
+export class ServerError extends Error {
   statusCode: number = 500
   constructor(message: string, statusCode: number) {
     super(message)
@@ -7,7 +7,7 @@ export class AppError extends Error {
   }
 }
 
-export class NotFoundError extends AppError {
+export class NotFoundError extends ServerError {
   constructor(message: string) {
     super(message, 404)
     this.name = 'NotFoundError'

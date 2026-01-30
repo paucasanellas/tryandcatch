@@ -1,5 +1,7 @@
+import { NotFoundError } from '@@/server/contexts/shared/errors/Error'
+
 export class ArticleNotFoundError extends NotFoundError {
-  constructor() {
-    super(`Article not found`)
+  constructor(slug: string) {
+    super(`Article not found: ${slug}`)
   }
 }

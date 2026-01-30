@@ -1,7 +1,13 @@
 describe('Store: AppStore', () => {
-  it('should return an app state', () => {
+  it('should init app store', () => {
     const store = useAppStore()
 
-    expect(store.state).toStrictEqual({})
+    store.init({
+      categories: [],
+    })
+
+    expect(store.state).toStrictEqual({
+      categories: [],
+    })
   })
 })

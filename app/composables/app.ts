@@ -2,7 +2,7 @@ export const useApp = () => {
   const { locale } = useI18n()
 
   async function get() {
-    return $fetch<AppState>(`/api/app`, {
+    return $fetch<AppResponse>(`/api/app`, {
       query: {
         locale: locale.value,
       },

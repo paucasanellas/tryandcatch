@@ -38,8 +38,9 @@ useHead({
 })
 
 async function initApp() {
-  const appData = await useApp().get()
-  init(appData)
+  const { data } = await useApp().get()
+
+  init(data)
 }
 
 await callOnce('app', async () => {

@@ -2,15 +2,17 @@ export default defineEventHandler(async (event) => {
   const { categoryFindAll } = useContainer(event)
 
   try {
-    const query = await getValidatedQuery(event, AppGetQuery.parse)
+    const query = await getValidatedQuery(event, AppQuery.parse)
 
     const categories = await categoryFindAll.handle(query)
 
     return {
-      categories,
-    }
+      data: {
+        categories,
+      },
+    } satisfies AppResponse
   }
   catch (error) {
-    new ServerError(error)
+    throw useServerError(error)
   }
 })
