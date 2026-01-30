@@ -17,7 +17,7 @@ export const ArticleSlugQuery = z.object({
 })
 
 export type ArticleCriteria = {
-  locale?: string
+  locale: string
   featured?: boolean
   slug?: string
 }

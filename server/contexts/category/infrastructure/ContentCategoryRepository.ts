@@ -3,10 +3,12 @@ import type { CategoryRepository } from '@@/server/contexts/category/domain/Cate
 import type { CategoriesCollectionItem } from '@nuxt/content'
 
 export class ContentCategoryRepository implements CategoryRepository {
-  constructor(private readonly event: ServerEvent) { }
+  constructor(private readonly event: ServerEvent) {}
 
-  async all() {
-    const categories = await queryCollection(this.event, 'categories').all()
+  async all(criteria: CategoryGetCriteria) {
+    const categories = await queryCollection(this.event, 'categories')
+      .where('locale', '=', criteria.locale)
+      .all()
 
     return categories.map(this.categoryToDomain)
   }

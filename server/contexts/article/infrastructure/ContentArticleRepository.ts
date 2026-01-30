@@ -10,7 +10,8 @@ export class ContentArticleRepository implements ArticleRepository {
   ) { }
 
   async search(query: ArticleCriteria) {
-    const categories = await this.categoryRepository.all()
+    const categories = await this.categoryRepository.all(query)
+
     const articles = await this.searchCriteria(query).all()
 
     return articles.map(article => this.articleToDomain(article, categories))

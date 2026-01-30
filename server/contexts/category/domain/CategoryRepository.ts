@@ -1,3 +1,3 @@
 export interface CategoryRepository {
-  all(): Promise<Category[]>
+  all(criteria: CategoryGetCriteria): Promise<Category[]>
 }

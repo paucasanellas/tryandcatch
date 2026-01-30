@@ -2,9 +2,9 @@ export default defineEventHandler(async (event) => {
   const { categoryFindAll } = useContainer(event)
 
   try {
-    await getValidatedQuery(event, AppGetQuery.parse)
+    const query = await getValidatedQuery(event, AppGetQuery.parse)
 
-    const categories = await categoryFindAll.handle()
+    const categories = await categoryFindAll.handle(query)
 
     return {
       categories,

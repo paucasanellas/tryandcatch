@@ -3,7 +3,7 @@ import type { CategoryRepository } from '@@/server/contexts/category/domain/Cate
 export class CategoryFindAll {
   constructor(readonly repository: CategoryRepository) {}
 
-  async handle() {
-    return this.repository.all()
+  async handle(criteria: CategoryGetCriteria) {
+    return this.repository.all(criteria)
   }
 }

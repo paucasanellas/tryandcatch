@@ -1,3 +1,11 @@
+import z from 'zod'
+
+export const CategoryGetSchema = z.object({
+  locale: z.string(),
+})
+
+export type CategoryGetCriteria = z.infer<typeof CategoryGetSchema>
+
 export type CategorySearchQuery = {
   name?: string
   slug?: string
