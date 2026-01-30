@@ -11,6 +11,7 @@
         :label="category.name"
         :color="category.color"
         variant="subtle"
+        :to="$localePath({ name: 'categories-slug', params: { slug: category.slug } })"
       />
     </div>
   </UPageSection>

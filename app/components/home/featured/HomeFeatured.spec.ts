@@ -24,6 +24,7 @@ async function renderComponent() {
         date: '2021-02-06',
         category: {
           name: 'Category Name',
+          description: 'Category Description',
           slug: 'category-slug',
           locale: 'es',
         },
