@@ -23,7 +23,7 @@
 import type { BlogPostProps } from '@nuxt/ui'
 
 defineProps<{
-  articles: Article[]
+  articles: ArticleWithoutBody[]
 }>()
 
 const ui: BlogPostProps['ui'] = {

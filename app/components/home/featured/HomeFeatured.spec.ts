@@ -31,7 +31,6 @@ async function renderComponent() {
         locale: 'es',
         featured: true,
         readTime: 8,
-        body: { type: 'minimark', value: [] },
       },
     },
   })

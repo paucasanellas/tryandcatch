@@ -1,6 +1,6 @@
 export type PageHomeResponse = ServerSingleResponse<{
-  featuredArticle?: Article
-  latestArticles: Article[]
+  featuredArticle?: ArticleWithoutBody
+  latestArticles: ArticleWithoutBody[]
 }>
 
 export type PageArticlesSlug = ServerSingleResponse<{

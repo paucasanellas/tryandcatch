@@ -44,7 +44,7 @@ import type { BlogPostProps } from '@nuxt/ui'
 const { locale } = useI18n()
 
 const { article } = defineProps<{
-  article: Article
+  article: ArticleWithoutBody
 }>()
 
 const ui: BlogPostProps['ui'] = {

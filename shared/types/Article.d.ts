@@ -12,3 +12,5 @@ export type Article = {
   readTime: number
   body: MarkdownRoot
 }
+
+export type ArticleWithoutBody = Omit<Article, 'body'>

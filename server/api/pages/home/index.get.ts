@@ -4,6 +4,8 @@ export default defineCachedEventHandler(async (event) => {
 
     const { articleSearch } = useContainer(event)
 
+    const { getWithoutBody } = useServerArticle()
+
     const [featuredArticle] = await articleSearch.handle({
       locale,
       featured: true,
@@ -15,8 +17,8 @@ export default defineCachedEventHandler(async (event) => {
 
     return {
       data: {
-        featuredArticle,
-        latestArticles,
+        featuredArticle: featuredArticle ? getWithoutBody(featuredArticle) : undefined,
+        latestArticles: latestArticles.map(getWithoutBody),
       },
     } satisfies PageHomeResponse
   }
