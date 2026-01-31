@@ -4,6 +4,7 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxt/ui',
     '@nuxt/content',
+    '@nuxt/scripts',
     '@nuxt/image',
   ],
   components: [
@@ -24,6 +25,18 @@ export default defineNuxtConfig({
   content: {
     experimental: {
       sqliteConnector: 'native',
+    },
+  },
+  runtimeConfig: {
+    public: {
+      site: {
+        env: '',
+      },
+      analytics: {
+        id: '',
+        script: '',
+        domain: '',
+      },
     },
   },
   compatibilityDate: '2025-07-15',
