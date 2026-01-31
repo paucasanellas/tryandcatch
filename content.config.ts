@@ -1,11 +1,12 @@
+import type { CollectionSource } from '@nuxt/content'
 import { defineContentConfig, defineCollection, z } from '@nuxt/content'
 
-const repository = {
-  url: import.meta.env.NUXT_CONTENT_URL,
-  branch: import.meta.env.NUXT_CONTENT_BRANCH,
+const repository: CollectionSource['repository'] = {
+  url: process.env.NUXT_CONTENT_URL!,
+  branch: process.env.NUXT_CONTENT_BRANCH,
   auth: {
-    username: import.meta.env.NUXT_CONTENT_USERNAME,
-    token: import.meta.env.NUXT_CONTENT_AUTH,
+    username: process.env.NUXT_CONTENT_USERNAME,
+    token: process.env.NUXT_CONTENT_AUTH,
   },
 }
 
@@ -41,6 +42,19 @@ export default defineContentConfig({
         slug: z.string(),
         color: z.string(),
         locale: z.string(),
+      }),
+    }),
+    changelog: defineCollection({
+      type: 'page',
+      source: {
+        repository: repository.url ? repository : undefined,
+        include: 'changelog/**/*.md',
+      },
+      schema: z.object({
+        title: z.string(),
+        locale: z.string(),
+        date: z.date(),
+        version: z.string(),
       }),
     }),
   },
