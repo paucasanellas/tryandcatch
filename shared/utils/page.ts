@@ -19,3 +19,7 @@ export const CategoriesSlugParams = z.object({
 export const CategoriesSlugQuery = z.object({
   locale: z.string(),
 })
+
+export const PageChangelogQuery = z.object({
+  locale: z.string(),
+})

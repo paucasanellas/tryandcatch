@@ -11,3 +11,7 @@ export type PageCategoriesSlug = ServerSingleResponse<{
   category: Category
   articles: ArticleWithoutBody[]
 }>
+
+export type PageChangelog = ServerSingleResponse<{
+  changelogs: Changelog[]
+}>
