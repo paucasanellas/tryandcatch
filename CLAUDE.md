@@ -1,6 +1,7 @@
 # Try and Catch
 
 @docs/core/prompt.md
+@docs/core/product/concept.md
 
 ## Referencias
 

@@ -47,7 +47,7 @@ Reglas para escribir la documentación de este proyecto. Aplican a agentes y a u
 ## Registro en CLAUDE.md
 
 - **Todo fichero nuevo en `docs/` se registra en `CLAUDE.md`**: los de `core/` con un import `@`, los de `references/` en la tabla.
-- Los imports de `core/` van con `@ruta` a línea suelta: sin guiones ni texto introductorio. Cada fichero ya lleva su título.
+- Los imports de `core/` van con `@ruta` a línea suelta: sin guiones ni texto introductorio, y en líneas consecutivas, sin líneas en blanco entre ellos. Cada fichero ya lleva su título.
 - La tabla de `references/` tiene dos columnas: la ruta y una línea que dice cuándo consultar el fichero.
 
 | Documento | Cuándo consultarlo |
