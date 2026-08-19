@@ -1,5 +1,7 @@
 # Try and Catch
 
+@docs/core/prompt.md
+
 ## GitHub Project
 
 - Board: 12
