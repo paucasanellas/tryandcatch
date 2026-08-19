@@ -1,9 +1,13 @@
 <template>
   <UFooter :ui="{ root: 'border-t border-default' }">
     <template #left>
-      <p class="font-mono text-xs text-dimmed">
+      <ULink
+        :to="`${repository.url}/releases/tag/v${version}`"
+        target="_blank"
+        class="font-mono text-xs text-dimmed transition-colors hover:text-highlighted"
+      >
         {{ t('footer.version', { version }) }}
-      </p>
+      </ULink>
     </template>
 
     <AppFooterNavigation />
@@ -16,7 +20,7 @@
         color="neutral"
         variant="ghost"
         size="sm"
-        icon="i-lucide-github"
+        icon="lucide:github"
       />
     </template>
   </UFooter>

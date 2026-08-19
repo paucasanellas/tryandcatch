@@ -9,7 +9,7 @@
       color="neutral"
       variant="ghost"
       size="sm"
-      icon="i-lucide-github"
+      icon="lucide:github"
     />
   </div>
 </template>
