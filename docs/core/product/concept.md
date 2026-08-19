@@ -36,7 +36,20 @@ Qué es Try and Catch y con qué criterio se juzga cualquier decisión sobre ell
 | Enlaces al código real | Cada artículo enlaza al PR, issue o diff que implementa lo que cuenta |
 | Buscador | Encontrar artículos y cambios |
 
-Post-MVP, en orden de intención: RSS de la bitácora, página de stack viva, roadmap público, «esta app ahora mismo» (versión, último deploy, métricas), timeline del camino, multi-idioma (catalán, inglés), discusión por artículo, newsletter.
+## Post-MVP
+
+En orden de intención, sin compromiso de fechas:
+
+| Funcionalidad | Qué hace |
+|---|---|
+| RSS de la bitácora | La forma mínima de seguir el camino |
+| Stack viva | Qué tecnologías usa la app ahora mismo y por qué, cada una enlazando a su artículo |
+| Roadmap público | El tablero del proyecto visible: el camino antes de andarse |
+| «Esta app ahora mismo» | Versión desplegada, último deploy y métricas de la propia app |
+| Timeline del camino | Vista cronológica que une versiones y artículos |
+| Multi-idioma | Catalán e inglés sobre la base ya preparada |
+| Discusión por artículo | Comentarios del lector en cada artículo |
+| Newsletter | La evolución del RSS, cuando haya audiencia que lo justifique |
 
 ## Camino a producción
 
