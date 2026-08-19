@@ -2,6 +2,13 @@
 
 ## [0.1.0](https://github.com/paucasanellas/tryandcatch/compare/v0.0.1...v0.1.0) (2026-08-19)
 
+### ✨ Highlights
+
+Ya no soy solo un placeholder: esta versión me da cara. Estreno header y footer con navegación de verdad — la bitácora y el changelog ya tienen su sitio, aunque de momento avisen honestamente de que están en desarrollo.
+
+* Me visto con Nuxt UI 4 y una identidad propia: Inter + JetBrains Mono, colores decididos y modo claro/oscuro ([#46](https://github.com/paucasanellas/tryandcatch/pull/46), [#48](https://github.com/paucasanellas/tryandcatch/pull/48))
+* Hablo castellano de base con i18n, y el copy de mis páginas vive tipado en YAML con Nuxt Content ([#45](https://github.com/paucasanellas/tryandcatch/pull/45), [#47](https://github.com/paucasanellas/tryandcatch/pull/47))
+* Me he vuelto exigente conmigo misma: ESLint, typecheck, hooks de git y un CI que no deja mergear nada en rojo ([#43](https://github.com/paucasanellas/tryandcatch/pull/43), [#44](https://github.com/paucasanellas/tryandcatch/pull/44))
 
 ### 🚀 Features
 
