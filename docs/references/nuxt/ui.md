@@ -6,5 +6,6 @@ Norma primordial e innegociable: la UI se construye sobre Nuxt UI.
 - Los componentes `U*` se usan directamente en páginas, layouts y componentes de dominio. Nada de wrappers intermedios: una capa passthrough solo añade fricción (defaults pisados, v-model que no sube, genéricos duplicados).
 - El root de toda página es `UPage`.
 - Estilo: `app.config` primero (ver `app-config.md`). El prop `ui` inline solo para un ajuste puntual de una instancia; si se repite, va a la config global.
+- **Los iconos usan el formato `lucide:github`**, nunca `i-lucide-github`.
 - Componente propio solo cuando la librería no tiene equivalente ni composición razonable.
 - Nunca reimplementar un componente de la librería para cambiarle el estilo.

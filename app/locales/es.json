@@ -1,3 +1,12 @@
 {
-  "app.name": "Try and Catch"
+  "app.name": "Try and Catch",
+  "nav.blog": "Bitácora",
+  "nav.releases": "Changelog",
+  "actions.changeTheme": "Cambiar de tema",
+  "actions.openRepository": "Abrir el repositorio en GitHub",
+  "footer.version": "v{version}",
+  "blog.title": "Bitácora",
+  "blog.wip": "En desarrollo. Pronto, los artículos contando cada iteración del camino.",
+  "releases.title": "Changelog",
+  "releases.wip": "En desarrollo. Pronto, los cambios de cada versión."
 }

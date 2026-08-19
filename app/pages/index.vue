@@ -1,5 +1,10 @@
 <template>
-  <h1>{{ $t('app.name') }}</h1>
+  <UPage v-if="page">
+    <HomeHero
+      :title="page.title"
+      :description="page.description"
+    />
+  </UPage>
 </template>
 
 <script setup lang="ts">

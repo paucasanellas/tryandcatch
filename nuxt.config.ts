@@ -1,3 +1,5 @@
+import { version } from './package.json'
+
 export default defineNuxtConfig({
   modules: [
     '@nuxtjs/i18n',
@@ -26,6 +28,10 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
+      version,
+      repository: {
+        url: 'https://github.com/paucasanellas/tryandcatch',
+      },
       i18n: {
         baseUrl: '',
       },
