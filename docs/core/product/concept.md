@@ -40,8 +40,9 @@ Post-MVP, en orden de intención: RSS de la bitácora, página de stack viva, ro
 
 ## Camino a producción
 
-- **En producción lo antes posible**: las versiones 0.x.x son públicas aunque haya páginas a medio hacer — no se esconde nada, un «en desarrollo» visible es parte del relato.
-- **La versión 1.0.0 es el MVP**: homepage, bitácora y changelog completos.
+- **En producción lo antes posible**, empezando por la homepage.
+- **Versiones 0.x.x**: públicas aunque haya páginas a medio hacer — no se esconde nada, un «en desarrollo» visible es parte del relato.
+- **Versión 1.0.0**: el MVP — las seis funcionalidades del núcleo completas.
 
 ## Idioma y tono
 
