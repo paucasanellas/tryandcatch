@@ -15,6 +15,7 @@ Reglas para escribir la documentación de este proyecto. Aplican a agentes y a u
 ## Idioma
 
 - El contenido se escribe en **castellano**.
+- Excepción: el `README.md` va en **inglés** — es la puerta de entrada pública del repositorio.
 - Las carpetas y los nombres de fichero van en **inglés y en kebab-case**.
 - Los identificadores y fragmentos de código conservan su idioma original.
 
