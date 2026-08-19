@@ -14,21 +14,33 @@ Reglas para escribir la documentación de este proyecto. Aplican a agentes y a u
 
 ## Idioma
 
-- Toda la documentación se escribe en castellano.
-- Los identificadores, rutas y fragmentos de código conservan su idioma original.
+- El contenido se escribe en **castellano**.
+- Las carpetas y los nombres de fichero van en **inglés**.
+- Los identificadores y fragmentos de código conservan su idioma original.
 
 ## Tono
 
 - Frío y directo. Sin rodeos, sin justificaciones largas, sin adornos.
 - Listas y tablas antes que párrafos. Un párrafo solo cuando una lista no puede expresarlo.
 - Frases cortas. Cada frase aporta información o se elimina.
+- La información más relevante de cada documento, en **negrita**.
+
+## Contenido
+
+- **Sin repetición: cada regla vive en un solo fichero.** `CLAUDE.md` solo enlaza, no duplica.
+- Sin detalle extremo: **lo justo para actuar**. Se itera cuando hace falta.
 
 ## Estructura
 
-- Un documento cubre un solo concepto. Si al describirlo hace falta una «y», son dos documentos.
+- **Un documento cubre un solo concepto.** Si al describirlo hace falta una «y», son dos documentos.
 - Los documentos se agrupan en subcarpetas por contexto cuando aporta claridad.
 
 | Correcto | Incorrecto |
 |---|---|
 | `docs/references/nuxt/pages.md` | `docs/references/nuxt.md` con todo Nuxt dentro |
 | `docs/references/nuxt/routing.md` | `docs/references/pages-and-routing.md` |
+
+## Registro en CLAUDE.md
+
+- **Todo fichero nuevo en `docs/` se registra en `CLAUDE.md`**: los de `core/` con un import `@`, los de `references/` en la tabla.
+- Los imports de `core/` van con `@ruta` a línea suelta: sin guiones ni texto introductorio. Cada fichero ya lleva su título.
