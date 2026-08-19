@@ -49,4 +49,9 @@ export default defineNuxtConfig({
     langDir: 'locales',
     restructureDir: './app',
   },
+  icon: {
+    clientBundle: {
+      scan: true,
+    },
+  },
 })

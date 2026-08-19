@@ -1,9 +1,6 @@
 <template>
   <UPage v-if="page">
-    <HomeHero
-      :title="page.title"
-      :description="page.description"
-    />
+    <HomeHero v-bind="page.hero" />
   </UPage>
 </template>
 
