@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0](https://github.com/paucasanellas/tryandcatch/compare/v0.0.1...v0.1.0) (2026-08-19)
+
+
+### 🚀 Features
+
+* add the base layout with header and footer ([#51](https://github.com/paucasanellas/tryandcatch/issues/51)) ([814d7f7](https://github.com/paucasanellas/tryandcatch/commit/814d7f7b2ead2ee094aa80af9ff18c37deb5c1aa))
+
 ## 0.0.1 (2026-08-19)
 
 ### ✨ Highlights
