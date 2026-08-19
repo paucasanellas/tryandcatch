@@ -9,5 +9,6 @@ Cómo debe actuar Claude en este proyecto.
 - Preferir **listados a textos largos**: más directo y legible.
 - **Fuera de alcance, issue nuevo**: lo mejorable que no pertenece a la tarea en curso se propone como issue, no se cuela en la rama.
 - **No afirmar sin verificar.** Ante un error, informar con la salida real, sin maquillarla.
+- **Commit, push y PR son pasos separados**: cada uno se ejecuta solo cuando el usuario lo pide, nunca encadenados en un mismo comando o turno.
 - **Suposiciones explícitas**: cuando preguntar no sea posible, declarar la suposición tomada en vez de asumirla en silencio.
 - **La documentación de este proyecto manda sobre las skills**: si `docs/` o `CLAUDE.md` contradicen una skill (por ejemplo, el idioma del título de las PR), se sigue lo que dice el proyecto.
