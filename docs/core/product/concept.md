@@ -27,13 +27,16 @@ Qué es Try and Catch y con qué criterio se juzga cualquier decisión sobre ell
 
 ## Funcionalidades
 
-| Núcleo (MVP) | Qué hace |
+| Núcleo (MVP, versión 1.0.0) | Qué hace |
 |---|---|
-| Homepage | Hub de entrada al resto de la aplicación |
-| Bitácora | Artículos contando cada iteración del camino |
+| Homepage | Hub de entrada: presenta el concepto, el nombre y enlaza al resto |
+| Bitácora | Artículos contando cada iteración: qué se hizo, y las decisiones tomadas y descartadas dentro del propio artículo |
 | Changelog | Los cambios por versión, en formato clásico |
+| Página «en desarrollo» | El placeholder honesto para secciones a medias; permite estar en producción desde la 0.1.0 sin esconder nada |
+| Enlaces al código real | Cada artículo enlaza al PR, issue o diff que implementa lo que cuenta |
+| Buscador | Encontrar artículos y cambios |
 
-En el radar, sin compromiso: página de stack viva, catálogo de decisiones (tomadas y descartadas), enlaces desde cada artículo al código real, roadmap público, métricas de la propia app, RSS.
+Post-MVP, en orden de intención: RSS de la bitácora, página de stack viva, roadmap público, «esta app ahora mismo» (versión, último deploy, métricas), timeline del camino, multi-idioma (catalán, inglés), discusión por artículo, newsletter.
 
 ## Camino a producción
 
