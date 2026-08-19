@@ -4,6 +4,7 @@
 @docs/core/product/concept.md
 @docs/core/stack.md
 @docs/core/scripts.md
+@docs/core/design.md
 @docs/core/conventions/code.md
 
 ## Referencias
