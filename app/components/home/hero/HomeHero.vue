@@ -29,17 +29,7 @@
 <script setup lang="ts">
 import type { ButtonProps } from '@nuxt/ui'
 
-const props = defineProps<{
-  headline: string
-  title: string
-  titleAccent: string
-  description: string
-  categories: string[]
-  links: {
-    blog: { label: string }
-    repository: { label: string }
-  }
-}>()
+const props = defineProps<HomeHero>()
 
 const { public: { version, repository } } = useRuntimeConfig()
 
