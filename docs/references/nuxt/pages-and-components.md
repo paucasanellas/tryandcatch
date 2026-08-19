@@ -6,7 +6,7 @@ Convención de organización. Documento incremental: lo que no esté aquí (stor
 
 - **Una página es siempre un hub: solo el listado de sus secciones**, visible de un vistazo. Ningún detalle de UI inline: el detalle se empuja siempre hacia componentes más profundos.
 - El root de toda página es `UPage` (ver `ui.md`).
-- La columna (ancho, gutter) la pone el layout con `UContainer`, tematizado global en `config/ui.ts`. Las páginas nunca repiten wrappers de `max-w`/`px`.
+- La columna (ancho, gutter) la ponen las secciones de Nuxt UI (`UPageHero`, `UPageSection`…) dentro de `UPage`; el layout no añade `UContainer` y las páginas nunca repiten wrappers de `max-w`/`px`.
 - Carpeta por página: `pages/<pagina>/index.vue`. Las sub-rutas se separan pronto en su propio fichero (`pages/blog/index.vue` + `pages/blog/[slug].vue`).
 - Cada página define `useHead` con su `title` vía i18n (ver `i18n.md`).
 
