@@ -26,8 +26,10 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@nuxt/content": "^3.15.2",
     "@nuxt/ui": "^4.10.0",
     "@nuxtjs/i18n": "^10.6.0",
+    "@nuxtjs/mdc": "^0.23.1",
     "nuxt": "^4.5.2",
     "vue": "^3.5.41",
     "vue-router": "^5.2.0"
