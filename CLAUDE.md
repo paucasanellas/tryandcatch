@@ -2,6 +2,8 @@
 
 @docs/core/prompt.md
 
+@docs/core/product/concept.md
+
 ## Referencias
 
 | Documento | Cuándo consultarlo |
