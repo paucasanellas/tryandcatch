@@ -1,7 +1,7 @@
 <template>
   <UApp :locale="currentLocale">
     <NuxtRouteAnnouncer />
-    <NuxtLoadingIndicator />
+    <NuxtLoadingIndicator color="var(--ui-primary)" />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
