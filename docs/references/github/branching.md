@@ -29,8 +29,15 @@ git switch -c <prefix>/<issue-id>-<kebab-description>
 | `perf/` | `perf` | Mejorar el rendimiento sin cambiar el comportamiento |
 | `docs/` | `docs` | Solo documentación |
 | `chore/` | `chore` | Mantenimiento, dependencias, configuración |
+| `style/` | `style` | Formato del código sin cambiar el comportamiento |
+| `test/` | `test` | Añadir o ajustar tests |
+| `build/` | `build` | Sistema de build |
+| `ci/` | `ci` | Workflows e integración continua |
+| `revert/` | `revert` | Revertir un cambio anterior |
 
 No hay `bugfix/` ni `hotfix/`: ambos son `fix/`. La urgencia se gestiona con el orden de revisión, no con el nombre.
+
+Los tipos son los de [config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional), validados por commitlint en el hook `commit-msg`.
 
 ## Ejemplos
 

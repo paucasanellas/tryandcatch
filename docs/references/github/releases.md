@@ -20,7 +20,7 @@ Cómo se versiona la aplicación: **SemVer con release-please**. Desplegar y ver
 | `🔥 Performance` | `perf` |
 | Full Changelog | Automática: enlace de comparación en el encabezado de versión, a partir de la segunda release |
 
-- **El tipo de commit decide la sección**: un `perf` mal etiquetado como `refactor` no aparece en el changelog (`refactor`, `docs` y `chore` no generan sección).
+- **El tipo de commit decide la sección**: un `perf` mal etiquetado como `refactor` no aparece en el changelog — solo `feat`, `fix`, `perf` y los breaking generan sección; el resto de tipos (`refactor`, `docs`, `chore`, `style`, `test`, `build`, `ci`, `revert`) quedan ocultos.
 - La versión también sale de los commits: `fix` → patch, `feat` → minor, `!` → major.
 
 ## Formato de las notas

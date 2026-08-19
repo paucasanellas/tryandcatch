@@ -12,11 +12,29 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "nuxt typecheck",
+    "postinstall": "nuxt prepare",
+    "prepare": "husky"
   },
   "dependencies": {
     "nuxt": "^4.5.2",
     "vue": "^3.5.41",
     "vue-router": "^5.2.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
+    "@nuxt/eslint-config": "^1.17.0",
+    "eslint": "^10.8.1",
+    "husky": "^9.1.7",
+    "typescript": "^6.0.3",
+    "vue-tsc": "^3.3.10"
   }
 }
