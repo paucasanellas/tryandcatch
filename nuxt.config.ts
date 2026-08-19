@@ -2,6 +2,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/i18n',
     '@nuxt/ui',
+    '@nuxt/content',
   ],
   components: [
     {
@@ -17,6 +18,11 @@ export default defineNuxtConfig({
   ],
   colorMode: {
     preference: 'system',
+  },
+  content: {
+    experimental: {
+      sqliteConnector: 'native',
+    },
   },
   runtimeConfig: {
     public: {
