@@ -1,3 +1,3 @@
 <template>
-  <h1>Try and Catch</h1>
+  <h1>{{ $t('app.name') }}</h1>
 </template>
