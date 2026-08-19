@@ -1,6 +1,7 @@
 export default defineNuxtConfig({
   modules: [
     '@nuxtjs/i18n',
+    '@nuxt/ui',
   ],
   components: [
     {
@@ -14,6 +15,9 @@ export default defineNuxtConfig({
   css: [
     '@/assets/css/main.css',
   ],
+  colorMode: {
+    preference: 'system',
+  },
   runtimeConfig: {
     public: {
       i18n: {

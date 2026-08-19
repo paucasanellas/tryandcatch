@@ -8,6 +8,7 @@ Las tecnologías de la aplicación y con qué papel.
 | Lenguaje | **TypeScript** (línea 6) | typescript-eslint aún no soporta TS 7; se subirá cuando lo soporte |
 | Runtime | **Node ≥ 24** | Fijado en `engines` de `package.json` |
 | Paquetes | **pnpm 11** | Fijado en `packageManager` (Corepack); los build scripts se aprueban en `pnpm-workspace.yaml` |
+| UI | **Nuxt UI 4** (Tailwind CSS 4) | Componentes y tema; colores en `app/config/ui.ts`, iconos lucide servidos en local (`@iconify-json/lucide`) |
 | i18n | **@nuxtjs/i18n** | Castellano como idioma base sin prefijo (`prefix_except_default`); preparado para catalán e inglés |
 | Lint y formato | **ESLint** con `@nuxt/eslint-config` standalone y `stylistic` | Una sola herramienta para calidad y formato; sin Prettier |
 | Tipos | **vue-tsc** vía `pnpm typecheck` | Verificación completa de tipos |

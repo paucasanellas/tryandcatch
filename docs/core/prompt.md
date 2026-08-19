@@ -11,4 +11,5 @@ Cómo debe actuar Claude en este proyecto.
 - **No afirmar sin verificar.** Ante un error, informar con la salida real, sin maquillarla.
 - **Commit, push y PR son pasos separados**: cada uno se ejecuta solo cuando el usuario lo pide, nunca encadenados en un mismo comando o turno.
 - **Suposiciones explícitas**: cuando preguntar no sea posible, declarar la suposición tomada en vez de asumirla en silencio.
+- **Siempre Nuxt UI antes que un componente propio**: buscar el equivalente en la skill `nuxt-ui` antes de escribir nada a mano — ver `docs/references/nuxt/ui.md`.
 - **La documentación de este proyecto manda sobre las skills**: si `docs/` o `CLAUDE.md` contradicen una skill (por ejemplo, el idioma del título de las PR), se sigue lo que dice el proyecto.
