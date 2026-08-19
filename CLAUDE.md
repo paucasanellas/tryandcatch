@@ -2,6 +2,7 @@
 
 @docs/core/prompt.md
 @docs/core/product/concept.md
+@docs/core/conventions/code.md
 
 ## Referencias
 
