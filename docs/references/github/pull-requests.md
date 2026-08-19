@@ -6,7 +6,7 @@ Cómo se escribe una pull request. Ejemplo real del formato: [PR #4](https://git
 
 **En inglés y en formato conventional commit** (`docs: add …`), porque el squash lo usa tal cual como subject del commit — ver [merges.md](merges.md).
 
-- Tipo y reglas del subject: los mismos que un commit (`feat|fix|refactor|perf|docs|chore`, imperativo, minúscula, ≤72 caracteres, sin punto final).
+- Tipo y reglas del subject: los mismos que un commit (`feat|fix|refactor|perf|docs|chore|style|test|build|ci|revert`, imperativo, minúscula, ≤72 caracteres, sin punto final).
 
 | Correcto | Incorrecto |
 |---|---|
