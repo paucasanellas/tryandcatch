@@ -15,7 +15,7 @@ Reglas para escribir la documentación de este proyecto. Aplican a agentes y a u
 ## Idioma
 
 - El contenido se escribe en **castellano**.
-- Las carpetas y los nombres de fichero van en **inglés**.
+- Las carpetas y los nombres de fichero van en **inglés y en kebab-case**.
 - Los identificadores y fragmentos de código conservan su idioma original.
 
 ## Tono
@@ -29,6 +29,10 @@ Reglas para escribir la documentación de este proyecto. Aplican a agentes y a u
 
 - **Sin repetición: cada regla vive en un solo fichero.** `CLAUDE.md` solo enlaza, no duplica.
 - Sin detalle extremo: **lo justo para actuar**. Se itera cuando hace falta.
+
+## Mantenimiento
+
+- **Quien cambia un comportamiento documentado actualiza el documento en el mismo cambio.** Documentación que contradice el código es peor que ninguna.
 
 ## Estructura
 
@@ -44,3 +48,10 @@ Reglas para escribir la documentación de este proyecto. Aplican a agentes y a u
 
 - **Todo fichero nuevo en `docs/` se registra en `CLAUDE.md`**: los de `core/` con un import `@`, los de `references/` en la tabla.
 - Los imports de `core/` van con `@ruta` a línea suelta: sin guiones ni texto introductorio. Cada fichero ya lleva su título.
+- La tabla de `references/` tiene dos columnas: la ruta y una línea que dice cuándo consultar el fichero.
+
+| Documento | Cuándo consultarlo |
+|---|---|
+| `docs/references/nuxt/pages.md` | Al crear o modificar páginas de Nuxt |
+
+- **La descripción es el mecanismo de descubrimiento**: es lo único que un agente lee para decidir si abre el fichero. Una descripción vaga es un fichero que no se consulta nunca.
