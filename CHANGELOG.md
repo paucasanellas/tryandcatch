@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/paucasanellas/tryandcatch/compare/v0.1.0...v0.2.0) (2026-08-19)
+
+
+### 🚀 Features
+
+* **home:** add the homepage hero ([#54](https://github.com/paucasanellas/tryandcatch/issues/54)) ([f5c62f5](https://github.com/paucasanellas/tryandcatch/commit/f5c62f5607cdf9a0a29e34804e0579a8128197c6))
+
 ## [0.1.0](https://github.com/paucasanellas/tryandcatch/compare/v0.0.1...v0.1.0) (2026-08-19)
 
 ### ✨ Highlights
