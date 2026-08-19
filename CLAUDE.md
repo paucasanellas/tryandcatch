@@ -11,6 +11,7 @@
 | Documento | Cuándo consultarlo |
 |---|---|
 | `docs/references/documentation.md` | Al escribir o revisar documentación en `docs/` o el propio `CLAUDE.md` |
+| `docs/references/nuxt/i18n.md` | Al escribir textos visibles, tocar traducciones o añadir un idioma |
 | `docs/references/github/branching.md` | Al crear una rama o decidir su prefijo |
 | `docs/references/github/pull-requests.md` | Al abrir o escribir una pull request |
 | `docs/references/github/merges.md` | Al mergear una pull request |
