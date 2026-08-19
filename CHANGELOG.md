@@ -2,7 +2,7 @@
 
 ## 0.0.1 (2026-08-19)
 
-### Highlights
+### ✨ Highlights
 
 Nace la aplicación. Esta primera versión pone los cimientos:
 
