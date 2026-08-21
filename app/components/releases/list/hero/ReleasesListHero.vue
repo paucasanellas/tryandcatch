@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import type { ButtonProps } from '@nuxt/ui'
 
-const props = defineProps<ReleasesHero>()
+const props = defineProps<ReleasesListHero>()
 
 const { public: { repository } } = useRuntimeConfig()
 

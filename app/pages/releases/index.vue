@@ -1,6 +1,6 @@
 <template>
   <UPage>
-    <ReleasesHero
+    <ReleasesListHero
       v-if="data?.page"
       v-bind="data.page.hero"
     />

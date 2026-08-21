@@ -1,4 +1,4 @@
-export type ReleasesHero = {
+export type ReleasesListHero = {
   headline: string
   title: string
   description: string

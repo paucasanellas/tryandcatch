@@ -22,3 +22,10 @@ Convención de organización. Documento incremental: lo que no esté aquí (stor
 - Subcarpeta por cada subsección, anidando: `components/app/header/AppHeader.vue`; dentro del header, `components/app/header/navigation/AppHeaderNavigation.vue`.
 - El nombre del componente es la cadena completa de carpetas en PascalCase: `app/header/navigation/` → `AppHeaderNavigation`. Con `pathPrefix: false`, el nombre global es exactamente el del fichero.
 - `components/<contexto>/shared/` guarda lo compartido dentro del contexto; su nombre cuelga directamente del root: `blog/shared/BlogBackButton.vue` → `BlogBackButton`, nunca `BlogSharedBackButton`.
+
+### Listado y detalle
+
+- **Cuando un contexto puede tener listado y detalle, el nombre del componente incluye la vista antes de su función:** `<Contexto>List<Pieza>` o `<Contexto>Detail<Pieza>`.
+- La jerarquía de carpetas refleja la misma distinción: `releases/list/hero/ReleasesListHero.vue` y `releases/detail/hero/ReleasesDetailHero.vue`.
+- La regla se aplica desde el principio aunque el detalle todavía no exista. Evita renombrar componentes genéricos cuando aparezca después.
+- El prefijo conserva el nombre del contexto correspondiente. Por ejemplo, un listado `Articles` y un detalle `Article` usarían `ArticlesListHero` y `ArticleDetailHero`.

@@ -567,7 +567,7 @@ La página coordina el contenido editorial y las releases en un único `useAsync
 ```vue
 <template>
   <UPage>
-    <ReleasesHero
+    <ReleasesListHero
       v-if="data?.page"
       v-bind="data.page.hero"
     />
