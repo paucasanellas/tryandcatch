@@ -28,7 +28,7 @@ Reglas para escribir la documentación de este proyecto. Aplican a agentes y a u
 
 ## Contenido
 
-- **Sin repetición: cada regla vive en un solo fichero.** `CLAUDE.md` solo enlaza, no duplica.
+- **Sin repetición: cada regla vive en un solo fichero.** `AGENTS.md` solo enlaza, no duplica.
 - Sin detalle extremo: **lo justo para actuar**. Se itera cuando hace falta.
 
 ## Mantenimiento
@@ -45,10 +45,10 @@ Reglas para escribir la documentación de este proyecto. Aplican a agentes y a u
 | `docs/references/nuxt/pages.md` | `docs/references/nuxt.md` con todo Nuxt dentro |
 | `docs/references/nuxt/routing.md` | `docs/references/pages-and-routing.md` |
 
-## Registro en CLAUDE.md
+## Registro en AGENTS.md
 
-- **Todo fichero nuevo en `docs/` se registra en `CLAUDE.md`**: los de `core/` con un import `@`, los de `references/` en la tabla.
-- Los imports de `core/` van con `@ruta` a línea suelta: sin guiones ni texto introductorio, y en líneas consecutivas, sin líneas en blanco entre ellos. Cada fichero ya lleva su título.
+- **Todo fichero nuevo en `docs/` se registra en `AGENTS.md`**: los de `core/` en la lista de contexto obligatorio y los de `references/` en la tabla.
+- La lista de `core/` contiene las rutas a línea suelta, sin repetir su contenido. Cada fichero ya lleva su título.
 - La tabla de `references/` tiene dos columnas: la ruta y una línea que dice cuándo consultar el fichero.
 
 | Documento | Cuándo consultarlo |
