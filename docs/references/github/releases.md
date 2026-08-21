@@ -5,7 +5,7 @@ Cómo se versiona la aplicación: **SemVer con release-please**. Desplegar y ver
 ## Flujo
 
 1. Los merges a `main` se acumulan; release-please mantiene abierto un PR de release (`chore: release vX.Y.Z`) con la versión calculada y las notas agrupadas a partir de los conventional commits.
-2. **Antes de mergearlo se cura, y la redacción la hace Claude**: a partir de los commits y PRs de la versión, redacta las `✨ Highlights` en castellano siguiendo la plantilla y las aplica al PR de release (`CHANGELOG.md` de la rama y cuerpo del PR). El usuario revisa y decide el merge.
+2. **Antes de mergearlo se cura, y la redacción la hace el agente**: a partir de los commits y PRs de la versión, redacta las `✨ Highlights` en castellano siguiendo la plantilla y las aplica al PR de release (`CHANGELOG.md` de la rama y cuerpo del PR). El usuario revisa y decide el merge.
 3. **El push de la curación revive el CI del PR de release**: recién abierto por el bot los checks no corren, pero al empujar la curación el evento pasa a ser de un humano y el CI se ejecuta normal. Con los checks en verde, merge estándar (`gh pr merge <n> --squash --delete-branch`), sin bypass.
 4. Al mergear el PR de release se crean **el tag `vX.Y.Z` y la GitHub Release** con esas notas.
 5. La página de changelog de la aplicación se alimenta de las GitHub Releases.

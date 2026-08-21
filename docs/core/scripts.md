@@ -17,5 +17,5 @@ Los scripts de `package.json` y cuándo ejecutarlos.
 
 ## Dev server
 
-- **Claude trabaja siempre en el puerto 8001**: `pnpm dev --port 8001`. El 8000 (el `PORT` del `.env`) está reservado para el usuario.
+- **Los agentes trabajan siempre en el puerto 8001**: `pnpm dev --port 8001`. El 8000 (el `PORT` del `.env`) está reservado para el usuario.
 - Ante cualquier fallo del servidor, reiniciarlo.

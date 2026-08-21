@@ -1,17 +1,21 @@
 # Try and Catch
 
-@docs/core/prompt.md
-@docs/core/product/concept.md
-@docs/core/stack.md
-@docs/core/scripts.md
-@docs/core/design.md
-@docs/core/conventions/code.md
+## Contexto obligatorio
+
+**Antes de trabajar en el proyecto, lee completos estos documentos:**
+
+- `docs/core/prompt.md`
+- `docs/core/product/concept.md`
+- `docs/core/stack.md`
+- `docs/core/scripts.md`
+- `docs/core/design.md`
+- `docs/core/conventions/code.md`
 
 ## Referencias
 
 | Documento | Cuándo consultarlo |
 |---|---|
-| `docs/references/documentation.md` | Al escribir o revisar documentación en `docs/` o el propio `CLAUDE.md` |
+| `docs/references/documentation.md` | Al escribir o revisar documentación en `docs/` o el propio `AGENTS.md` |
 | `docs/references/nuxt/i18n.md` | Al escribir textos visibles, tocar traducciones o añadir un idioma |
 | `docs/references/nuxt/app-config.md` | Al tocar `app.config.ts` o añadir configuración en `app/config/` |
 | `docs/references/nuxt/content.md` | Al añadir o tocar contenido de página, schemas o colecciones |
