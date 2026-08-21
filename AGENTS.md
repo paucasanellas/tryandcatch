@@ -16,6 +16,7 @@
 | Documento | Cuándo consultarlo |
 |---|---|
 | `docs/references/documentation.md` | Al escribir o revisar documentación en `docs/` o el propio `AGENTS.md` |
+| `docs/references/architecture/bff.md` | Al integrar servicios externos o modificar `server/`. Todas las llamadas a servicios externos pasan primero por el BFF |
 | `docs/references/nuxt/i18n.md` | Al escribir textos visibles, tocar traducciones o añadir un idioma |
 | `docs/references/nuxt/app-config.md` | Al tocar `app.config.ts` o añadir configuración en `app/config/` |
 | `docs/references/nuxt/content.md` | Al añadir o tocar contenido de página, schemas o colecciones |
@@ -26,7 +27,7 @@
 | `docs/references/github/pull-requests.md` | Al abrir o escribir una pull request |
 | `docs/references/github/merges.md` | Al mergear una pull request |
 | `docs/references/github/deployment.md` | Al desplegar o entender cómo llega un cambio a producción |
-| `docs/references/github/releases.md` | Al publicar una versión o dudar de qué tipo de commit alimenta el changelog |
+| `docs/references/github/releases.md` | Al publicar una versión o dudar de qué tipo de commit alimenta sus notas |
 
 ## GitHub Project
 

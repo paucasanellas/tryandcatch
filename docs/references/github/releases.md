@@ -8,9 +8,9 @@ Cómo se versiona la aplicación: **SemVer con release-please**. Desplegar y ver
 2. **Antes de mergearlo se cura, y la redacción la hace el agente**: a partir de los commits y PRs de la versión, redacta las `✨ Highlights` en castellano siguiendo la plantilla y las aplica al PR de release (`CHANGELOG.md` de la rama y cuerpo del PR). El usuario revisa y decide el merge.
 3. **El push de la curación revive el CI del PR de release**: recién abierto por el bot los checks no corren, pero al empujar la curación el evento pasa a ser de un humano y el CI se ejecuta normal. Con los checks en verde, merge estándar (`gh pr merge <n> --squash --delete-branch`), sin bypass.
 4. Al mergear el PR de release se crean **el tag `vX.Y.Z` y la GitHub Release** con esas notas.
-5. La página de changelog de la aplicación se alimenta de las GitHub Releases.
+5. La página de releases de la aplicación se alimenta de las GitHub Releases.
 
-## Secciones del changelog
+## Secciones de las notas
 
 | Sección | Se alimenta de |
 |---|---|
@@ -21,7 +21,7 @@ Cómo se versiona la aplicación: **SemVer con release-please**. Desplegar y ver
 | `🔥 Performance` | `perf` |
 | Full Changelog | Automática: enlace de comparación en el encabezado de versión, a partir de la segunda release |
 
-- **El tipo de commit decide la sección**: un `perf` mal etiquetado como `refactor` no aparece en el changelog — solo `feat`, `fix`, `perf` y los breaking generan sección; el resto de tipos (`refactor`, `docs`, `chore`, `style`, `test`, `build`, `ci`, `revert`) quedan ocultos.
+- **El tipo de commit decide la sección**: un `perf` mal etiquetado como `refactor` no aparece en las notas — solo `feat`, `fix`, `perf` y los breaking generan sección; el resto de tipos (`refactor`, `docs`, `chore`, `style`, `test`, `build`, `ci`, `revert`) quedan ocultos.
 - La versión también sale de los commits: `fix` → patch, `feat` → minor, `!` → major.
 
 ## Formato de las notas
