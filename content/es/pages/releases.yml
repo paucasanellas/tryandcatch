@@ -1,0 +1,9 @@
+title: Releases
+description: Las versiones publicadas de Try and Catch, con sus novedades, mejoras y errores capturados por el camino.
+hero:
+  headline: '~/releases'
+  title: Releases
+  description: Cada versión deja una pista de por dónde he pasado. Aquí guardo lo nuevo, lo mejorado y los errores que ya no deberían volver.
+  links:
+    repository:
+      label: Ver en GitHub

@@ -31,7 +31,7 @@ Qué es Try and Catch y con qué criterio se juzga cualquier decisión sobre ell
 |---|---|
 | Homepage | Hub de entrada: presenta el concepto, el nombre y enlaza al resto |
 | Bitácora | Artículos contando cada iteración: qué se hizo, y las decisiones tomadas y descartadas dentro del propio artículo |
-| Changelog | Los cambios por versión, en formato clásico |
+| Releases | Los cambios por versión, en formato clásico |
 | Página «en desarrollo» | El placeholder honesto para secciones a medias; permite estar en producción desde la 0.1.0 sin esconder nada |
 | Enlaces al código real | Cada artículo enlaza al PR, issue o diff que implementa lo que cuenta |
 | Buscador | Encontrar artículos y cambios |
