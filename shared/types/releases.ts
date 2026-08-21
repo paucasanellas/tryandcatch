@@ -9,26 +9,18 @@ export type ReleasesHero = {
   }
 }
 
-export type ReleasesApiRelease = {
-  tag: string
-  name?: string
-  draft: boolean
-  prerelease: boolean
-  publishedAt: string
-  markdown: string
-}
-
-export type ReleasesApiResponse = {
-  releases: ReleasesApiRelease[]
-}
-
-export type ReleaseVersion = {
+export type Release = {
   tag: string
   title: string
-  date: string
-  markdown: string
+  publishedAt: string
+  content: string
   url: string
-  compareUrl?: string
+  compareUrl: string | null
+  prerelease: boolean
+}
+
+export type GetReleasesResponse = {
+  releases: Release[]
 }
 
 export type ReleasesStatus = 'idle' | 'pending' | 'success' | 'error'
