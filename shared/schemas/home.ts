@@ -10,7 +10,7 @@ export const home = z.object({
     description: z.string(),
     categories: z.array(z.string()),
     links: z.object({
-      blog: z.object({
+      articles: z.object({
         label: z.string(),
       }),
       repository: z.object({

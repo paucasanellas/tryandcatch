@@ -16,7 +16,7 @@ hero:
     - i18n
     - seo
   links:
-    blog:
-      label: Leer la bitácora
+    articles:
+      label: Ver artículos
     repository:
       label: Ver el código
