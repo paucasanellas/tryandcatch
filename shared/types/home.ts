@@ -9,7 +9,7 @@ export type HomeHero = {
   description: string
   categories: string[]
   links: {
-    blog: HomeHeroLink
+    articles: HomeHeroLink
     repository: HomeHeroLink
   }
 }
