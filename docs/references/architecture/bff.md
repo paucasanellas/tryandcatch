@@ -187,6 +187,7 @@ export type GetReleasesResponse = {
 - `title` con el nombre publicado o el tag como fallback.
 - `compareUrl` con una URL o `null`.
 - `content` con Markdown sin el encabezado técnico generado por release-please.
+- `content` conserva las Highlights y secciones de release-please sin clasificarlas ni normalizarlas en el BFF.
 
 ### Cliente HTTP
 
@@ -336,7 +337,7 @@ export class GithubRelease {
 }
 ```
 
-`GithubReleaseResponse` representa el JSON plano que recibe `$fetch`. `GithubRelease.fromResponse` instancia la clase antes de convertirla al dominio. La extracción de `compareUrl` y la limpieza del Markdown pertenecen a esta clase porque responden al formato concreto del proveedor.
+`GithubReleaseResponse` representa el JSON plano que recibe `$fetch`. `GithubRelease.fromResponse` instancia la clase antes de convertirla al dominio. La entidad solo extrae `compareUrl` y retira el primer encabezado técnico. release-please es responsable de estructurar las notas; el BFF no interpreta, reordena ni agrupa sus secciones.
 
 ### Repositorio de GitHub
 
@@ -546,7 +547,7 @@ El endpoint no construye dependencias ni lee configuración. El contenedor es el
 
 ### Consumo desde la página
 
-`app/pages/releases/index.vue` consume el contrato propio. No construye URLs de ungh, filtra drafts ni normaliza Markdown.
+`app/pages/releases/index.vue` consume el contrato propio. No construye URLs de ungh, filtra drafts ni normaliza Markdown. `ReleasesListVersionsItem` entrega `content` directamente a MDC para conservar la estructura generada por release-please.
 
 `app/composables/releases.ts` encapsula el acceso al BFF:
 

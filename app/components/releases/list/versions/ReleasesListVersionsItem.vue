@@ -2,9 +2,29 @@
   <UChangelogVersion
     :title="release.title"
     :date="release.publishedAt"
-    :badge="latest ? latestBadge : undefined"
     :ui="releaseUi"
   >
+    <template #badge>
+      <div
+        v-if="latest || release.prerelease"
+        class="flex flex-wrap items-center gap-2"
+      >
+        <UBadge
+          v-if="latest"
+          :label="t('releases.latest')"
+          color="secondary"
+          variant="subtle"
+        />
+
+        <UBadge
+          v-if="release.prerelease"
+          :label="t('releases.prerelease')"
+          color="warning"
+          variant="subtle"
+        />
+      </div>
+    </template>
+
     <template #body>
       <MDC
         v-if="release.content"
@@ -45,12 +65,6 @@ const { release, latest } = defineProps<{
 }>()
 
 const { t } = useI18n()
-
-const latestBadge = computed(() => ({
-  label: t('releases.latest'),
-  color: 'secondary' as const,
-  variant: 'subtle' as const,
-}))
 
 const releaseUi = {
   root: 'flex items-start lg:gap-8',
