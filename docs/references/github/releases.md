@@ -19,10 +19,13 @@ Cómo se versiona la aplicación: **SemVer con release-please**. Desplegar y ver
 | `🚀 Features` | `feat` |
 | `🐛 Bug Fixes` | `fix` |
 | `🔥 Performance` | `perf` |
+| `🧹 Chores` | `chore` |
 | Full Changelog | Automática: enlace de comparación en el encabezado de versión, a partir de la segunda release |
 
-- **El tipo de commit decide la sección**: un `perf` mal etiquetado como `refactor` no aparece en las notas — solo `feat`, `fix`, `perf` y los breaking generan sección; el resto de tipos (`refactor`, `docs`, `chore`, `style`, `test`, `build`, `ci`, `revert`) quedan ocultos.
+- **El tipo de commit decide la sección**: solo `feat`, `fix`, `perf` y `chore` generan una sección visible. `refactor`, `docs`, `style`, `test`, `build`, `ci` y `revert` quedan ocultos.
+- `style` describe formato del código, no cambios visuales. Una mejora de interfaz se clasifica como `feat(ui)` o `fix(ui)`.
 - La versión también sale de los commits: `fix` → patch, `feat` → minor, `!` → major.
+- **release-please genera la estructura de las notas**. El BFF retira el encabezado técnico, conserva su enlace de comparación y entrega el resto como Markdown sin interpretar categorías. La interfaz renderiza ese Markdown tal cual.
 
 ## Formato de las notas
 

@@ -30,14 +30,6 @@ export class HttpGetReleasesController {
   }
 
   private toResponse(release: DomainRelease): Release {
-    return {
-      tag: release.tag,
-      title: release.title,
-      publishedAt: release.publishedAt,
-      content: release.content,
-      url: release.url,
-      compareUrl: release.compareUrl,
-      prerelease: release.prerelease,
-    }
+    return release
   }
 }

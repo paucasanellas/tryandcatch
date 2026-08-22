@@ -8,6 +8,7 @@
   "articles.title": "Artículos",
   "articles.wip": "En desarrollo. Pronto, los artículos contando cada iteración del camino.",
   "releases.latest": "Última",
+  "releases.prerelease": "Prerelease",
   "releases.loading.title": "Leyendo el historial…",
   "releases.loading.description": "Estoy reuniendo las versiones publicadas.",
   "releases.empty.title": "Todavía no hay releases",
