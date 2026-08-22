@@ -30,7 +30,7 @@ Qué es Try and Catch y con qué criterio se juzga cualquier decisión sobre ell
 | Núcleo (MVP, versión 1.0.0) | Qué hace |
 |---|---|
 | Homepage | Hub de entrada: presenta el concepto, el nombre y enlaza al resto |
-| Bitácora | Artículos contando cada iteración: qué se hizo, y las decisiones tomadas y descartadas dentro del propio artículo |
+| Artículos | Cada iteración: qué se hizo, y las decisiones tomadas y descartadas dentro del propio artículo |
 | Releases | Los cambios por versión, en formato clásico |
 | Página «en desarrollo» | El placeholder honesto para secciones a medias; permite estar en producción desde la 0.1.0 sin esconder nada |
 | Enlaces al código real | Cada artículo enlaza al PR, issue o diff que implementa lo que cuenta |
@@ -42,7 +42,7 @@ En orden de intención, sin compromiso de fechas:
 
 | Funcionalidad | Qué hace |
 |---|---|
-| RSS de la bitácora | La forma mínima de seguir el camino |
+| RSS de artículos | La forma mínima de seguir el camino |
 | Stack viva | Qué tecnologías usa la app ahora mismo y por qué, cada una enlazando a su artículo |
 | Roadmap público | El tablero del proyecto visible: el camino antes de andarse |
 | «Esta app ahora mismo» | Versión desplegada, último deploy y métricas de la propia app |

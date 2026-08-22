@@ -35,8 +35,8 @@ const { public: { version, repository } } = useRuntimeConfig()
 
 const heroLinks = computed<ButtonProps[]>(() => [
   {
-    label: props.links.blog.label,
-    to: '/bitacora',
+    label: props.links.articles.label,
+    to: '/articles',
   },
   {
     label: props.links.repository.label,

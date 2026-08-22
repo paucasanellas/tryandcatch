@@ -24,7 +24,7 @@ La identidad visual y sus reglas. Referencia de estilo: **ui.nuxt.com** — limp
 
 ## Toque dev
 
-- **Eyebrows/headlines en mono con forma de ruta o fichero**: `~/bitacora`, `CHANGELOG.md` — sobre los títulos de sección.
+- **Eyebrows/headlines en mono con forma de ruta o fichero**: `~/articles`, `CHANGELOG.md` — sobre los títulos de sección.
 - **Vocabulario de código con intención en el copy**: try/catch en la narrativa, versiones semver visibles, commits y PRs enlazados. Con sentido, no como decoración.
 - **Detalles de terminal con moderación**: cursor parpadeante, prefijos `$`, marcos tipo ventana de terminal — uno por vista como mucho.
 - Los títulos display van en `font-sans`: el mono es acento, no protagonista.
