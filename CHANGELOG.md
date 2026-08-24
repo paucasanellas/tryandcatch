@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.3.0](https://github.com/paucasanellas/tryandcatch/compare/v0.2.0...v0.3.0) (2026-08-24)
+
+
+### 🚀 Features
+
+* **releases:** add the releases page ([#60](https://github.com/paucasanellas/tryandcatch/issues/60)) ([d1a63dc](https://github.com/paucasanellas/tryandcatch/commit/d1a63dc2e37090983b8aef405f13c89aef4caded))
+* **releases:** refine release notes ([#67](https://github.com/paucasanellas/tryandcatch/issues/67)) ([00ade4b](https://github.com/paucasanellas/tryandcatch/commit/00ade4bff537dec30ca40a094a7b4d720fa1c2f5))
+
+
+### 🧹 Chores
+
+* ignore local pnpm store ([#58](https://github.com/paucasanellas/tryandcatch/issues/58)) ([17ab0ea](https://github.com/paucasanellas/tryandcatch/commit/17ab0eaaf87ffc3068ccdbc7472e7cdcefa85930))
+* migrate agent configuration to Codex ([#57](https://github.com/paucasanellas/tryandcatch/issues/57)) ([5214023](https://github.com/paucasanellas/tryandcatch/commit/52140230d47ca3e55f57e0fa3417a2a3c3fe14df))
+
 ## [0.2.0](https://github.com/paucasanellas/tryandcatch/compare/v0.1.0...v0.2.0) (2026-08-19)
 
 ### 🚀 Features
