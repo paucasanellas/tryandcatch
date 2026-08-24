@@ -12,5 +12,7 @@ Cómo debe actuar un agente en este proyecto.
 - **No afirmar sin verificar.** Ante un error, informar con la salida real, sin maquillarla.
 - **Commit, push y PR nunca se ejecutan por iniciativa del agente**: se hacen solo cuando el usuario los pide y exactamente con el alcance indicado. Si pide solo commit, se hace solo commit; si pide commit, push y PR, se hacen los tres en ese orden y en el mismo turno.
 - **Suposiciones explícitas**: cuando preguntar no sea posible, declarar la suposición tomada en vez de asumirla en silencio.
+- **Imports de servidor**: usar siempre el alias `~~/server` para importar módulos de `server/`.
+- **Tipos de retorno**: no declarar nunca tipos de retorno; dejar que TypeScript los infiera.
 - **Siempre Nuxt UI antes que un componente propio**: buscar el equivalente en la skill `nuxt-ui` antes de escribir nada a mano — ver `docs/references/nuxt/ui.md`.
 - **La documentación de este proyecto manda sobre las skills**: si `docs/` o `AGENTS.md` contradicen una skill (por ejemplo, el idioma del título de las PR), se sigue lo que dice el proyecto.

@@ -37,6 +37,9 @@ export default defineNuxtConfig({
       },
     },
   },
+  experimental: {
+    asyncContext: true,
+  },
   compatibilityDate: 'latest',
   telemetry: false,
   i18n: {

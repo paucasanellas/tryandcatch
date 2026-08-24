@@ -19,7 +19,12 @@ export type Release = {
   prerelease: boolean
 }
 
+export type ReleasesContent = {
+  hero: ReleasesListHero
+}
+
 export type GetReleasesResponse = {
+  page: PageResponse<ReleasesContent>
   releases: Release[]
 }
 

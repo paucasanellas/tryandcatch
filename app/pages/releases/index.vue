@@ -2,7 +2,7 @@
   <UPage>
     <ReleasesListHero
       v-if="data?.page"
-      v-bind="data.page.hero"
+      v-bind="data.page.content.hero"
     />
 
     <ReleasesListStatus
@@ -19,25 +19,23 @@
 
 <script setup lang="ts">
 const { locale } = useI18n()
-const { fetchPage } = usePage()
 const { getReleases } = useReleases()
 
-const { data, status } = await useAsyncData(() => `page-releases-${locale.value}`, async () => {
-  const [page, releasesResponse] = await Promise.all([
-    fetchPage(`releases_${locale.value}`),
-    getReleases(),
-  ])
-
-  return {
-    page,
-    releases: releasesResponse.releases,
-  }
+const { data, error, status } = await useAsyncData(() => `page-releases-${locale.value}`, () => {
+  return getReleases(locale.value)
 }, {
   watch: [locale],
 })
 
-if (status.value === 'success' && !data.value?.page) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+if (error.value) {
+  throw createError({
+    cause: error.value,
+    data: error.value.data,
+    fatal: true,
+    message: error.value.message,
+    status: error.value.status,
+    statusText: error.value.statusText,
+  })
 }
 
 useSeoMeta({

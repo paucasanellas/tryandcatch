@@ -20,17 +20,26 @@ El BFF no es una API genérica para terceros. Sus endpoints responden a las nece
 ```text
 shared/
 └── types/
-    └── nitro.d.ts
+    ├── nitro.d.ts
+    └── pages.ts
 server/
 ├── api/
-│   ├── app/
-│   │   └── index.get.ts
 │   └── pages/
+│       ├── home/
+│       │   └── index.get.ts
 │       └── releases/
 │           └── index.get.ts
 ├── contexts/
 │   ├── di/
 │   │   └── container.ts
+│   ├── pages/
+│   │   ├── application/find/PageFinder.ts
+│   │   ├── domain/
+│   │   │   ├── Page.ts
+│   │   │   ├── PageCriteria.ts
+│   │   │   ├── PageErrors.ts
+│   │   │   └── PageRepository.ts
+│   │   └── infrastructure/ContentPageRepository.ts
 │   ├── releases/
 │   │   ├── application/
 │   │   │   └── search/
@@ -40,20 +49,22 @@ server/
 │   │   │   ├── ReleaseErrors.ts
 │   │   │   └── ReleaseRepository.ts
 │   │   └── infrastructure/
-│   │       ├── controllers/
-│   │       │   └── HttpGetReleasesController.ts
-│   │       └── github/
-│   │           ├── GithubRelease.ts
-│   │           └── GithubReleaseRepository.ts
+│   │       ├── GithubRelease.ts
+│   │       ├── GithubReleaseMapper.ts
+│   │       └── GithubReleaseRepository.ts
 │   └── shared/
 │       ├── domain/
-│       │   └── http/
-│       │       └── HttpClient.ts
+│       │   ├── http/
+│       │   │   └── HttpClient.ts
+│       │   └── DomainErrors.ts
 │       └── infrastructure/
 │           └── http/
 │               └── NitroFetchHttpClient.ts
-└── plugins/
-    └── container.ts
+├── plugins/
+│   └── container.ts
+└── utils/
+    ├── container.ts
+    └── error.ts
 ```
 
 ### Endpoints
@@ -62,8 +73,8 @@ Los endpoints ligados a la interfaz reflejan la estructura que los consume.
 
 | Consumidor | Fichero | Ruta HTTP |
 |---|---|---|
-| `app.vue` | `server/api/app/index.get.ts` | `GET /api/app` |
-| Página `/releases` | `server/api/pages/releases/index.get.ts` | `GET /api/pages/releases` |
+| Página `/` | `server/api/pages/home/index.get.ts` | `GET /api/pages/home?locale=<code>` |
+| Página `/releases` | `server/api/pages/releases/index.get.ts` | `GET /api/pages/releases?locale=<code>` |
 
 Los casos que no pertenecen a una página ni al arranque de la aplicación usan su propio contexto. Un formulario de contacto puede exponer `server/api/contact/index.post.ts` y delegar en `server/contexts/contact/`.
 
@@ -81,29 +92,35 @@ Los casos que no pertenecen a una página ni al arranque de la aplicación usan 
 |---|---|---|
 | Domain | Entidades, errores y puertos | Nada de Nuxt, Nitro ni proveedores |
 | Application | Casos de uso y reglas de orquestación | Domain |
-| Infrastructure | Controladores y adaptadores | Application, Domain y tecnología concreta |
-| DI container | Construcción y exposición de controllers y casos de uso | Todas las capas necesarias |
+| Infrastructure | Adaptadores | Domain y tecnología concreta |
+| DI container | Construcción y exposición de casos de uso | Todas las capas necesarias |
 | Nitro plugin | Creación del contenedor durante el arranque | DI container y Nitro |
-| Endpoint | Transporte, caché y delegación al controller | Nitro y el contenedor |
+| Endpoint | Transporte, caché, contrato HTTP y delegación al caso de uso | Nitro y el contenedor |
 
 Flujo de dependencias:
 
 ```text
 container plugin
   -> createServerContainer
-    -> HttpGetReleasesController
-      -> ReleaseSearcher
-        -> ReleaseRepository
-          <- GithubReleaseRepository
-            -> GithubRelease
-            -> HttpClient
-              <- NitroFetchHttpClient
+    -> PageFinder
+      -> PageRepository
+        <- ContentPageRepository
+          -> queryCollection
+    -> ReleaseSearcher
+      -> ReleaseRepository
+        <- GithubReleaseRepository
+          -> GithubReleaseMapper
+          -> GithubReleaseResponse
+          -> HttpClient
+            <- NitroFetchHttpClient
 
-index.get.ts
-  -> NitroApp.container.getReleasesController
+page endpoint
+  -> useServerContainer
+    -> NitroApp.container.pageFinder
+    -> NitroApp.container.releaseSearcher
 ```
 
-El controlador HTTP y `NitroFetchHttpClient` pueden depender de Nitro. Las entidades, el repositorio de dominio y el caso de uso no dependen del framework.
+El endpoint y `NitroFetchHttpClient` pueden depender de Nitro. Las entidades, el repositorio de dominio y el caso de uso no dependen del framework.
 
 ## Convenciones
 
@@ -119,12 +136,13 @@ El controlador HTTP y `NitroFetchHttpClient` pueden depender de Nitro. Las entid
 
 La página de releases necesita una colección. El caso de uso se llama `ReleaseSearcher`. `ReleaseFinder` se reserva para recuperar una release concreta.
 
-### Controladores
+### Endpoints
 
-- Reciben sus casos de uso por constructor.
-- Exponen un método `run()` y solo reciben `H3Event` cuando necesitan consultar datos de la petición o usar APIs de Nitro asociadas al evento.
+- Obtienen los casos de uso desde el contenedor.
 - Traducen el resultado de aplicación al contrato HTTP.
 - Traducen errores conocidos a errores HTTP.
+- Validan los datos de petición antes de delegar en los casos de uso.
+- La infraestructura ligada a la petición obtiene el evento activo mediante `useEvent()`; `H3Event` no se propaga por dominio ni aplicación.
 - No construyen repositorios ni clientes.
 
 ### Repositorios
@@ -134,12 +152,12 @@ La página de releases necesita una colección. El caso de uso se llama `Release
 - El nombre identifica el proveedor: `GithubReleaseRepository`.
 - La respuesta externa nunca sale del repositorio.
 
-### Entidades de proveedor
+### Contratos y mappers de proveedor
 
 - La respuesta externa se tipa dentro del adaptador, nunca como `unknown`.
-- Cada entidad de proveedor es una clase responsable de validar y convertir sus propios primitivos.
-- La validación vive en un método privado con un nombre semántico, como `ensureReleaseIsValid`.
-- La clase solo crea una entidad de dominio después de validar todos los datos obligatorios.
+- Los contratos externos solo contienen tipos.
+- Los mappers convierten los primitivos externos al dominio y no guardan estado.
+- La entidad de dominio valida todos sus datos antes de crearse.
 - No devuelve valores parciales ni inventa datos obligatorios.
 - Una respuesta inválida produce un error tipado.
 
@@ -147,21 +165,73 @@ La página de releases necesita una colección. El caso de uso se llama `Release
 
 - Usan clases.
 - Sus propiedades usan primitivos.
+- El constructor es privado y la creación pasa por un método estático que valida sus invariantes.
 - No se crean value objects mientras el dominio no los necesite.
 
 ### Tipos públicos
 
-Los contratos compartidos entre servidor y aplicación viven en `shared/types/`. Los tipos de un proveedor son privados de su adaptador.
+Los contratos compartidos entre servidor y aplicación viven en `shared/types/`. Los tipos de un proveedor son privados de su adaptador. Las páginas usan `PageResponse<Content>` para concretar el contenido editorial sin introducir tipos de presentación en dominio o aplicación.
+
+## Contenido de página
+
+`PageFinder` recupera cualquier página mediante `{ page, locale }`. Dominio representa su contenido como `unknown`; el finder conserva esa frontera y devuelve el genérico solicitado por el endpoint.
+
+`ContentPageRepository` construye la colección `<page>_<locale>` y consulta únicamente los campos públicos:
+
+```ts
+import { useEvent } from 'nitropack/runtime'
+
+export class ContentPageRepository implements PageRepository {
+  async find(criteria: FindPageCriteria) {
+    try {
+      const collection = `${criteria.page}_${criteria.locale}` as keyof Collections
+
+      return await queryCollection(useEvent(), collection)
+        .select('title', 'description', 'content')
+        .first() as Page | null
+    }
+    catch {
+      throw new InvalidPageError()
+    }
+  }
+}
+```
+
+`experimental.asyncContext` mantiene el evento de la petición disponible después de atravesar endpoint, caso de uso y repositorio. El contenedor conserva una única instancia stateless del adaptador.
+
+El locale llega como `?locale=<code>`. Cada página define su schema de query con Zod 4 y el endpoint lo aplica mediante `getValidatedQuery`; valores ausentes, vacíos o repetidos producen un 400. El nombre de la página lo fija cada endpoint; el frontend nunca construye nombres de colección.
+
+Home concreta el contrato genérico en `shared/types/home.ts`:
+
+```ts
+export type HomeContent = {
+  hero: HomeHero
+}
+
+export type GetHomeResponse = {
+  page: PageResponse<HomeContent>
+}
+```
 
 ## Ejemplo: releases
 
-La página `/releases` obtiene hoy los datos de ungh. El BFF debe ocultar ese proveedor y devolver un contrato propio.
+La página `/releases` obtiene los datos de ungh. El BFF oculta ese proveedor y devuelve un contrato propio.
 
 ### Contrato público
 
-`shared/types/releases.ts` conserva los tipos editoriales existentes y sustituye los tipos de ungh por el contrato del BFF:
+`shared/types/pages.ts` define la forma compartida y `shared/types/releases.ts` concreta el contenido editorial y los datos de ungh:
 
 ```ts
+export type PageResponse<Content> = {
+  title: string
+  description: string
+  content: Content
+}
+
+export type ReleasesContent = {
+  hero: ReleasesListHero
+}
+
 export type Release = {
   tag: string
   title: string
@@ -173,13 +243,15 @@ export type Release = {
 }
 
 export type GetReleasesResponse = {
+  page: PageResponse<ReleasesContent>
   releases: Release[]
 }
 ```
 
 `GET /api/pages/releases` garantiza:
 
-- Un objeto `{ releases }` como raíz.
+- Un objeto `{ page, releases }` como raíz.
+- `page` contiene `title`, `description` y `content` editorial tipado.
 - Drafts excluidas.
 - Prereleases incluidas y marcadas con `prerelease`.
 - Releases ordenadas por `publishedAt` descendente.
@@ -203,11 +275,11 @@ export interface HttpClient {
 
 ```ts
 import type { NitroFetchOptions, NitroFetchRequest } from 'nitropack/types'
-import type { HttpClient } from '#server/contexts/shared/domain/http/HttpClient'
+import type { HttpClient } from '~~/server/contexts/shared/domain/http/HttpClient'
 
 export class NitroFetchHttpClient implements HttpClient {
-  async request<T>(url: string, options: unknown = {}): Promise<T> {
-    return await $fetch<T>(url, options as NitroFetchOptions<NitroFetchRequest>) as T
+  request<T>(url: string, options: unknown = {}) {
+    return $fetch<T>(url, options as NitroFetchOptions<NitroFetchRequest>) as Promise<T>
   }
 }
 ```
@@ -219,8 +291,21 @@ El puerto no expone tipos de Nitro. Las opciones permanecen `unknown` hasta que 
 `server/contexts/releases/domain/Release.ts` contiene primitivos. `draft` permanece en dominio para que la implementación del repositorio pueda descartar borradores después de validar y mapear toda la respuesta.
 
 ```ts
+import { InvalidReleaseError } from '~~/server/contexts/releases/domain/ReleaseErrors'
+
+export type ReleasePrimitives = {
+  tag: string
+  title: string
+  publishedAt: string
+  content: string
+  url: string
+  compareUrl: string | null
+  draft: boolean
+  prerelease: boolean
+}
+
 export class Release {
-  constructor(
+  private constructor(
     readonly tag: string,
     readonly title: string,
     readonly publishedAt: string,
@@ -230,47 +315,91 @@ export class Release {
     readonly draft: boolean,
     readonly prerelease: boolean,
   ) {}
+
+  static create(release: ReleasePrimitives) {
+    this.ensureReleaseIsValid(release)
+
+    return new Release(
+      release.tag,
+      release.title,
+      release.publishedAt,
+      release.content,
+      release.url,
+      release.compareUrl,
+      release.draft,
+      release.prerelease,
+    )
+  }
+
+  private static ensureReleaseIsValid(release: ReleasePrimitives) {
+    if (typeof release?.tag !== 'string') {
+      throw new InvalidReleaseError('Release tag must be a string')
+    }
+
+    if (typeof release.title !== 'string') {
+      throw new InvalidReleaseError('Release title must be a string')
+    }
+
+    if (typeof release.publishedAt !== 'string') {
+      throw new InvalidReleaseError('Release published date must be a string')
+    }
+
+    if (Number.isNaN(Date.parse(release.publishedAt))) {
+      throw new InvalidReleaseError('Release published date must be valid')
+    }
+
+    if (typeof release.content !== 'string') {
+      throw new InvalidReleaseError('Release content must be a string')
+    }
+
+    if (typeof release.url !== 'string') {
+      throw new InvalidReleaseError('Release URL must be a string')
+    }
+
+    if (release.compareUrl !== null && typeof release.compareUrl !== 'string') {
+      throw new InvalidReleaseError('Release compare URL must be a string or null')
+    }
+
+    if (typeof release.draft !== 'boolean') {
+      throw new InvalidReleaseError('Release draft must be a boolean')
+    }
+
+    if (typeof release.prerelease !== 'boolean') {
+      throw new InvalidReleaseError('Release prerelease must be a boolean')
+    }
+  }
 }
 ```
 
-`server/contexts/releases/domain/ReleaseErrors.ts` separa un dato inválido del fallo que entiende el caso de uso:
+`server/contexts/releases/domain/ReleaseErrors.ts` representa cualquier release que no se puede procesar. Hereda la semántica HTTP 422 de `UnprocessableEntityError`:
 
 ```ts
-export class InvalidReleaseDataError extends Error {
-  override name = 'InvalidReleaseDataError'
+import { UnprocessableEntityError } from '~~/server/contexts/shared/domain/DomainErrors'
 
-  constructor(options?: ErrorOptions) {
-    super('Invalid release data', options)
-  }
-}
-
-export class ReleaseSearchError extends Error {
-  override name = 'ReleaseSearchError'
-
-  constructor(options?: ErrorOptions) {
-    super('Releases could not be retrieved', options)
+export class InvalidReleaseError extends UnprocessableEntityError {
+  constructor(override readonly cause: string) {
+    super(cause)
   }
 }
 ```
+
+La causa identifica la invariante concreta que no se puede procesar y se convierte en el mensaje HTTP.
 
 `server/contexts/releases/domain/ReleaseRepository.ts` define el puerto de salida:
 
 ```ts
-import type { Release } from '#server/contexts/releases/domain/Release'
+import type { Release } from '~~/server/contexts/releases/domain/Release'
 
 export interface ReleaseRepository {
   search(): Promise<Release[]>
 }
 ```
 
-### Entidad de GitHub
+### Contrato y mapper de GitHub
 
-`server/contexts/releases/infrastructure/github/GithubRelease.ts` tipa el contrato externo y encapsula su validación y conversión:
+`server/contexts/releases/infrastructure/GithubRelease.ts` contiene únicamente los tipos del contrato externo:
 
 ```ts
-import { Release } from '#server/contexts/releases/domain/Release'
-import { InvalidReleaseDataError } from '#server/contexts/releases/domain/ReleaseErrors'
-
 export type GithubReleaseResponse = {
   tag: string
   name?: string | null
@@ -283,51 +412,36 @@ export type GithubReleaseResponse = {
 export type GithubReleasesResponse = {
   releases: GithubReleaseResponse[]
 }
+```
 
-export class GithubRelease {
-  private constructor(private readonly response: GithubReleaseResponse) {
-    this.ensureReleaseIsValid()
-  }
+`server/contexts/releases/infrastructure/GithubReleaseMapper.ts` convierte cada respuesta al dominio:
 
-  static fromResponse(response: GithubReleaseResponse): GithubRelease {
-    return new GithubRelease(response)
-  }
+```ts
+import { Release } from '~~/server/contexts/releases/domain/Release'
+import type { GithubReleaseResponse } from '~~/server/contexts/releases/infrastructure/GithubRelease'
 
-  toDomain(repositoryUrl: string): Release {
-    const { content, compareUrl } = this.parseMarkdown()
+export class GithubReleaseMapper {
+  toDomain(response: GithubReleaseResponse, repositoryUrl: string) {
+    const { content, compareUrl } = this.parseMarkdown(response.markdown)
 
-    return new Release(
-      this.response.tag,
-      this.response.name?.trim() || this.response.tag,
-      this.response.publishedAt,
+    return Release.create({
+      tag: response.tag,
+      title: response.name?.trim() || response.tag,
+      publishedAt: response.publishedAt,
       content,
-      `${repositoryUrl.replace(/\/$/, '')}/releases/tag/${encodeURIComponent(this.response.tag)}`,
+      url: `${repositoryUrl}/releases/tag/${encodeURIComponent(response.tag)}`,
       compareUrl,
-      this.response.draft,
-      this.response.prerelease,
-    )
+      draft: response.draft,
+      prerelease: response.prerelease,
+    })
   }
 
-  private ensureReleaseIsValid(): void {
-    if (
-      typeof this.response?.tag !== 'string'
-      || (this.response.name !== undefined && this.response.name !== null && typeof this.response.name !== 'string')
-      || typeof this.response.draft !== 'boolean'
-      || typeof this.response.prerelease !== 'boolean'
-      || typeof this.response.publishedAt !== 'string'
-      || Number.isNaN(Date.parse(this.response.publishedAt))
-      || typeof this.response.markdown !== 'string'
-    ) {
-      throw new InvalidReleaseDataError()
-    }
-  }
-
-  private parseMarkdown(): { content: string, compareUrl: string | null } {
-    const [heading = '', ...body] = this.response.markdown.split('\n')
+  private parseMarkdown(markdown: string) {
+    const [heading = '', ...body] = markdown.split('\n')
     const compareUrl = heading.match(/\]\((https:\/\/github\.com\/[^)]+\/compare\/[^)]+)\)/)?.[1] ?? null
     const content = heading.startsWith('## ')
       ? body.join('\n').trim()
-      : this.response.markdown
+      : markdown
 
     return {
       content,
@@ -337,73 +451,70 @@ export class GithubRelease {
 }
 ```
 
-`GithubReleaseResponse` representa el JSON plano que recibe `$fetch`. `GithubRelease.fromResponse` instancia la clase antes de convertirla al dominio. La entidad solo extrae `compareUrl` y retira el primer encabezado técnico. release-please es responsable de estructurar las notas; el BFF no interpreta, reordena ni agrupa sus secciones.
+`GithubReleaseResponse` representa el JSON plano que recibe `$fetch`. `GithubReleaseMapper` no guarda estado: `toDomain` recibe cada respuesta y la convierte mediante `Release.create`. El mapper solo extrae `compareUrl` y retira el primer encabezado técnico. `Release` valida los primitivos finales. release-please es responsable de estructurar las notas; el BFF no interpreta, reordena ni agrupa sus secciones.
 
 ### Repositorio de GitHub
 
-`server/contexts/releases/infrastructure/github/GithubReleaseRepository.ts` conoce ungh y construye su URL. La base `https://ungh.cc/repos/` no forma parte de `runtimeConfig`.
+`server/contexts/releases/infrastructure/GithubReleaseRepository.ts` recibe la URL pública del repositorio y construye el endpoint de ungh.
 
 ```ts
-import type { HttpClient } from '#server/contexts/shared/domain/http/HttpClient'
-import type { Release } from '#server/contexts/releases/domain/Release'
-import type { ReleaseRepository } from '#server/contexts/releases/domain/ReleaseRepository'
-import { InvalidReleaseDataError, ReleaseSearchError } from '#server/contexts/releases/domain/ReleaseErrors'
-import { GithubRelease, type GithubReleasesResponse } from '#server/contexts/releases/infrastructure/github/GithubRelease'
+import type { HttpClient } from '~~/server/contexts/shared/domain/http/HttpClient'
+import type { ReleaseRepository } from '~~/server/contexts/releases/domain/ReleaseRepository'
+import { InvalidReleaseError } from '~~/server/contexts/releases/domain/ReleaseErrors'
+import type { GithubReleasesResponse } from '~~/server/contexts/releases/infrastructure/GithubRelease'
+import { GithubReleaseMapper } from '~~/server/contexts/releases/infrastructure/GithubReleaseMapper'
 
 export class GithubReleaseRepository implements ReleaseRepository {
+  private readonly mapper = new GithubReleaseMapper()
+
   constructor(
     private readonly httpClient: HttpClient,
     private readonly repositoryUrl: string,
   ) {}
 
-  async search(): Promise<Release[]> {
+  async search() {
     try {
-      const url = this.releasesUrl()
-      const response = await this.httpClient.request<GithubReleasesResponse>(url, {
-        method: 'GET',
-      })
+      const releases = await this.request()
 
-      if (!Array.isArray(response.releases)) {
-        throw new InvalidReleaseDataError()
-      }
-
-      return response.releases
-        .map(release => GithubRelease.fromResponse(release).toDomain(this.repositoryUrl))
+      return releases
+        .map(release => this.mapper.toDomain(release, this.repositoryUrl))
         .filter(release => !release.draft)
         .sort((current, next) => Date.parse(next.publishedAt) - Date.parse(current.publishedAt))
     }
-    catch (error) {
-      throw new ReleaseSearchError({ cause: error })
+    catch {
+      throw new InvalidReleaseError('Releases could not be retrieved')
     }
   }
 
-  private releasesUrl(): string {
-    const repository = new URL(this.repositoryUrl)
-    const path = repository.pathname.split('/').filter(Boolean)
+  private async request() {
+    const { releases } = await this.httpClient.request<GithubReleasesResponse>(this.buildReleasesUrl(), {
+      method: 'GET',
+    })
 
-    if (repository.hostname !== 'github.com' || path.length !== 2) {
-      throw new InvalidReleaseDataError()
-    }
+    return releases
+  }
 
-    return `https://ungh.cc/repos/${path.join('/')}/releases`
+  private buildReleasesUrl() {
+    const repository = this.repositoryUrl.replace('https://github.com/', 'https://ungh.cc/repos/')
+
+    return `${repository}/releases`
   }
 }
 ```
 
-El repositorio recibe `runtimeConfig.public.repository.url` desde el contenedor. No lee configuración global y no depende de Nitro. Su método `search` entrega la colección ya filtrada y ordenada.
+El contenedor entrega al repositorio `runtimeConfig.public.repository.url`. El repositorio construye el endpoint de ungh sin validar la configuración. No lee configuración global y no depende de Nitro.
 
 ### Caso de uso
 
 `server/contexts/releases/application/search/ReleaseSearcher.ts` delega la búsqueda en el puerto de dominio:
 
 ```ts
-import type { Release } from '#server/contexts/releases/domain/Release'
-import type { ReleaseRepository } from '#server/contexts/releases/domain/ReleaseRepository'
+import type { ReleaseRepository } from '~~/server/contexts/releases/domain/ReleaseRepository'
 
 export class ReleaseSearcher {
   constructor(private readonly repository: ReleaseRepository) {}
 
-  search(): Promise<Release[]> {
+  search() {
     return this.repository.search()
   }
 }
@@ -411,80 +522,30 @@ export class ReleaseSearcher {
 
 El caso de uso no sabe si los datos proceden de GitHub, ungh, una base de datos o memoria.
 
-### Controlador
-
-`server/contexts/releases/infrastructure/controllers/HttpGetReleasesController.ts` contiene la frontera HTTP:
-
-```ts
-import { createError } from 'h3'
-import type { Release as DomainRelease } from '#server/contexts/releases/domain/Release'
-import { ReleaseSearchError } from '#server/contexts/releases/domain/ReleaseErrors'
-import type { ReleaseSearcher } from '#server/contexts/releases/application/search/ReleaseSearcher'
-
-export class HttpGetReleasesController {
-  constructor(private readonly releaseSearcher: ReleaseSearcher) {}
-
-  async run(): Promise<GetReleasesResponse> {
-    try {
-      const releases = await this.releaseSearcher.search()
-
-      return {
-        releases: releases.map(release => this.toResponse(release)),
-      }
-    }
-    catch (error) {
-      if (error instanceof ReleaseSearchError) {
-        throw createError({
-          statusCode: 502,
-          statusMessage: 'Releases unavailable',
-          data: {
-            code: 'RELEASES_UNAVAILABLE',
-          },
-        })
-      }
-
-      throw error
-    }
-  }
-
-  private toResponse(release: DomainRelease): Release {
-    return {
-      tag: release.tag,
-      title: release.title,
-      publishedAt: release.publishedAt,
-      content: release.content,
-      url: release.url,
-      compareUrl: release.compareUrl,
-      prerelease: release.prerelease,
-    }
-  }
-}
-```
-
-Este controlador no recibe el evento porque no necesita leer cabeceras, sesión ni contexto de petición. Se añadirá a la firma cuando exista esa necesidad.
-
 ### Contenedor de dependencias
 
-`server/contexts/di/container.ts` construye el grafo completo. Solo expone controllers y casos de uso.
+`server/contexts/di/container.ts` construye el grafo completo. Solo expone casos de uso.
 
 ```ts
 import type { RuntimeConfig } from 'nuxt/schema'
-import { ReleaseSearcher } from '#server/contexts/releases/application/search/ReleaseSearcher'
-import { HttpGetReleasesController } from '#server/contexts/releases/infrastructure/controllers/HttpGetReleasesController'
-import { GithubReleaseRepository } from '#server/contexts/releases/infrastructure/github/GithubReleaseRepository'
-import { NitroFetchHttpClient } from '#server/contexts/shared/infrastructure/http/NitroFetchHttpClient'
+import { PageFinder } from '~~/server/contexts/pages/application/find/PageFinder'
+import { ContentPageRepository } from '~~/server/contexts/pages/infrastructure/ContentPageRepository'
+import { ReleaseSearcher } from '~~/server/contexts/releases/application/search/ReleaseSearcher'
+import { GithubReleaseRepository } from '~~/server/contexts/releases/infrastructure/GithubReleaseRepository'
+import { NitroFetchHttpClient } from '~~/server/contexts/shared/infrastructure/http/NitroFetchHttpClient'
 
 export function createServerContainer(config: RuntimeConfig) {
   const httpClient = new NitroFetchHttpClient()
+  const pageRepository = new ContentPageRepository()
   const releaseRepository = new GithubReleaseRepository(
     httpClient,
     config.public.repository.url,
   )
   const releaseSearcher = new ReleaseSearcher(releaseRepository)
-  const getReleasesController = new HttpGetReleasesController(releaseSearcher)
+  const pageFinder = new PageFinder(pageRepository)
 
   return {
-    getReleasesController,
+    pageFinder,
     releaseSearcher,
   }
 }
@@ -493,15 +554,15 @@ export type ServerContainer = ReturnType<typeof createServerContainer>
 ```
 
 - Las dependencias internas no forman parte del objeto devuelto.
-- `ServerContainer` se infiere desde la función para evitar mantener el tipo por duplicado.
-- Controllers y casos de uso deben ser stateless. Los datos de una petición entran mediante `event` o los argumentos del caso de uso.
+- `ServerContainer` rompe el ciclo de inferencia entre el contenedor, Nitro y los endpoints.
+- Los casos de uso deben ser stateless. Los datos de una petición entran mediante sus argumentos.
 
 ### Tipado de Nitro
 
 `shared/types/nitro.d.ts` amplía `NitroApp` con el contenedor:
 
 ```ts
-import type { ServerContainer } from '#server/contexts/di/container'
+import type { ServerContainer } from '~~/server/contexts/di/container'
 
 declare module 'nitropack/types' {
   interface NitroApp {
@@ -510,14 +571,24 @@ declare module 'nitropack/types' {
 }
 ```
 
-El import usa `#server`. En Nuxt 4, `@` apunta a `app/` y no resuelve `server/contexts/`.
+El import usa `~~/server`. En Nuxt 4, `@` apunta a `app/` y no resuelve `server/contexts/`.
+
+`server/utils/container.ts` encapsula el acceso al contenedor desde los endpoints:
+
+```ts
+export function useServerContainer() {
+  const { container } = useNitroApp()
+
+  return container
+}
+```
 
 ### Plugin de Nitro
 
 `server/plugins/container.ts` crea una instancia del contenedor al arrancar cada instancia de Nitro:
 
 ```ts
-import { createServerContainer } from '#server/contexts/di/container'
+import { createServerContainer } from '~~/server/contexts/di/container'
 
 export default defineNitroPlugin((nitroApp) => {
   const config = useRuntimeConfig()
@@ -530,13 +601,30 @@ Se usa `defineNitroPlugin`. `definePlugin` no registra un plugin del servidor de
 
 ### Endpoint
 
-`server/api/pages/releases/index.get.ts` obtiene el controller del contenedor y aplica la caché:
+`server/api/pages/releases/index.get.ts` valida el locale, obtiene los dos casos de uso, define el contrato HTTP, delega la traducción de errores en `handleError` y aplica la caché:
 
 ```ts
-export default defineCachedEventHandler(() => {
-  const { container } = useNitroApp()
+import { getReleasesQuery } from '~~/shared/schemas/releases'
 
-  return container.getReleasesController.run()
+export default defineCachedEventHandler<Promise<GetReleasesResponse>>(async (event) => {
+  const { locale } = await getValidatedQuery(event, query => getReleasesQuery.parse(query))
+  const { pageFinder, releaseSearcher } = useServerContainer()
+
+  try {
+    const page = await pageFinder.find<PageResponse<ReleasesContent>>({
+      locale,
+      page: 'releases',
+    })
+    const releases = await releaseSearcher.search()
+
+    return {
+      page,
+      releases,
+    }
+  }
+  catch (error) {
+    throw handleError(error)
+  }
 }, {
   maxAge: 900,
   swr: true,
@@ -553,8 +641,12 @@ El endpoint no construye dependencias ni lee configuración. El contenedor es el
 
 ```ts
 export const useReleases = () => {
-  async function getReleases() {
-    return await $fetch<GetReleasesResponse>('/api/pages/releases')
+  async function getReleases(locale: string) {
+    return await $fetch<GetReleasesResponse>('/api/pages/releases', {
+      query: {
+        locale,
+      },
+    })
   }
 
   return {
@@ -570,7 +662,7 @@ La página coordina el contenido editorial y las releases en un único `useAsync
   <UPage>
     <ReleasesListHero
       v-if="data?.page"
-      v-bind="data.page.hero"
+      v-bind="data.page.content.hero"
     />
 
     <ReleasesListStatus
@@ -587,25 +679,23 @@ La página coordina el contenido editorial y las releases en un único `useAsync
 
 <script setup lang="ts">
 const { locale } = useI18n()
-const { fetchPage } = usePage()
 const { getReleases } = useReleases()
 
-const { data, status } = await useAsyncData(() => `page-releases-${locale.value}`, async () => {
-  const [page, releasesResponse] = await Promise.all([
-    fetchPage(`releases_${locale.value}`),
-    getReleases(),
-  ])
-
-  return {
-    page,
-    releases: releasesResponse.releases,
-  }
+const { data, error, status } = await useAsyncData(() => `page-releases-${locale.value}`, () => {
+  return getReleases(locale.value)
 }, {
   watch: [locale],
 })
 
-if (status.value === 'success' && !data.value?.page) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+if (error.value?.status === 404) {
+  throw createError({
+    cause: error.value,
+    data: error.value.data,
+    fatal: true,
+    message: error.value.message,
+    status: error.value.status,
+    statusText: error.value.statusText,
+  })
 }
 
 useSeoMeta({
@@ -617,31 +707,28 @@ useSeoMeta({
 
 `ReleasesListVersions` y `ReleasesListStatus` son dos secciones independientes basadas en `UPageSection`. La página solo monta `ReleasesListVersions` cuando la carga ha terminado correctamente y la colección contiene releases. `ReleasesListStatus` coordina loading, error y vacío mediante los componentes de `app/components/releases/list/status/`. El estado de error llama directamente a `refreshNuxtData()` para reintentar la carga sin propagar eventos entre componentes.
 
-Los componentes de presentación reciben `Release[]` y usan `publishedAt`. No mantienen un segundo modelo con campos renombrados para la misma respuesta.
-
-### Migración pendiente de Nuxt Content
-
-La página todavía consulta Nuxt Content desde `usePage`. Es una transición temporal.
-
-- **Falta mover el contenido editorial de la página al BFF.**
-- `GET /api/pages/releases` deberá entregar todo lo necesario para renderizar `/releases`: contenido editorial y releases.
-- Cuando se migre, `useReleases` será la única fuente de datos y la página dejará de usar `usePage`.
-- El envelope `{ releases }` permite añadir el contenido de página sin exponer Nuxt Content al frontend.
+Los componentes de presentación reciben `Release[]` y usan `publishedAt`. No mantienen un segundo modelo con campos renombrados para la misma respuesta. Home sigue el mismo flujo mediante `useHome()` y `GET /api/pages/home`; ninguna página usa `queryCollection` ni conoce nombres de colección.
 
 ## Errores
 
+`DomainError` define `statusCode` y deriva `name` del constructor. Sus subclases compartidas representan errores HTTP estables, como `NotFoundError` y `UnprocessableEntityError`. `handleError` usa `name` como `data.code`, convierte cualquier `DomainError` en un error de H3 y oculta los errores no reconocidos detrás de un 500 genérico.
+
 | Situación | Resultado |
 |---|---|
-| ungh no responde | `502` con `data.code: RELEASES_UNAVAILABLE` |
-| ungh responde con error HTTP | `502` con el mismo código |
-| El envelope no contiene `releases` como array | `502` con el mismo código |
-| Una release tiene un campo obligatorio inválido | `502` con el mismo código |
+| Falta `locale`, está vacío o aparece varias veces | `400` antes de ejecutar casos de uso |
+| La colección existe pero no contiene la página | `404` con `data.code: PageNotFoundError` |
+| Nuxt Content no puede consultar la colección | `422` con `data.code: InvalidPageError` |
+| ungh no responde | `422` con `data.code: InvalidReleaseError` |
+| ungh responde con error HTTP | `422` con el mismo código |
+| El envelope no contiene `releases` como array | `422` con el mismo código |
+| Una release tiene un campo obligatorio inválido | `422` con el mismo código |
 | Error de programación no reconocido | Nitro responde con su error `500` |
 
 - El cliente nunca recibe la URL, el estado ni el mensaje interno del proveedor.
+- El frontend envía el locale, pero no el nombre de la página ni el de la colección.
 - Una colección inválida no se convierte en una lista vacía.
 - Una release inválida no se omite silenciosamente.
-- Solo los errores previstos se traducen a `RELEASES_UNAVAILABLE`.
+- Los fallos al recuperar o procesar releases se traducen a `InvalidReleaseError`.
 
 ## Caché
 
@@ -654,7 +741,7 @@ La caché pertenece al endpoint porque es una decisión de transporte.
 }
 ```
 
-- La respuesta válida se considera fresca durante 15 minutos.
+- Las respuestas válidas de Home y Releases se consideran frescas durante 15 minutos.
 - SWR permite servir la versión anterior mientras Nitro la revalida.
 - Los casos de uso y repositorios no importan utilidades de caché de Nitro.
 - El almacenamiento por defecto sirve como primera implementación.
@@ -669,34 +756,41 @@ Si varios endpoints necesitan reutilizar exactamente la misma consulta, se puede
 
 | Pieza | Caso |
 |---|---|
-| `GithubRelease` | Convierte todos los campos válidos al dominio |
-| `GithubRelease` | Usa el tag cuando falta el nombre |
-| `GithubRelease` | Retira el primer encabezado `##` |
-| `GithubRelease` | Extrae `compareUrl` |
-| `GithubRelease` | Devuelve `compareUrl: null` cuando no existe |
-| `GithubRelease` | Rechaza cada campo obligatorio inválido al instanciarse |
+| `GithubReleaseMapper` | Convierte todos los campos válidos al dominio |
+| `GithubReleaseMapper` | Usa el tag cuando falta el nombre |
+| `GithubReleaseMapper` | Retira el primer encabezado `##` |
+| `GithubReleaseMapper` | Extrae `compareUrl` |
+| `GithubReleaseMapper` | Devuelve `compareUrl: null` cuando no existe |
+| `Release` | Rechaza cada campo obligatorio inválido mediante `create` |
 | `GithubReleaseRepository` | Construye la URL de ungh desde la URL del repositorio |
-| `GithubReleaseRepository` | Rechaza una URL de repositorio inválida |
-| `GithubReleaseRepository` | Rechaza un envelope inválido |
-| `GithubReleaseRepository` | Convierte errores HTTP en `ReleaseSearchError` |
+| `GithubReleaseRepository` | Convierte cualquier fallo en `InvalidReleaseError` |
 | `GithubReleaseRepository` | Excluye drafts |
 | `GithubReleaseRepository` | Incluye prereleases |
 | `GithubReleaseRepository` | Ordena por fecha descendente |
 | `ReleaseSearcher` | Delega directamente en `ReleaseRepository.search` |
-| `HttpGetReleasesController` | Devuelve `{ releases }` |
-| `HttpGetReleasesController` | Omite `draft` del contrato público |
-| `HttpGetReleasesController` | Traduce `ReleaseSearchError` a 502 con código estable |
-| `createServerContainer` | Expone `getReleasesController` y `releaseSearcher` |
-| `createServerContainer` | No expone clientes, entidades de proveedor ni repositorios |
+| `PageFinder` | Devuelve la página encontrada |
+| `PageFinder` | Convierte un resultado nulo en `PageNotFoundError` |
+| `ContentPageRepository` | Construye `<page>_<locale>` y selecciona solo el contrato de página |
+| `ContentPageRepository` | Convierte fallos de Nuxt Content en `InvalidPageError` |
+| `handleError` | Traduce `NotFoundError` a 404 con código estable |
+| `handleError` | Traduce `UnprocessableEntityError` a 422 usando su nombre como código |
+| `handleError` | Traduce errores desconocidos a 500 sin detalles internos |
+| `createServerContainer` | Expone `pageFinder` y `releaseSearcher` |
+| `createServerContainer` | No expone clientes, contratos externos, mappers ni repositorios |
 
 ### Integración
 
-- `GET /api/pages/releases` devuelve el contrato público.
+- `GET /api/pages/home` devuelve contenido editorial tipado.
+- `GET /api/pages/releases` devuelve contenido editorial y releases en una única respuesta.
+- Ambos endpoints exigen `locale` y rechazan valores inválidos con 400.
+- `handleError` traduce `PageNotFoundError` a 404 e `InvalidPageError` a 422.
+- `handleError` traduce `InvalidReleaseError` a 422 usando su nombre como código.
 - El plugin registra un `ServerContainer` en `NitroApp`.
-- El endpoint resuelve `getReleasesController` desde el contenedor.
+- Los endpoints resuelven `pageFinder` y `releaseSearcher` desde el contenedor.
 - Una segunda petición dentro de 15 minutos usa la respuesta cacheada.
 - Una petición posterior puede recibir la respuesta anterior durante la revalidación.
 - SSR consume `/api/pages/releases` sin acceder directamente a ungh.
+- SSR consume contenido editorial sin acceder directamente a Nuxt Content.
 - Un fallo del proveedor no expone detalles internos.
 
 ## Referencias
@@ -706,3 +800,5 @@ Si varios endpoints necesitan reutilizar exactamente la misma consulta, se puede
 - [Cache en Nitro](https://v2.nitro.build/guide/cache)
 - [Fetch en Nitro](https://v2.nitro.build/guide/fetch)
 - [Directorio server de Nuxt 4](https://nuxt.com/docs/4.x/directory-structure/server)
+- [Async context de Nuxt](https://nuxt.com/docs/4.x/guide/going-further/experimental-features#asynccontext)
+- [Consultas de Nuxt Content en servidor](https://content.nuxt.com/docs/utils/query-collection#server-usage)

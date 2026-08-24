@@ -1,20 +1,24 @@
 import type { RuntimeConfig } from 'nuxt/schema'
-import { ReleaseSearcher } from '#server/contexts/releases/application/search/ReleaseSearcher'
-import { HttpGetReleasesController } from '#server/contexts/releases/infrastructure/controllers/HttpGetReleasesController'
-import { GithubReleaseRepository } from '#server/contexts/releases/infrastructure/github/GithubReleaseRepository'
-import { NitroFetchHttpClient } from '#server/contexts/shared/infrastructure/http/NitroFetchHttpClient'
+import { PageFinder } from '~~/server/contexts/pages/application/find/PageFinder'
+import { ContentPageRepository } from '~~/server/contexts/pages/infrastructure/ContentPageRepository'
+import { ReleaseSearcher } from '~~/server/contexts/releases/application/search/ReleaseSearcher'
+import { GithubReleaseRepository } from '~~/server/contexts/releases/infrastructure/GithubReleaseRepository'
+import { NitroFetchHttpClient } from '~~/server/contexts/shared/infrastructure/http/NitroFetchHttpClient'
 
 export function createServerContainer(config: RuntimeConfig) {
+  // Clients
   const httpClient = new NitroFetchHttpClient()
-  const releaseRepository = new GithubReleaseRepository(
-    httpClient,
-    config.public.repository.url,
-  )
+
+  // Repositories
+  const pageRepository = new ContentPageRepository()
+  const releaseRepository = new GithubReleaseRepository(httpClient, config.public.repository.url)
+
+  // Use cases
   const releaseSearcher = new ReleaseSearcher(releaseRepository)
-  const getReleasesController = new HttpGetReleasesController(releaseSearcher)
+  const pageFinder = new PageFinder(pageRepository)
 
   return {
-    getReleasesController,
+    pageFinder,
     releaseSearcher,
   }
 }

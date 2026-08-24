@@ -13,3 +13,11 @@ export type HomeHero = {
     repository: HomeHeroLink
   }
 }
+
+export type HomeContent = {
+  hero: HomeHero
+}
+
+export type GetHomeResponse = {
+  page: PageResponse<HomeContent>
+}
