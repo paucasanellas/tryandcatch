@@ -40,8 +40,6 @@ server/
 │   │   │   ├── ReleaseErrors.ts
 │   │   │   └── ReleaseRepository.ts
 │   │   └── infrastructure/
-│   │       ├── controllers/
-│   │       │   └── HttpGetReleasesController.ts
 │   │       └── github/
 │   │           ├── GithubRelease.ts
 │   │           └── GithubReleaseRepository.ts
@@ -81,29 +79,28 @@ Los casos que no pertenecen a una página ni al arranque de la aplicación usan 
 |---|---|---|
 | Domain | Entidades, errores y puertos | Nada de Nuxt, Nitro ni proveedores |
 | Application | Casos de uso y reglas de orquestación | Domain |
-| Infrastructure | Controladores y adaptadores | Application, Domain y tecnología concreta |
-| DI container | Construcción y exposición de controllers y casos de uso | Todas las capas necesarias |
+| Infrastructure | Adaptadores | Domain y tecnología concreta |
+| DI container | Construcción y exposición de casos de uso | Todas las capas necesarias |
 | Nitro plugin | Creación del contenedor durante el arranque | DI container y Nitro |
-| Endpoint | Transporte, caché y delegación al controller | Nitro y el contenedor |
+| Endpoint | Transporte, caché, contrato HTTP y delegación al caso de uso | Nitro y el contenedor |
 
 Flujo de dependencias:
 
 ```text
 container plugin
   -> createServerContainer
-    -> HttpGetReleasesController
-      -> ReleaseSearcher
-        -> ReleaseRepository
-          <- GithubReleaseRepository
-            -> GithubRelease
-            -> HttpClient
-              <- NitroFetchHttpClient
+    -> ReleaseSearcher
+      -> ReleaseRepository
+        <- GithubReleaseRepository
+          -> GithubRelease
+          -> HttpClient
+            <- NitroFetchHttpClient
 
 index.get.ts
-  -> NitroApp.container.getReleasesController
+  -> NitroApp.container.releaseSearcher
 ```
 
-El controlador HTTP y `NitroFetchHttpClient` pueden depender de Nitro. Las entidades, el repositorio de dominio y el caso de uso no dependen del framework.
+El endpoint y `NitroFetchHttpClient` pueden depender de Nitro. Las entidades, el repositorio de dominio y el caso de uso no dependen del framework.
 
 ## Convenciones
 
@@ -119,12 +116,12 @@ El controlador HTTP y `NitroFetchHttpClient` pueden depender de Nitro. Las entid
 
 La página de releases necesita una colección. El caso de uso se llama `ReleaseSearcher`. `ReleaseFinder` se reserva para recuperar una release concreta.
 
-### Controladores
+### Endpoints
 
-- Reciben sus casos de uso por constructor.
-- Exponen un método `run()` y solo reciben `H3Event` cuando necesitan consultar datos de la petición o usar APIs de Nitro asociadas al evento.
+- Obtienen los casos de uso desde el contenedor.
 - Traducen el resultado de aplicación al contrato HTTP.
 - Traducen errores conocidos a errores HTTP.
+- Reciben `H3Event` cuando necesitan consultar datos de la petición o usar APIs de Nitro asociadas al evento.
 - No construyen repositorios ni clientes.
 
 ### Repositorios
@@ -411,66 +408,13 @@ export class ReleaseSearcher {
 
 El caso de uso no sabe si los datos proceden de GitHub, ungh, una base de datos o memoria.
 
-### Controlador
-
-`server/contexts/releases/infrastructure/controllers/HttpGetReleasesController.ts` contiene la frontera HTTP:
-
-```ts
-import { createError } from 'h3'
-import type { Release as DomainRelease } from '#server/contexts/releases/domain/Release'
-import { ReleaseSearchError } from '#server/contexts/releases/domain/ReleaseErrors'
-import type { ReleaseSearcher } from '#server/contexts/releases/application/search/ReleaseSearcher'
-
-export class HttpGetReleasesController {
-  constructor(private readonly releaseSearcher: ReleaseSearcher) {}
-
-  async run(): Promise<GetReleasesResponse> {
-    try {
-      const releases = await this.releaseSearcher.search()
-
-      return {
-        releases: releases.map(release => this.toResponse(release)),
-      }
-    }
-    catch (error) {
-      if (error instanceof ReleaseSearchError) {
-        throw createError({
-          statusCode: 502,
-          statusMessage: 'Releases unavailable',
-          data: {
-            code: 'RELEASES_UNAVAILABLE',
-          },
-        })
-      }
-
-      throw error
-    }
-  }
-
-  private toResponse(release: DomainRelease): Release {
-    return {
-      tag: release.tag,
-      title: release.title,
-      publishedAt: release.publishedAt,
-      content: release.content,
-      url: release.url,
-      compareUrl: release.compareUrl,
-      prerelease: release.prerelease,
-    }
-  }
-}
-```
-
-Este controlador no recibe el evento porque no necesita leer cabeceras, sesión ni contexto de petición. Se añadirá a la firma cuando exista esa necesidad.
-
 ### Contenedor de dependencias
 
-`server/contexts/di/container.ts` construye el grafo completo. Solo expone controllers y casos de uso.
+`server/contexts/di/container.ts` construye el grafo completo. Solo expone casos de uso.
 
 ```ts
 import type { RuntimeConfig } from 'nuxt/schema'
 import { ReleaseSearcher } from '#server/contexts/releases/application/search/ReleaseSearcher'
-import { HttpGetReleasesController } from '#server/contexts/releases/infrastructure/controllers/HttpGetReleasesController'
 import { GithubReleaseRepository } from '#server/contexts/releases/infrastructure/github/GithubReleaseRepository'
 import { NitroFetchHttpClient } from '#server/contexts/shared/infrastructure/http/NitroFetchHttpClient'
 
@@ -481,10 +425,8 @@ export function createServerContainer(config: RuntimeConfig) {
     config.public.repository.url,
   )
   const releaseSearcher = new ReleaseSearcher(releaseRepository)
-  const getReleasesController = new HttpGetReleasesController(releaseSearcher)
 
   return {
-    getReleasesController,
     releaseSearcher,
   }
 }
@@ -494,7 +436,7 @@ export type ServerContainer = ReturnType<typeof createServerContainer>
 
 - Las dependencias internas no forman parte del objeto devuelto.
 - `ServerContainer` se infiere desde la función para evitar mantener el tipo por duplicado.
-- Controllers y casos de uso deben ser stateless. Los datos de una petición entran mediante `event` o los argumentos del caso de uso.
+- Los casos de uso deben ser stateless. Los datos de una petición entran mediante sus argumentos.
 
 ### Tipado de Nitro
 
@@ -530,13 +472,35 @@ Se usa `defineNitroPlugin`. `definePlugin` no registra un plugin del servidor de
 
 ### Endpoint
 
-`server/api/pages/releases/index.get.ts` obtiene el controller del contenedor y aplica la caché:
+`server/api/pages/releases/index.get.ts` obtiene el caso de uso del contenedor, define el contrato HTTP, traduce los errores conocidos y aplica la caché:
 
 ```ts
-export default defineCachedEventHandler(() => {
+import { createError } from 'h3'
+import { ReleaseSearchError } from '#server/contexts/releases/domain/ReleaseErrors'
+
+export default defineCachedEventHandler(async () => {
   const { container } = useNitroApp()
 
-  return container.getReleasesController.run()
+  try {
+    const releases = await container.releaseSearcher.search()
+
+    return {
+      releases,
+    }
+  }
+  catch (error) {
+    if (error instanceof ReleaseSearchError) {
+      throw createError({
+        statusCode: 502,
+        statusMessage: 'Releases unavailable',
+        data: {
+          code: 'RELEASES_UNAVAILABLE',
+        },
+      })
+    }
+
+    throw error
+  }
 }, {
   maxAge: 900,
   swr: true,
@@ -683,17 +647,15 @@ Si varios endpoints necesitan reutilizar exactamente la misma consulta, se puede
 | `GithubReleaseRepository` | Incluye prereleases |
 | `GithubReleaseRepository` | Ordena por fecha descendente |
 | `ReleaseSearcher` | Delega directamente en `ReleaseRepository.search` |
-| `HttpGetReleasesController` | Devuelve `{ releases }` |
-| `HttpGetReleasesController` | Omite `draft` del contrato público |
-| `HttpGetReleasesController` | Traduce `ReleaseSearchError` a 502 con código estable |
-| `createServerContainer` | Expone `getReleasesController` y `releaseSearcher` |
+| `createServerContainer` | Expone `releaseSearcher` |
 | `createServerContainer` | No expone clientes, entidades de proveedor ni repositorios |
 
 ### Integración
 
 - `GET /api/pages/releases` devuelve el contrato público.
+- El endpoint traduce `ReleaseSearchError` a 502 con código estable.
 - El plugin registra un `ServerContainer` en `NitroApp`.
-- El endpoint resuelve `getReleasesController` desde el contenedor.
+- El endpoint resuelve `releaseSearcher` desde el contenedor.
 - Una segunda petición dentro de 15 minutos usa la respuesta cacheada.
 - Una petición posterior puede recibir la respuesta anterior durante la revalidación.
 - SSR consume `/api/pages/releases` sin acceder directamente a ungh.
