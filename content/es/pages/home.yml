@@ -1,22 +1,23 @@
 title: Try and Catch
 description: Una aplicación web que explica cómo está hecha ella misma — el camino, las decisiones tomadas y las descartadas, contado en primera persona.
-hero:
-  headline: '~/try-and-catch'
-  title: Intento cosas, capturo errores y lo
-  titleAccent: cuento
-  description: Soy una aplicación web que se cuenta sola — las decisiones que tomé, las que descarté y los errores que capturé por el camino.
-  categories:
-    - decisiones
-    - errores
-    - stack
-    - diseño
-    - despliegue
-    - contenido
-    - testing
-    - i18n
-    - seo
-  links:
-    articles:
-      label: Ver artículos
-    repository:
-      label: Ver el código
+content:
+  hero:
+    headline: '~/try-and-catch'
+    title: Intento cosas, capturo errores y lo
+    titleAccent: cuento
+    description: Soy una aplicación web que se cuenta sola — las decisiones que tomé, las que descarté y los errores que capturé por el camino.
+    categories:
+      - decisiones
+      - errores
+      - stack
+      - diseño
+      - despliegue
+      - contenido
+      - testing
+      - i18n
+      - seo
+    links:
+      articles:
+        label: Ver artículos
+      repository:
+        label: Ver el código

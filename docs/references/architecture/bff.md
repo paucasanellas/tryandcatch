@@ -20,17 +20,26 @@ El BFF no es una API genérica para terceros. Sus endpoints responden a las nece
 ```text
 shared/
 └── types/
-    └── nitro.d.ts
+    ├── nitro.d.ts
+    └── pages.ts
 server/
 ├── api/
-│   ├── app/
-│   │   └── index.get.ts
 │   └── pages/
+│       ├── home/
+│       │   └── index.get.ts
 │       └── releases/
 │           └── index.get.ts
 ├── contexts/
 │   ├── di/
 │   │   └── container.ts
+│   ├── pages/
+│   │   ├── application/find/PageFinder.ts
+│   │   ├── domain/
+│   │   │   ├── Page.ts
+│   │   │   ├── PageCriteria.ts
+│   │   │   ├── PageErrors.ts
+│   │   │   └── PageRepository.ts
+│   │   └── infrastructure/ContentPageRepository.ts
 │   ├── releases/
 │   │   ├── application/
 │   │   │   └── search/
@@ -64,8 +73,8 @@ Los endpoints ligados a la interfaz reflejan la estructura que los consume.
 
 | Consumidor | Fichero | Ruta HTTP |
 |---|---|---|
-| `app.vue` | `server/api/app/index.get.ts` | `GET /api/app` |
-| Página `/releases` | `server/api/pages/releases/index.get.ts` | `GET /api/pages/releases` |
+| Página `/` | `server/api/pages/home/index.get.ts` | `GET /api/pages/home?locale=<code>` |
+| Página `/releases` | `server/api/pages/releases/index.get.ts` | `GET /api/pages/releases?locale=<code>` |
 
 Los casos que no pertenecen a una página ni al arranque de la aplicación usan su propio contexto. Un formulario de contacto puede exponer `server/api/contact/index.post.ts` y delegar en `server/contexts/contact/`.
 
@@ -93,6 +102,10 @@ Flujo de dependencias:
 ```text
 container plugin
   -> createServerContainer
+    -> PageFinder
+      -> PageRepository
+        <- ContentPageRepository
+          -> queryCollection
     -> ReleaseSearcher
       -> ReleaseRepository
         <- GithubReleaseRepository
@@ -101,8 +114,9 @@ container plugin
           -> HttpClient
             <- NitroFetchHttpClient
 
-index.get.ts
+page endpoint
   -> useServerContainer
+    -> NitroApp.container.pageFinder
     -> NitroApp.container.releaseSearcher
 ```
 
@@ -127,7 +141,8 @@ La página de releases necesita una colección. El caso de uso se llama `Release
 - Obtienen los casos de uso desde el contenedor.
 - Traducen el resultado de aplicación al contrato HTTP.
 - Traducen errores conocidos a errores HTTP.
-- Reciben `H3Event` cuando necesitan consultar datos de la petición o usar APIs de Nitro asociadas al evento.
+- Validan los datos de petición antes de delegar en los casos de uso.
+- La infraestructura ligada a la petición obtiene el evento activo mediante `useEvent()`; `H3Event` no se propaga por dominio ni aplicación.
 - No construyen repositorios ni clientes.
 
 ### Repositorios
@@ -155,17 +170,68 @@ La página de releases necesita una colección. El caso de uso se llama `Release
 
 ### Tipos públicos
 
-Los contratos compartidos entre servidor y aplicación viven en `shared/types/`. Los tipos de un proveedor son privados de su adaptador.
+Los contratos compartidos entre servidor y aplicación viven en `shared/types/`. Los tipos de un proveedor son privados de su adaptador. Las páginas usan `PageResponse<Content>` para concretar el contenido editorial sin introducir tipos de presentación en dominio o aplicación.
+
+## Contenido de página
+
+`PageFinder` recupera cualquier página mediante `{ page, locale }`. Dominio representa su contenido como `unknown`; el finder conserva esa frontera y devuelve el genérico solicitado por el endpoint.
+
+`ContentPageRepository` construye la colección `<page>_<locale>` y consulta únicamente los campos públicos:
+
+```ts
+import { useEvent } from 'nitropack/runtime'
+
+export class ContentPageRepository implements PageRepository {
+  async find(criteria: FindPageCriteria) {
+    try {
+      const collection = `${criteria.page}_${criteria.locale}` as keyof Collections
+
+      return await queryCollection(useEvent(), collection)
+        .select('title', 'description', 'content')
+        .first() as Page | null
+    }
+    catch {
+      throw new InvalidPageError()
+    }
+  }
+}
+```
+
+`experimental.asyncContext` mantiene el evento de la petición disponible después de atravesar endpoint, caso de uso y repositorio. El contenedor conserva una única instancia stateless del adaptador.
+
+El locale llega como `?locale=<code>`. Cada página define su schema de query con Zod 4 y el endpoint lo aplica mediante `getValidatedQuery`; valores ausentes, vacíos o repetidos producen un 400. El nombre de la página lo fija cada endpoint; el frontend nunca construye nombres de colección.
+
+Home concreta el contrato genérico en `shared/types/home.ts`:
+
+```ts
+export type HomeContent = {
+  hero: HomeHero
+}
+
+export type GetHomeResponse = {
+  page: PageResponse<HomeContent>
+}
+```
 
 ## Ejemplo: releases
 
-La página `/releases` obtiene hoy los datos de ungh. El BFF debe ocultar ese proveedor y devolver un contrato propio.
+La página `/releases` obtiene los datos de ungh. El BFF oculta ese proveedor y devuelve un contrato propio.
 
 ### Contrato público
 
-`shared/types/releases.ts` conserva los tipos editoriales existentes y sustituye los tipos de ungh por el contrato del BFF:
+`shared/types/pages.ts` define la forma compartida y `shared/types/releases.ts` concreta el contenido editorial y los datos de ungh:
 
 ```ts
+export type PageResponse<Content> = {
+  title: string
+  description: string
+  content: Content
+}
+
+export type ReleasesContent = {
+  hero: ReleasesListHero
+}
+
 export type Release = {
   tag: string
   title: string
@@ -177,13 +243,15 @@ export type Release = {
 }
 
 export type GetReleasesResponse = {
+  page: PageResponse<ReleasesContent>
   releases: Release[]
 }
 ```
 
 `GET /api/pages/releases` garantiza:
 
-- Un objeto `{ releases }` como raíz.
+- Un objeto `{ page, releases }` como raíz.
+- `page` contiene `title`, `description` y `content` editorial tipado.
 - Drafts excluidas.
 - Prereleases incluidas y marcadas con `prerelease`.
 - Releases ordenadas por `publishedAt` descendente.
@@ -460,26 +528,29 @@ El caso de uso no sabe si los datos proceden de GitHub, ungh, una base de datos 
 
 ```ts
 import type { RuntimeConfig } from 'nuxt/schema'
+import { PageFinder } from '~~/server/contexts/pages/application/find/PageFinder'
+import { ContentPageRepository } from '~~/server/contexts/pages/infrastructure/ContentPageRepository'
 import { ReleaseSearcher } from '~~/server/contexts/releases/application/search/ReleaseSearcher'
 import { GithubReleaseRepository } from '~~/server/contexts/releases/infrastructure/GithubReleaseRepository'
 import { NitroFetchHttpClient } from '~~/server/contexts/shared/infrastructure/http/NitroFetchHttpClient'
 
-export type ServerContainer = {
-  releaseSearcher: ReleaseSearcher
-}
-
 export function createServerContainer(config: RuntimeConfig) {
   const httpClient = new NitroFetchHttpClient()
+  const pageRepository = new ContentPageRepository()
   const releaseRepository = new GithubReleaseRepository(
     httpClient,
     config.public.repository.url,
   )
   const releaseSearcher = new ReleaseSearcher(releaseRepository)
+  const pageFinder = new PageFinder(pageRepository)
 
   return {
+    pageFinder,
     releaseSearcher,
-  } satisfies ServerContainer
+  }
 }
+
+export type ServerContainer = ReturnType<typeof createServerContainer>
 ```
 
 - Las dependencias internas no forman parte del objeto devuelto.
@@ -530,25 +601,25 @@ Se usa `defineNitroPlugin`. `definePlugin` no registra un plugin del servidor de
 
 ### Endpoint
 
-`server/api/pages/releases/index.get.ts` obtiene el caso de uso del contenedor, define el contrato HTTP, delega la traducción de errores en `handleError` y aplica la caché:
+`server/api/pages/releases/index.get.ts` valida el locale, obtiene los dos casos de uso, define el contrato HTTP, delega la traducción de errores en `handleError` y aplica la caché:
 
 ```ts
-export default defineCachedEventHandler(async () => {
-  const { releaseSearcher } = useServerContainer()
+import { getReleasesQuery } from '~~/shared/schemas/releases'
+
+export default defineCachedEventHandler<Promise<GetReleasesResponse>>(async (event) => {
+  const { locale } = await getValidatedQuery(event, query => getReleasesQuery.parse(query))
+  const { pageFinder, releaseSearcher } = useServerContainer()
 
   try {
+    const page = await pageFinder.find<PageResponse<ReleasesContent>>({
+      locale,
+      page: 'releases',
+    })
     const releases = await releaseSearcher.search()
 
     return {
-      releases: releases.map(release => ({
-        tag: release.tag,
-        title: release.title,
-        publishedAt: release.publishedAt,
-        content: release.content,
-        url: release.url,
-        compareUrl: release.compareUrl,
-        prerelease: release.prerelease,
-      })),
+      page,
+      releases,
     }
   }
   catch (error) {
@@ -570,8 +641,12 @@ El endpoint no construye dependencias ni lee configuración. El contenedor es el
 
 ```ts
 export const useReleases = () => {
-  async function getReleases() {
-    return await $fetch<GetReleasesResponse>('/api/pages/releases')
+  async function getReleases(locale: string) {
+    return await $fetch<GetReleasesResponse>('/api/pages/releases', {
+      query: {
+        locale,
+      },
+    })
   }
 
   return {
@@ -587,7 +662,7 @@ La página coordina el contenido editorial y las releases en un único `useAsync
   <UPage>
     <ReleasesListHero
       v-if="data?.page"
-      v-bind="data.page.hero"
+      v-bind="data.page.content.hero"
     />
 
     <ReleasesListStatus
@@ -604,25 +679,23 @@ La página coordina el contenido editorial y las releases en un único `useAsync
 
 <script setup lang="ts">
 const { locale } = useI18n()
-const { fetchPage } = usePage()
 const { getReleases } = useReleases()
 
-const { data, status } = await useAsyncData(() => `page-releases-${locale.value}`, async () => {
-  const [page, releasesResponse] = await Promise.all([
-    fetchPage(`releases_${locale.value}`),
-    getReleases(),
-  ])
-
-  return {
-    page,
-    releases: releasesResponse.releases,
-  }
+const { data, error, status } = await useAsyncData(() => `page-releases-${locale.value}`, () => {
+  return getReleases(locale.value)
 }, {
   watch: [locale],
 })
 
-if (status.value === 'success' && !data.value?.page) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+if (error.value?.status === 404) {
+  throw createError({
+    cause: error.value,
+    data: error.value.data,
+    fatal: true,
+    message: error.value.message,
+    status: error.value.status,
+    statusText: error.value.statusText,
+  })
 }
 
 useSeoMeta({
@@ -634,16 +707,7 @@ useSeoMeta({
 
 `ReleasesListVersions` y `ReleasesListStatus` son dos secciones independientes basadas en `UPageSection`. La página solo monta `ReleasesListVersions` cuando la carga ha terminado correctamente y la colección contiene releases. `ReleasesListStatus` coordina loading, error y vacío mediante los componentes de `app/components/releases/list/status/`. El estado de error llama directamente a `refreshNuxtData()` para reintentar la carga sin propagar eventos entre componentes.
 
-Los componentes de presentación reciben `Release[]` y usan `publishedAt`. No mantienen un segundo modelo con campos renombrados para la misma respuesta.
-
-### Migración pendiente de Nuxt Content
-
-La página todavía consulta Nuxt Content desde `usePage`. Es una transición temporal.
-
-- **Falta mover el contenido editorial de la página al BFF.**
-- `GET /api/pages/releases` deberá entregar todo lo necesario para renderizar `/releases`: contenido editorial y releases.
-- Cuando se migre, `useReleases` será la única fuente de datos y la página dejará de usar `usePage`.
-- El envelope `{ releases }` permite añadir el contenido de página sin exponer Nuxt Content al frontend.
+Los componentes de presentación reciben `Release[]` y usan `publishedAt`. No mantienen un segundo modelo con campos renombrados para la misma respuesta. Home sigue el mismo flujo mediante `useHome()` y `GET /api/pages/home`; ninguna página usa `queryCollection` ni conoce nombres de colección.
 
 ## Errores
 
@@ -651,6 +715,9 @@ La página todavía consulta Nuxt Content desde `usePage`. Es una transición te
 
 | Situación | Resultado |
 |---|---|
+| Falta `locale`, está vacío o aparece varias veces | `400` antes de ejecutar casos de uso |
+| La colección existe pero no contiene la página | `404` con `data.code: PageNotFoundError` |
+| Nuxt Content no puede consultar la colección | `422` con `data.code: InvalidPageError` |
 | ungh no responde | `422` con `data.code: InvalidReleaseError` |
 | ungh responde con error HTTP | `422` con el mismo código |
 | El envelope no contiene `releases` como array | `422` con el mismo código |
@@ -658,6 +725,7 @@ La página todavía consulta Nuxt Content desde `usePage`. Es una transición te
 | Error de programación no reconocido | Nitro responde con su error `500` |
 
 - El cliente nunca recibe la URL, el estado ni el mensaje interno del proveedor.
+- El frontend envía el locale, pero no el nombre de la página ni el de la colección.
 - Una colección inválida no se convierte en una lista vacía.
 - Una release inválida no se omite silenciosamente.
 - Los fallos al recuperar o procesar releases se traducen a `InvalidReleaseError`.
@@ -673,7 +741,7 @@ La caché pertenece al endpoint porque es una decisión de transporte.
 }
 ```
 
-- La respuesta válida se considera fresca durante 15 minutos.
+- Las respuestas válidas de Home y Releases se consideran frescas durante 15 minutos.
 - SWR permite servir la versión anterior mientras Nitro la revalida.
 - Los casos de uso y repositorios no importan utilidades de caché de Nitro.
 - El almacenamiento por defecto sirve como primera implementación.
@@ -700,22 +768,29 @@ Si varios endpoints necesitan reutilizar exactamente la misma consulta, se puede
 | `GithubReleaseRepository` | Incluye prereleases |
 | `GithubReleaseRepository` | Ordena por fecha descendente |
 | `ReleaseSearcher` | Delega directamente en `ReleaseRepository.search` |
+| `PageFinder` | Devuelve la página encontrada |
+| `PageFinder` | Convierte un resultado nulo en `PageNotFoundError` |
+| `ContentPageRepository` | Construye `<page>_<locale>` y selecciona solo el contrato de página |
+| `ContentPageRepository` | Convierte fallos de Nuxt Content en `InvalidPageError` |
 | `handleError` | Traduce `NotFoundError` a 404 con código estable |
 | `handleError` | Traduce `UnprocessableEntityError` a 422 usando su nombre como código |
 | `handleError` | Traduce errores desconocidos a 500 sin detalles internos |
-| `createServerContainer` | Expone `releaseSearcher` |
+| `createServerContainer` | Expone `pageFinder` y `releaseSearcher` |
 | `createServerContainer` | No expone clientes, contratos externos, mappers ni repositorios |
 
 ### Integración
 
-- `GET /api/pages/releases` devuelve el contrato público.
-- El endpoint omite `draft` del contrato público.
+- `GET /api/pages/home` devuelve contenido editorial tipado.
+- `GET /api/pages/releases` devuelve contenido editorial y releases en una única respuesta.
+- Ambos endpoints exigen `locale` y rechazan valores inválidos con 400.
+- `handleError` traduce `PageNotFoundError` a 404 e `InvalidPageError` a 422.
 - `handleError` traduce `InvalidReleaseError` a 422 usando su nombre como código.
 - El plugin registra un `ServerContainer` en `NitroApp`.
-- El endpoint resuelve `releaseSearcher` desde el contenedor.
+- Los endpoints resuelven `pageFinder` y `releaseSearcher` desde el contenedor.
 - Una segunda petición dentro de 15 minutos usa la respuesta cacheada.
 - Una petición posterior puede recibir la respuesta anterior durante la revalidación.
 - SSR consume `/api/pages/releases` sin acceder directamente a ungh.
+- SSR consume contenido editorial sin acceder directamente a Nuxt Content.
 - Un fallo del proveedor no expone detalles internos.
 
 ## Referencias
@@ -725,3 +800,5 @@ Si varios endpoints necesitan reutilizar exactamente la misma consulta, se puede
 - [Cache en Nitro](https://v2.nitro.build/guide/cache)
 - [Fetch en Nitro](https://v2.nitro.build/guide/fetch)
 - [Directorio server de Nuxt 4](https://nuxt.com/docs/4.x/directory-structure/server)
+- [Async context de Nuxt](https://nuxt.com/docs/4.x/guide/going-further/experimental-features#asynccontext)
+- [Consultas de Nuxt Content en servidor](https://content.nuxt.com/docs/utils/query-collection#server-usage)

@@ -1,25 +1,32 @@
 <template>
-  <UPage v-if="page">
-    <HomeHero v-bind="page.hero" />
+  <UPage v-if="data?.page">
+    <HomeHero v-bind="data.page.content.hero" />
   </UPage>
 </template>
 
 <script setup lang="ts">
 const { locale } = useI18n()
-const { fetchPage } = usePage()
+const { getHome } = useHome()
 
-const { data: page } = await useAsyncData(() => `page-home-${locale.value}`, () => {
-  return fetchPage(`home_${locale.value}`)
+const { data, error } = await useAsyncData(() => `page-home-${locale.value}`, () => {
+  return getHome(locale.value)
 }, {
   watch: [locale],
 })
 
-if (!page.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+if (error.value) {
+  throw createError({
+    cause: error.value,
+    data: error.value.data,
+    fatal: true,
+    message: error.value.message,
+    status: error.value.status,
+    statusText: error.value.statusText,
+  })
 }
 
 useSeoMeta({
-  title: () => page.value?.title,
-  description: () => page.value?.description,
+  title: () => data.value?.page.title,
+  description: () => data.value?.page.description,
 })
 </script>
