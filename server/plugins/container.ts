@@ -1,4 +1,4 @@
-import { createServerContainer } from '#server/contexts/di/container'
+import { createServerContainer } from '~~/server/contexts/di/container'
 
 export default defineNitroPlugin((nitroApp) => {
   const config = useRuntimeConfig()

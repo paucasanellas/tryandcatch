@@ -1,28 +1,15 @@
-import { createError } from 'h3'
-import { ReleaseSearchError } from '#server/contexts/releases/domain/ReleaseErrors'
-
 export default defineCachedEventHandler(async () => {
-  const { container } = useNitroApp()
+  const { releaseSearcher } = useServerContainer()
 
   try {
-    const releases = await container.releaseSearcher.search()
+    const releases = await releaseSearcher.search()
 
     return {
       releases,
     }
   }
   catch (error) {
-    if (error instanceof ReleaseSearchError) {
-      throw createError({
-        statusCode: 502,
-        statusMessage: 'Releases unavailable',
-        data: {
-          code: 'RELEASES_UNAVAILABLE',
-        },
-      })
-    }
-
-    throw error
+    throw handleError(error)
   }
 }, {
   maxAge: 900,
