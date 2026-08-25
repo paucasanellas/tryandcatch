@@ -158,7 +158,7 @@ export type GetHomeResponse = {
 
 ## Artículos
 
-`ArticleFinder` recupera un artículo concreto mediante `{ slug, locale }`. `ArticleSearcher` recupera los resúmenes del locale. `ContentArticleRepository` construye `articles_<locale>`: para el detalle busca el `stem` `<locale>/articles/<slug>` y convierte `rawbody` en `content`; para el listado selecciona solo el frontmatter y `stem`, deriva el slug y ordena por fecha descendente. El contrato privado de Nuxt Content vive en `server/contexts/articles/infrastructure/ContentArticle.ts`.
+`ArticleFinder` recupera un artículo concreto mediante `{ slug, locale }`. `ArticleSearcher` recupera los artículos del locale y los proyecta al DTO de listado. `ContentArticleRepository` construye `articles_<locale>`: para el detalle busca el `stem` `<locale>/articles/<slug>`; para el listado recupera documentos completos, deriva el slug y ordena por fecha descendente. En ambos casos convierte `rawbody` en `content` e hidrata el agregado `Article`. El contrato privado de Nuxt Content vive en `server/contexts/articles/infrastructure/ContentArticle.ts`.
 
 El contenido editorial del hub usa la colección `articles_page_<locale>` para no colisionar con los Markdown `articles_<locale>`. El endpoint fija `articles_page` como nombre interno al delegar en `PageFinder`; el frontend no conoce ninguna de las dos colecciones.
 
@@ -167,6 +167,7 @@ El contrato público no expone `body`, `rawbody` ni tipos de Nuxt Content:
 ```ts
 export type GetArticleResponse = {
   article: {
+    slug: string
     title: string
     description: string
     publishedAt: string
@@ -182,7 +183,7 @@ export type GetArticleResponse = {
 }
 ```
 
-El listado expone un contrato separado y no descarga el cuerpo Markdown:
+El listado expone un contrato separado y no entrega el cuerpo Markdown al cliente:
 
 ```ts
 export type GetArticlesResponse = {
@@ -191,8 +192,9 @@ export type GetArticlesResponse = {
 }
 ```
 
-- `Article` valida los primitivos antes de salir de infraestructura.
-- `ArticleSummary` valida slug y metadatos antes de salir de infraestructura.
+- `Article` es el único agregado y valida slug, metadatos y contenido antes de salir de infraestructura.
+- `ArticleRepository` devuelve agregados `Article` tanto para detalle como para listado.
+- `ArticleSearcher` proyecta cada agregado al DTO público `ArticleSummary` y omite `content`.
 - `ArticleSearcher` incluye todo Markdown desplegado; el contrato editorial no define drafts ni filtrado por fecha.
 - `ArticleFinder` convierte un resultado nulo en `ArticleNotFoundError`.
 - `InvalidArticleError` representa contenido que no se puede consultar o procesar.

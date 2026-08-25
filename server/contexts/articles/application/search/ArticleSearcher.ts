@@ -4,7 +4,18 @@ import type { ArticleRepository } from '~~/server/contexts/articles/domain/Artic
 export class ArticleSearcher {
   constructor(private readonly repository: ArticleRepository) {}
 
-  search(criteria: SearchArticleCriteria) {
-    return this.repository.search(criteria)
+  async search(criteria: SearchArticleCriteria) {
+    const articles = await this.repository.search(criteria)
+
+    return articles.map(article => ({
+      slug: article.slug,
+      title: article.title,
+      description: article.description,
+      publishedAt: article.publishedAt,
+      readingTime: article.readingTime,
+      author: article.author,
+      categories: article.categories,
+      image: article.image,
+    }))
   }
 }

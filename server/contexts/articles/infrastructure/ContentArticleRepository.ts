@@ -2,12 +2,11 @@ import { queryCollection } from '@nuxt/content/server'
 import { useEvent } from 'nitropack/runtime'
 
 import { Article } from '~~/server/contexts/articles/domain/Article'
-import { ArticleSummary } from '~~/server/contexts/articles/domain/ArticleSummary'
 import { InvalidArticleError } from '~~/server/contexts/articles/domain/ArticleErrors'
 
 import type { FindArticleCriteria, SearchArticleCriteria } from '~~/server/contexts/articles/domain/ArticleCriteria'
 import type { ArticleRepository } from '~~/server/contexts/articles/domain/ArticleRepository'
-import type { ContentArticle, ContentArticleSummary } from '~~/server/contexts/articles/infrastructure/ContentArticle'
+import type { ContentArticle } from '~~/server/contexts/articles/infrastructure/ContentArticle'
 
 export class ContentArticleRepository implements ArticleRepository {
   async find(criteria: FindArticleCriteria) {
@@ -24,6 +23,7 @@ export class ContentArticleRepository implements ArticleRepository {
       }
 
       return Article.create({
+        slug: criteria.slug,
         title: document.title,
         description: document.description,
         publishedAt: document.publishedAt,
@@ -48,11 +48,11 @@ export class ContentArticleRepository implements ArticleRepository {
       const event = useEvent()
       const collection = this.buildCollectionName(criteria)
       const documents = await queryCollection(event, collection)
-        .select('stem', 'title', 'description', 'publishedAt', 'readingTime', 'author', 'categories', 'image')
-        .all() as ContentArticleSummary[]
+        .select('stem', 'title', 'description', 'publishedAt', 'readingTime', 'author', 'categories', 'image', 'rawbody')
+        .all() as ContentArticle[]
 
       return documents
-        .map(document => ArticleSummary.create({
+        .map(document => Article.create({
           slug: document.stem.split('/').at(-1) ?? '',
           title: document.title,
           description: document.description,
@@ -61,6 +61,7 @@ export class ContentArticleRepository implements ArticleRepository {
           author: document.author,
           categories: document.categories,
           image: document.image,
+          content: document.rawbody,
         }))
         .sort((current, next) => Date.parse(next.publishedAt) - Date.parse(current.publishedAt))
     }

@@ -1,4 +1,5 @@
 export type ContentArticle = {
+  stem: string
   title: string
   description: string
   publishedAt: string
@@ -7,8 +8,4 @@ export type ContentArticle = {
   categories: string[]
   image: ArticleImage
   rawbody: string
-}
-
-export type ContentArticleSummary = Omit<ContentArticle, 'rawbody'> & {
-  stem: string
 }
