@@ -25,6 +25,7 @@
 | `docs/references/nuxt/pages-and-components.md` | Al crear páginas o componentes, o decidir dónde va uno |
 | `docs/references/nuxt/ui.md` | Al construir UI o dudar entre Nuxt UI y un componente propio |
 | `docs/references/github/branching.md` | Al crear una rama o decidir su prefijo |
+| `docs/references/github/project.md` | Al crear, priorizar, estimar o empezar una issue del GitHub Project |
 | `docs/references/github/pull-requests.md` | Al abrir o escribir una pull request |
 | `docs/references/github/merges.md` | Al mergear una pull request |
 | `docs/references/github/deployment.md` | Al desplegar o entender cómo llega un cambio a producción |

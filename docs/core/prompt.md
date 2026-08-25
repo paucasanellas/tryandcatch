@@ -8,7 +8,7 @@ Cómo debe actuar un agente en este proyecto.
 - Proponer siempre **la solución más simple**. Se itera después.
 - Preferir **listados a textos largos**: más directo y legible.
 - **Fuera de alcance, issue nuevo**: lo mejorable que no pertenece a la tarea en curso se propone como issue, no se cuela en la rama.
-- **Issue en curso, `In Progress`**: cuando el usuario ordena trabajar en una issue, localizarla en el GitHub Project 12 y moverla a `In Progress` antes de investigar, documentar o modificar archivos. Si todavía no pertenece al Project, añadirla y asignarle ese estado.
+- **Issue en curso, `In Progress`**: cuando el usuario ordena trabajar en una issue, seguir `docs/references/github/project.md` antes de investigar, documentar o modificar archivos.
 - **No implementar tests**: aunque una tarea los solicite, quedan fuera de alcance hasta que el proyecto habilite su infraestructura en una tarea específica. No añadir frameworks, configuración, scripts, CI, fixtures ni archivos de test.
 - **No afirmar sin verificar.** Ante un error, informar con la salida real, sin maquillarla.
 - **Commit, push y PR nunca se ejecutan por iniciativa del agente**: se hacen solo cuando el usuario los pide y exactamente con el alcance indicado. Si pide solo commit, se hace solo commit; si pide commit, push y PR, se hacen los tres en ese orden y en el mismo turno.
