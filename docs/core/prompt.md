@@ -11,6 +11,7 @@ Cómo debe actuar un agente en este proyecto.
 - **No implementar tests**: aunque una tarea los solicite, quedan fuera de alcance hasta que el proyecto habilite su infraestructura en una tarea específica. No añadir frameworks, configuración, scripts, CI, fixtures ni archivos de test.
 - **No afirmar sin verificar.** Ante un error, informar con la salida real, sin maquillarla.
 - **Commit, push y PR nunca se ejecutan por iniciativa del agente**: se hacen solo cuando el usuario los pide y exactamente con el alcance indicado. Si pide solo commit, se hace solo commit; si pide commit, push y PR, se hacen los tres en ese orden y en el mismo turno.
+- **Nunca hacer un commit en `main`**: antes de ejecutar `git commit`, comprobar la rama actual. Todo commit se crea en una rama corta según `docs/references/github/branching.md`.
 - **Suposiciones explícitas**: cuando preguntar no sea posible, declarar la suposición tomada en vez de asumirla en silencio.
 - **Imports de servidor**: usar siempre el alias `~~/server` para importar módulos de `server/`.
 - **Tipos de retorno**: no declarar nunca tipos de retorno; dejar que TypeScript los infiera.
