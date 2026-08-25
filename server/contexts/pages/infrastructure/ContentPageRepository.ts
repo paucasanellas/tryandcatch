@@ -1,8 +1,6 @@
-import type { Collections } from '@nuxt/content'
 import { queryCollection } from '@nuxt/content/server'
 import { useEvent } from 'nitropack/runtime'
 
-import type { Page } from '~~/server/contexts/pages/domain/Page'
 import type { FindPageCriteria } from '~~/server/contexts/pages/domain/PageCriteria'
 import type { PageRepository } from '~~/server/contexts/pages/domain/PageRepository'
 
@@ -16,7 +14,7 @@ export class ContentPageRepository implements PageRepository {
 
       return await queryCollection(event, collection)
         .select('title', 'description', 'content')
-        .first() as Page | null
+        .first()
     }
     catch {
       throw new InvalidPageError()
@@ -24,6 +22,6 @@ export class ContentPageRepository implements PageRepository {
   }
 
   private buildCollectionName(criteria: FindPageCriteria) {
-    return `${criteria.page}_${criteria.locale}` as keyof Collections
+    return `${criteria.page}_${criteria.locale}` as 'home_es'
   }
 }

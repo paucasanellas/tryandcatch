@@ -8,6 +8,7 @@ Convención de organización. Documento incremental: lo que no esté aquí (stor
 - El root de toda página es `UPage` (ver `ui.md`).
 - La columna (ancho, gutter) la ponen las secciones de Nuxt UI (`UPageHero`, `UPageSection`…) dentro de `UPage`; el layout no añade `UContainer` y las páginas nunca repiten wrappers de `max-w`/`px`.
 - Carpeta por página: `pages/<pagina>/index.vue`. Las sub-rutas se separan pronto en su propio fichero (`pages/articles/index.vue` + `pages/articles/[slug].vue`).
+- **La URL localizada no cambia la organización interna:** artículos vive en `pages/articles/` y `components/articles/`; cada página declara `/articulos` mediante `definePageMeta`.
 - Cada página define `useHead` con su `title` vía i18n (ver `i18n.md`).
 
 ## Componentes

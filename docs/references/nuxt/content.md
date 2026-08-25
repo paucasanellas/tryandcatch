@@ -32,3 +32,19 @@ Cómo funciona el contenido de página: **Nuxt Content 3 con YAML tipado detrás
 
 1. YAML en `content/<code>/pages/<pagina>.yml` con el mismo schema.
 2. Colección `<pagina>_<code>` en `content.config.ts`.
+
+## Artículos
+
+Los artículos son documentos Markdown y no siguen el contrato `{ title, description, content }` de las páginas editoriales.
+
+| Pieza | Dónde | Papel |
+|---|---|---|
+| Schema zod | `shared/schemas/articles.ts` | Valida el frontmatter y habilita `rawbody` |
+| Colección | `content.config.ts`, clave `articles_<locale>` | Registra los Markdown del idioma |
+| Contenido | `content/<locale>/articles/<slug>.md` | Frontmatter y cuerpo editorial |
+| Endpoint | `server/api/pages/articles/[slug].get.ts` | Devuelve un artículo por slug y locale |
+
+- **La vista tampoco consulta directamente la colección de artículos.** Consume el endpoint mediante `useArticles()`.
+- `rawbody` permite que infraestructura recupere el Markdown original. El BFF lo expone como `content`; no filtra tipos internos de Nuxt Content.
+- El repositorio busca `content/<locale>/articles/<slug>.md` mediante su `stem`.
+- El contrato editorial, sus categorías y campos viven en `docs/references/content/articles.md`.

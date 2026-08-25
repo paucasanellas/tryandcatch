@@ -32,11 +32,12 @@ import type { ButtonProps } from '@nuxt/ui'
 const props = defineProps<HomeHero>()
 
 const { public: { version, repository } } = useRuntimeConfig()
+const localePath = useLocalePath()
 
 const heroLinks = computed<ButtonProps[]>(() => [
   {
     label: props.links.articles.label,
-    to: '/articles',
+    to: localePath('articles'),
   },
   {
     label: props.links.repository.label,
