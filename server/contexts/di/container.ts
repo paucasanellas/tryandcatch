@@ -6,6 +6,7 @@ import { ContentPageRepository } from '~~/server/contexts/pages/infrastructure/C
 import { GithubReleaseRepository } from '~~/server/contexts/releases/infrastructure/GithubReleaseRepository'
 
 import { ArticleFinder } from '~~/server/contexts/articles/application/find/ArticleFinder'
+import { ArticleSearcher } from '~~/server/contexts/articles/application/search/ArticleSearcher'
 import { PageFinder } from '~~/server/contexts/pages/application/find/PageFinder'
 import { ReleaseSearcher } from '~~/server/contexts/releases/application/search/ReleaseSearcher'
 
@@ -20,11 +21,13 @@ export function createServerContainer(config: RuntimeConfig) {
 
   // Use cases
   const articleFinder = new ArticleFinder(articleRepository)
+  const articleSearcher = new ArticleSearcher(articleRepository)
   const pageFinder = new PageFinder(pageRepository)
   const releaseSearcher = new ReleaseSearcher(releaseRepository)
 
   return {
     articleFinder,
+    articleSearcher,
     pageFinder,
     releaseSearcher,
   }

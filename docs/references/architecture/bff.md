@@ -31,6 +31,7 @@ Los endpoints ligados a la interfaz reflejan la estructura que los consume.
 |---|---|---|
 | Página `/` | `server/api/pages/home/index.get.ts` | `GET /api/pages/home?locale=<code>` |
 | Página `/releases` | `server/api/pages/releases/index.get.ts` | `GET /api/pages/releases?locale=<code>` |
+| Página `/articulos` | `server/api/pages/articles/index.get.ts` | `GET /api/pages/articles?locale=<code>` |
 | Página `/articulos/[slug]` | `server/api/pages/articles/[slug].get.ts` | `GET /api/pages/articles/<slug>?locale=<code>` |
 
 Los casos que no pertenecen a una página ni al arranque de la aplicación usan su propio contexto. Un formulario de contacto puede exponer `server/api/contact/index.post.ts` y delegar en `server/contexts/contact/`.
@@ -59,7 +60,7 @@ Flujo de dependencias:
 ```text
 container plugin
   -> createServerContainer
-    -> ArticleFinder
+    -> ArticleFinder / ArticleSearcher
       -> ArticleRepository
         <- ContentArticleRepository
           -> queryCollection
@@ -157,7 +158,9 @@ export type GetHomeResponse = {
 
 ## Artículos
 
-`ArticleFinder` recupera un artículo concreto mediante `{ slug, locale }`. `ContentArticleRepository` construye `articles_<locale>`, busca el `stem` `<locale>/articles/<slug>` y convierte `rawbody` en `content`. El contrato privado de Nuxt Content vive en `server/contexts/articles/infrastructure/ContentArticle.ts`.
+`ArticleFinder` recupera un artículo concreto mediante `{ slug, locale }`. `ArticleSearcher` recupera los resúmenes del locale. `ContentArticleRepository` construye `articles_<locale>`: para el detalle busca el `stem` `<locale>/articles/<slug>` y convierte `rawbody` en `content`; para el listado selecciona solo el frontmatter y `stem`, deriva el slug y ordena por fecha descendente. El contrato privado de Nuxt Content vive en `server/contexts/articles/infrastructure/ContentArticle.ts`.
+
+El contenido editorial del hub usa la colección `articles_page_<locale>` para no colisionar con los Markdown `articles_<locale>`. El endpoint fija `articles_page` como nombre interno al delegar en `PageFinder`; el frontend no conoce ninguna de las dos colecciones.
 
 El contrato público no expone `body`, `rawbody` ni tipos de Nuxt Content:
 
@@ -179,7 +182,18 @@ export type GetArticleResponse = {
 }
 ```
 
+El listado expone un contrato separado y no descarga el cuerpo Markdown:
+
+```ts
+export type GetArticlesResponse = {
+  page: PageResponse<ArticlesContent>
+  articles: ArticleSummary[]
+}
+```
+
 - `Article` valida los primitivos antes de salir de infraestructura.
+- `ArticleSummary` valida slug y metadatos antes de salir de infraestructura.
+- `ArticleSearcher` incluye todo Markdown desplegado; el contrato editorial no define drafts ni filtrado por fecha.
 - `ArticleFinder` convierte un resultado nulo en `ArticleNotFoundError`.
 - `InvalidArticleError` representa contenido que no se puede consultar o procesar.
 - El endpoint valida slug y locale antes de llamar al caso de uso.
@@ -652,7 +666,7 @@ useSeoMeta({
 
 `ReleasesListVersions` y `ReleasesListStatus` son dos secciones independientes basadas en `UPageSection`. La página solo monta `ReleasesListVersions` cuando la carga ha terminado correctamente y la colección contiene releases. `ReleasesListStatus` coordina loading, error y vacío mediante los componentes de `app/components/releases/list/status/`. El estado de error llama directamente a `refreshNuxtData()` para reintentar la carga sin propagar eventos entre componentes.
 
-Los componentes de presentación reciben `Release[]` y usan `publishedAt`. No mantienen un segundo modelo con campos renombrados para la misma respuesta. Home sigue el mismo flujo mediante `useHome()` y `GET /api/pages/home`. El detalle de artículo usa `useArticles()` y `GET /api/pages/articles/<slug>`. Ninguna página usa `queryCollection` ni conoce nombres de colección.
+Los componentes de presentación reciben `Release[]` y usan `publishedAt`. No mantienen un segundo modelo con campos renombrados para la misma respuesta. Home sigue el mismo flujo mediante `useHome()` y `GET /api/pages/home`. El listado y el detalle de artículos usan `useArticles()` y sus respectivos endpoints. Ninguna página usa `queryCollection` ni conoce nombres de colección.
 
 ## Errores
 

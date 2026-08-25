@@ -1,0 +1,7 @@
+title: Artículos
+description: Decisiones, errores y aprendizajes de Try and Catch contados desde dentro de una aplicación real.
+content:
+  hero:
+    headline: '~/articulos'
+    title: El camino, contado desde dentro
+    description: "Cada artículo abre una parte de cómo me estoy construyendo: lo que intenté, las decisiones que tomé, las que descarté y los errores que capturé por el camino."

@@ -1,8 +1,18 @@
 <template>
   <UPage>
     <ArticlesListHero
-      :title="t('articles.title')"
-      :description="t('articles.wip')"
+      v-if="data?.page"
+      v-bind="data.page.content.hero"
+    />
+
+    <ArticlesListStatus
+      v-if="status !== 'success' || !data?.articles.length"
+      :status
+    />
+
+    <ArticlesListItems
+      v-else
+      :articles="articles"
     />
   </UPage>
 </template>
@@ -16,9 +26,42 @@ definePageMeta({
   },
 })
 
-const { t } = useI18n()
+const { locale } = useI18n()
+const localePath = useLocalePath()
+const requestUrl = useRequestURL()
+const { getArticles } = useArticles()
+
+const { data, status } = await useAsyncData(() => `page-articles-${locale.value}`, () => {
+  return getArticles(locale.value)
+}, {
+  watch: [locale],
+})
+
+const articles = computed(() => data.value?.articles.map(article => ({
+  ...article,
+  to: localePath({
+    name: 'articles-slug',
+    params: {
+      slug: article.slug,
+    },
+  }),
+})) ?? [])
 
 useSeoMeta({
-  title: () => t('articles.title'),
+  title: () => data.value?.page.title,
+  description: () => data.value?.page.description,
+})
+
+useHead(() => {
+  const canonical = new URL(localePath('articles'), requestUrl.origin).toString()
+
+  return {
+    link: [
+      {
+        rel: 'canonical',
+        href: canonical,
+      },
+    ],
+  }
 })
 </script>

@@ -8,3 +8,7 @@ export type ContentArticle = {
   image: ArticleImage
   rawbody: string
 }
+
+export type ContentArticleSummary = Omit<ContentArticle, 'rawbody'> & {
+  stem: string
+}

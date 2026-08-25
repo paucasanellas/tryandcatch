@@ -42,9 +42,13 @@ Los artículos son documentos Markdown y no siguen el contrato `{ title, descrip
 | Schema zod | `shared/schemas/articles.ts` | Valida el frontmatter y habilita `rawbody` |
 | Colección | `content.config.ts`, clave `articles_<locale>` | Registra los Markdown del idioma |
 | Contenido | `content/<locale>/articles/<slug>.md` | Frontmatter y cuerpo editorial |
+| Endpoint de listado | `server/api/pages/articles/index.get.ts` | Devuelve el contenido editorial y los resúmenes del locale |
 | Endpoint | `server/api/pages/articles/[slug].get.ts` | Devuelve un artículo por slug y locale |
 
 - **La vista tampoco consulta directamente la colección de artículos.** Consume el endpoint mediante `useArticles()`.
+- El copy de `/articulos` vive en `content/<locale>/pages/articles.yml`. Su colección se llama `articles_page_<locale>` para no colisionar con los documentos `articles_<locale>`.
+- El listado selecciona solo frontmatter y `stem`, deriva el slug y ordena por `publishedAt` descendente. No recupera `rawbody`.
+- No existe estado de borrador ni filtrado por fecha: todo Markdown desplegado pertenece al listado.
 - `rawbody` permite que infraestructura recupere el Markdown original. El BFF lo expone como `content`; no filtra tipos internos de Nuxt Content.
 - El repositorio busca `content/<locale>/articles/<slug>.md` mediante su `stem`.
 - El contrato editorial, sus categorías y campos viven en `docs/references/content/articles.md`.
