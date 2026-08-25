@@ -18,11 +18,7 @@ const currentLocale = computed(() => locale.value === 'es' ? es : en)
 
 useHead(() => ({
   htmlAttrs: localeHead.value.htmlAttrs,
-  link: [
-    ...(localeHead.value.link ?? []),
-    { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico', sizes: '16x16 32x32' },
-  ],
+  link: localeHead.value.link,
   meta: localeHead.value.meta,
 }))
 </script>

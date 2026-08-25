@@ -15,6 +15,13 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico?v=2' },
+      ],
+    },
+  },
   css: [
     '@/assets/css/main.css',
   ],
