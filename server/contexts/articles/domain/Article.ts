@@ -22,7 +22,7 @@ export class Article {
     readonly description: string,
     readonly publishedAt: string,
     readonly readingTime: number,
-    readonly author: 'Pau Casanellas',
+    readonly author: string,
     readonly categories: ArticleCategory[],
     readonly image: ArticleImage,
     readonly content: string,
@@ -36,7 +36,7 @@ export class Article {
       article.description,
       article.publishedAt,
       article.readingTime,
-      article.author as 'Pau Casanellas',
+      article.author,
       article.categories as ArticleCategory[],
       article.image,
       article.content,
@@ -60,8 +60,8 @@ export class Article {
       throw new InvalidArticleError('Article reading time must be a positive integer')
     }
 
-    if (article.author !== 'Pau Casanellas') {
-      throw new InvalidArticleError('Article author must be Pau Casanellas')
+    if (!article.author?.trim()) {
+      throw new InvalidArticleError('Article author must be a non-empty string')
     }
 
     if (!Array.isArray(article.categories) || !article.categories.length) {

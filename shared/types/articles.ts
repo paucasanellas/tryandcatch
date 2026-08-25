@@ -12,7 +12,7 @@ export type Article = {
   description: string
   publishedAt: string
   readingTime: number
-  author: 'Pau Casanellas'
+  author: string
   categories: ArticleCategory[]
   image: ArticleImage
   content: string
