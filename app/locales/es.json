@@ -6,6 +6,8 @@
   "actions.openRepository": "Abrir el repositorio en GitHub",
   "errors.pageTitle": "Error {statusCode}",
   "errors.path": "~/errors/{statusCode}",
+  "errors.badge": "Excepción capturada",
+  "errors.atom": "Átomo cuántico del error {statusCode}",
   "errors.404.title": "Esta ruta no existe",
   "errors.404.description": "He intentado encontrar esta página, pero no hay nada que capturar aquí.",
   "errors.500.title": "Algo se ha roto por dentro",
