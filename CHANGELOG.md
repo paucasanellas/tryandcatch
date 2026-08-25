@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/paucasanellas/tryandcatch/compare/v0.4.0...v0.5.0) (2026-08-25)
+
+
+### 🚀 Features
+
+* **articles:** add first article ([#77](https://github.com/paucasanellas/tryandcatch/issues/77)) ([4ebe99d](https://github.com/paucasanellas/tryandcatch/commit/4ebe99daf8d3c69e17c19c0869ff2336923cf47a))
+
 ## [0.4.0](https://github.com/paucasanellas/tryandcatch/compare/v0.3.0...v0.4.0) (2026-08-25)
 
 
