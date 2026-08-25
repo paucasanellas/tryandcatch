@@ -12,7 +12,7 @@
 
     <ArticlesListItems
       v-else
-      :articles="articles"
+      :articles="data.articles"
     />
   </UPage>
 </template>
@@ -36,16 +36,6 @@ const { data, status } = await useAsyncData(() => `page-articles-${locale.value}
 }, {
   watch: [locale],
 })
-
-const articles = computed(() => data.value?.articles.map(article => ({
-  ...article,
-  to: localePath({
-    name: 'articles-slug',
-    params: {
-      slug: article.slug,
-    },
-  }),
-})) ?? [])
 
 useSeoMeta({
   title: () => data.value?.page.title,

@@ -4,7 +4,7 @@
     :description="article.description"
     :date="article.publishedAt"
     :image="article.image"
-    :to="article.to"
+    :to
     orientation="horizontal"
     variant="ghost"
     :ui="articleUi"
@@ -24,7 +24,7 @@
     <template #authors>
       <div class="flex min-w-0 flex-col gap-3 text-sm text-muted">
         <span class="truncate font-mono text-xs text-toned">
-          {{ `~${article.to}` }}
+          {{ `~${to}` }}
         </span>
 
         <div class="flex flex-wrap gap-x-4 gap-y-2">
@@ -51,10 +51,18 @@
 
 <script setup lang="ts">
 const { article } = defineProps<{
-  article: ArticleSummary & { to: string }
+  article: ArticleSummary
 }>()
 
 const { t } = useI18n()
+const localePath = useLocalePath()
+
+const to = computed(() => localePath({
+  name: 'articles-slug',
+  params: {
+    slug: article.slug,
+  },
+}))
 
 const articleUi = {
   root: 'lg:gap-10',

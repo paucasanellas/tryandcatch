@@ -15,6 +15,6 @@
 
 <script setup lang="ts">
 defineProps<{
-  articles: Array<ArticleSummary & { to: string }>
+  articles: ArticleSummary[]
 }>()
 </script>
