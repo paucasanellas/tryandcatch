@@ -15,6 +15,15 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico?v=2' },
+      ],
+    },
+    pageTransition: { name: 'page', mode: 'out-in' },
+    layoutTransition: { name: 'layout', mode: 'out-in' },
+  },
   css: [
     '@/assets/css/main.css',
   ],

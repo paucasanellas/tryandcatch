@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0](https://github.com/paucasanellas/tryandcatch/compare/v0.6.0...v0.7.0) (2026-08-25)
+
+
+### 🚀 Features
+
+* **navigation:** add page and layout transitions ([#85](https://github.com/paucasanellas/tryandcatch/issues/85)) ([0edf34d](https://github.com/paucasanellas/tryandcatch/commit/0edf34d1ed1551087d1bec61475fb538d5f574ae))
+* **theme:** animate color mode changes ([#83](https://github.com/paucasanellas/tryandcatch/issues/83)) ([13f7bbb](https://github.com/paucasanellas/tryandcatch/commit/13f7bbbca0f8f3b48a9dd097b822d8534740e7e5))
+
 ## [0.6.0](https://github.com/paucasanellas/tryandcatch/compare/v0.5.0...v0.6.0) (2026-08-25)
 
 
