@@ -8,6 +8,14 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  i18n: {
+    paths: {
+      es: '/articulos',
+    },
+  },
+})
+
 const { t } = useI18n()
 
 useSeoMeta({

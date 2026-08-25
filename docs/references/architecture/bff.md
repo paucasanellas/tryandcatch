@@ -17,54 +17,10 @@ El BFF no es una API genérica para terceros. Sus endpoints responden a las nece
 
 ## Estructura
 
-```text
-shared/
-└── types/
-    ├── nitro.d.ts
-    └── pages.ts
-server/
-├── api/
-│   └── pages/
-│       ├── home/
-│       │   └── index.get.ts
-│       └── releases/
-│           └── index.get.ts
-├── contexts/
-│   ├── di/
-│   │   └── container.ts
-│   ├── pages/
-│   │   ├── application/find/PageFinder.ts
-│   │   ├── domain/
-│   │   │   ├── Page.ts
-│   │   │   ├── PageCriteria.ts
-│   │   │   ├── PageErrors.ts
-│   │   │   └── PageRepository.ts
-│   │   └── infrastructure/ContentPageRepository.ts
-│   ├── releases/
-│   │   ├── application/
-│   │   │   └── search/
-│   │   │       └── ReleaseSearcher.ts
-│   │   ├── domain/
-│   │   │   ├── Release.ts
-│   │   │   ├── ReleaseErrors.ts
-│   │   │   └── ReleaseRepository.ts
-│   │   └── infrastructure/
-│   │       ├── GithubRelease.ts
-│   │       ├── GithubReleaseMapper.ts
-│   │       └── GithubReleaseRepository.ts
-│   └── shared/
-│       ├── domain/
-│       │   ├── http/
-│       │   │   └── HttpClient.ts
-│       │   └── DomainErrors.ts
-│       └── infrastructure/
-│           └── http/
-│               └── NitroFetchHttpClient.ts
-├── plugins/
-│   └── container.ts
-└── utils/
-    ├── container.ts
-    └── error.ts
+**El código es la fuente de verdad de la estructura.** Para consultarla:
+
+```sh
+find server shared/types -type f | sort
 ```
 
 ### Endpoints
@@ -75,6 +31,7 @@ Los endpoints ligados a la interfaz reflejan la estructura que los consume.
 |---|---|---|
 | Página `/` | `server/api/pages/home/index.get.ts` | `GET /api/pages/home?locale=<code>` |
 | Página `/releases` | `server/api/pages/releases/index.get.ts` | `GET /api/pages/releases?locale=<code>` |
+| Página `/articulos/[slug]` | `server/api/pages/articles/[slug].get.ts` | `GET /api/pages/articles/<slug>?locale=<code>` |
 
 Los casos que no pertenecen a una página ni al arranque de la aplicación usan su propio contexto. Un formulario de contacto puede exponer `server/api/contact/index.post.ts` y delegar en `server/contexts/contact/`.
 
@@ -102,6 +59,10 @@ Flujo de dependencias:
 ```text
 container plugin
   -> createServerContainer
+    -> ArticleFinder
+      -> ArticleRepository
+        <- ContentArticleRepository
+          -> queryCollection
     -> PageFinder
       -> PageRepository
         <- ContentPageRepository
@@ -176,26 +137,7 @@ Los contratos compartidos entre servidor y aplicación viven en `shared/types/`.
 
 `PageFinder` recupera cualquier página mediante `{ page, locale }`. Dominio representa su contenido como `unknown`; el finder conserva esa frontera y devuelve el genérico solicitado por el endpoint.
 
-`ContentPageRepository` construye la colección `<page>_<locale>` y consulta únicamente los campos públicos:
-
-```ts
-import { useEvent } from 'nitropack/runtime'
-
-export class ContentPageRepository implements PageRepository {
-  async find(criteria: FindPageCriteria) {
-    try {
-      const collection = `${criteria.page}_${criteria.locale}` as keyof Collections
-
-      return await queryCollection(useEvent(), collection)
-        .select('title', 'description', 'content')
-        .first() as Page | null
-    }
-    catch {
-      throw new InvalidPageError()
-    }
-  }
-}
-```
+`ContentPageRepository` construye la colección `<page>_<locale>`, la tipa explícitamente como `'home_es'` y consulta únicamente `title`, `description` y `content`. El literal evita un tipo calculado dependiente del resto de colecciones.
 
 `experimental.asyncContext` mantiene el evento de la petición disponible después de atravesar endpoint, caso de uso y repositorio. El contenedor conserva una única instancia stateless del adaptador.
 
@@ -212,6 +154,36 @@ export type GetHomeResponse = {
   page: PageResponse<HomeContent>
 }
 ```
+
+## Artículos
+
+`ArticleFinder` recupera un artículo concreto mediante `{ slug, locale }`. `ContentArticleRepository` construye `articles_<locale>`, busca el `stem` `<locale>/articles/<slug>` y convierte `rawbody` en `content`. El contrato privado de Nuxt Content vive en `server/contexts/articles/infrastructure/ContentArticle.ts`.
+
+El contrato público no expone `body`, `rawbody` ni tipos de Nuxt Content:
+
+```ts
+export type GetArticleResponse = {
+  article: {
+    title: string
+    description: string
+    publishedAt: string
+    readingTime: number
+    author: 'Pau Casanellas'
+    categories: Array<'producto' | 'frontend'>
+    image: {
+      src: string
+      alt: string
+    }
+    content: string
+  }
+}
+```
+
+- `Article` valida los primitivos antes de salir de infraestructura.
+- `ArticleFinder` convierte un resultado nulo en `ArticleNotFoundError`.
+- `InvalidArticleError` representa contenido que no se puede consultar o procesar.
+- El endpoint valida slug y locale antes de llamar al caso de uso.
+- La página entrega `content` a MDC para renderizar el Markdown durante SSR.
 
 ## Ejemplo: releases
 
@@ -524,34 +496,7 @@ El caso de uso no sabe si los datos proceden de GitHub, ungh, una base de datos 
 
 ### Contenedor de dependencias
 
-`server/contexts/di/container.ts` construye el grafo completo. Solo expone casos de uso.
-
-```ts
-import type { RuntimeConfig } from 'nuxt/schema'
-import { PageFinder } from '~~/server/contexts/pages/application/find/PageFinder'
-import { ContentPageRepository } from '~~/server/contexts/pages/infrastructure/ContentPageRepository'
-import { ReleaseSearcher } from '~~/server/contexts/releases/application/search/ReleaseSearcher'
-import { GithubReleaseRepository } from '~~/server/contexts/releases/infrastructure/GithubReleaseRepository'
-import { NitroFetchHttpClient } from '~~/server/contexts/shared/infrastructure/http/NitroFetchHttpClient'
-
-export function createServerContainer(config: RuntimeConfig) {
-  const httpClient = new NitroFetchHttpClient()
-  const pageRepository = new ContentPageRepository()
-  const releaseRepository = new GithubReleaseRepository(
-    httpClient,
-    config.public.repository.url,
-  )
-  const releaseSearcher = new ReleaseSearcher(releaseRepository)
-  const pageFinder = new PageFinder(pageRepository)
-
-  return {
-    pageFinder,
-    releaseSearcher,
-  }
-}
-
-export type ServerContainer = ReturnType<typeof createServerContainer>
-```
+`server/contexts/di/container.ts` es la fuente de verdad del grafo de dependencias. Construye adaptadores y casos de uso, pero solo expone los casos de uso.
 
 - Las dependencias internas no forman parte del objeto devuelto.
 - `ServerContainer` rompe el ciclo de inferencia entre el contenedor, Nitro y los endpoints.
@@ -707,7 +652,7 @@ useSeoMeta({
 
 `ReleasesListVersions` y `ReleasesListStatus` son dos secciones independientes basadas en `UPageSection`. La página solo monta `ReleasesListVersions` cuando la carga ha terminado correctamente y la colección contiene releases. `ReleasesListStatus` coordina loading, error y vacío mediante los componentes de `app/components/releases/list/status/`. El estado de error llama directamente a `refreshNuxtData()` para reintentar la carga sin propagar eventos entre componentes.
 
-Los componentes de presentación reciben `Release[]` y usan `publishedAt`. No mantienen un segundo modelo con campos renombrados para la misma respuesta. Home sigue el mismo flujo mediante `useHome()` y `GET /api/pages/home`; ninguna página usa `queryCollection` ni conoce nombres de colección.
+Los componentes de presentación reciben `Release[]` y usan `publishedAt`. No mantienen un segundo modelo con campos renombrados para la misma respuesta. Home sigue el mismo flujo mediante `useHome()` y `GET /api/pages/home`. El detalle de artículo usa `useArticles()` y `GET /api/pages/articles/<slug>`. Ninguna página usa `queryCollection` ni conoce nombres de colección.
 
 ## Errores
 
@@ -717,7 +662,9 @@ Los componentes de presentación reciben `Release[]` y usan `publishedAt`. No ma
 |---|---|
 | Falta `locale`, está vacío o aparece varias veces | `400` antes de ejecutar casos de uso |
 | La colección existe pero no contiene la página | `404` con `data.code: PageNotFoundError` |
+| El slug no existe en la colección del locale | `404` con `data.code: ArticleNotFoundError` |
 | Nuxt Content no puede consultar la colección | `422` con `data.code: InvalidPageError` |
+| El artículo no se puede consultar o validar | `422` con `data.code: InvalidArticleError` |
 | ungh no responde | `422` con `data.code: InvalidReleaseError` |
 | ungh responde con error HTTP | `422` con el mismo código |
 | El envelope no contiene `releases` como array | `422` con el mismo código |
@@ -741,7 +688,7 @@ La caché pertenece al endpoint porque es una decisión de transporte.
 }
 ```
 
-- Las respuestas válidas de Home y Releases se consideran frescas durante 15 minutos.
+- Las respuestas válidas de Home, Releases y el detalle de artículo se consideran frescas durante 15 minutos.
 - SWR permite servir la versión anterior mientras Nitro la revalida.
 - Los casos de uso y repositorios no importan utilidades de caché de Nitro.
 - El almacenamiento por defecto sirve como primera implementación.
