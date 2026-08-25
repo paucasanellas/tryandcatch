@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center gap-1">
-    <UColorModeButton :aria-label="t('actions.changeTheme')" />
+    <AppHeaderActionsColorModeButton />
 
     <UButton
       :to="repository.url"
