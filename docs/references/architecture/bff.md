@@ -168,7 +168,7 @@ export type GetArticleResponse = {
     description: string
     publishedAt: string
     readingTime: number
-    author: 'Pau Casanellas'
+    author: string
     categories: Array<'producto' | 'frontend'>
     image: {
       src: string

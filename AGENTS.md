@@ -16,7 +16,7 @@
 | Documento | Cuándo consultarlo |
 |---|---|
 | `docs/references/documentation.md` | Al escribir o revisar documentación en `docs/` o el propio `AGENTS.md` |
-| `docs/references/content/articles.md` | Al definir, escribir o modificar artículos, sus metadatos, categorías o rutas |
+| `docs/references/content/articles.md` | Al investigar, definir, escribir, revisar o modificar artículos, sus portadas, metadatos, categorías o rutas |
 | `docs/references/architecture/bff.md` | Al integrar servicios externos o modificar `server/`. Todas las llamadas a servicios externos pasan primero por el BFF |
 | `docs/references/nuxt/i18n.md` | Al escribir textos visibles, tocar traducciones o añadir un idioma |
 | `docs/references/nuxt/app-config.md` | Al tocar `app.config.ts` o añadir configuración en `app/config/` |

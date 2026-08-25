@@ -13,6 +13,21 @@ Qué es Try and Catch y con qué criterio se juzga cualquier decisión sobre ell
 
 «Try and Catch»: intentar cosas — si aciertas, adelante; si fallas, capturas el error, aprendes, lo cuentas y evitas que se repita. Juego de palabras con el try/catch de programación.
 
+## Personajes
+
+**Try y Catch son dos personajes que encarnan juntos una única identidad: Try and Catch.** No son dos narradores ni dos productos distintos.
+
+| Personaje | Representación | Faceta |
+|---|---|---|
+| Try | Un quokka | Curiosidad, intento, movimiento y descubrimiento |
+| Catch | Un escarabajo pequeño | Atención, captura del error, reflexión y aprendizaje |
+
+- Funcionan como dos facetas complementarias de una misma entidad, con una dualidad inspirada en Jekyll y Hyde, pero sin oposición moral entre una parte buena y otra mala.
+- Su representación conserva la anatomía reconocible de cada animal y permite movimientos y gestos expresivos.
+- Catch es claramente más pequeño que Try. Su silueta es compacta y su actitud es curiosa y amable, sin convertirlo en una mascota infantil ni humanizar su rostro.
+- No llevan ropa ni se humanizan hasta perder su naturaleza animal.
+- Mantienen colores animales naturales. El fucsia y el lima aparecen en su entorno y en los elementos narrativos, no sustituyen el color propio de sus cuerpos.
+
 ## Problema y público
 
 - Los tutoriales y blogs muestran cómo hacer las cosas, pero **nunca desde dentro de una aplicación real** — Try and Catch sí, y contado por la propia aplicación.

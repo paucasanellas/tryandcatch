@@ -15,7 +15,7 @@ export const article = z.object({
   description: z.string().trim().min(1),
   publishedAt: z.iso.date(),
   readingTime: z.number().int().positive(),
-  author: z.literal('Pau Casanellas'),
+  author: z.string().trim().min(1),
   categories: z.array(z.enum(ARTICLE_CATEGORIES))
     .min(1)
     .refine(categories => new Set(categories).size === categories.length),
