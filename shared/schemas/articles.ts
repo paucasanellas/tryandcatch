@@ -10,6 +10,22 @@ export const getArticleQuery = z.object({
   locale: z.string().trim().min(1),
 })
 
+export const getArticlesQuery = z.object({
+  locale: z.string().trim().min(1),
+})
+
+export const articlesPage = z.object({
+  title: z.string().trim().min(1),
+  description: z.string().trim().min(1),
+  content: z.object({
+    hero: z.object({
+      headline: z.string().trim().min(1),
+      title: z.string().trim().min(1),
+      description: z.string().trim().min(1),
+    }),
+  }),
+})
+
 export const article = z.object({
   title: z.string().trim().min(1),
   description: z.string().trim().min(1),

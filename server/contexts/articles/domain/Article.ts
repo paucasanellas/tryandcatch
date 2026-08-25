@@ -3,6 +3,7 @@ import { ARTICLE_CATEGORIES } from '~~/shared/types/articles'
 import { InvalidArticleError } from '~~/server/contexts/articles/domain/ArticleErrors'
 
 export type ArticlePrimitives = {
+  slug: string
   title: string
   description: string
   publishedAt: string
@@ -18,6 +19,7 @@ export type ArticlePrimitives = {
 
 export class Article {
   private constructor(
+    readonly slug: string,
     readonly title: string,
     readonly description: string,
     readonly publishedAt: string,
@@ -32,6 +34,7 @@ export class Article {
     this.ensureArticleIsValid(article)
 
     return new Article(
+      article.slug,
       article.title,
       article.description,
       article.publishedAt,
@@ -44,6 +47,10 @@ export class Article {
   }
 
   private static ensureArticleIsValid(article: ArticlePrimitives) {
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(article?.slug)) {
+      throw new InvalidArticleError('Article slug must be valid')
+    }
+
     if (!article?.title?.trim()) {
       throw new InvalidArticleError('Article title must be a non-empty string')
     }

@@ -1,5 +1,6 @@
 <template>
   <UPageHero
+    :headline="headline"
     :title="title"
     :description="description"
   />
@@ -7,6 +8,7 @@
 
 <script setup lang="ts">
 defineProps<{
+  headline: string
   title: string
   description: string
 }>()

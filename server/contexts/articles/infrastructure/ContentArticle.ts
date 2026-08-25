@@ -1,4 +1,5 @@
 export type ContentArticle = {
+  stem: string
   title: string
   description: string
   publishedAt: string
