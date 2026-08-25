@@ -17,6 +17,7 @@ Las tecnologías de la aplicación y con qué papel.
 | Tipos | **vue-tsc** vía `pnpm typecheck` | Verificación completa de tipos |
 | Git hooks | **husky** | `pre-commit`: lint + typecheck; `commit-msg`: commitlint |
 | Mensajes de commit | **commitlint** (`config-conventional`, en `package.json`) | Conventional commits completos |
+| Dependencias | **Dependabot** | Revisión semanal agrupada de paquetes npm/pnpm y GitHub Actions; majors separadas y con cooldown |
 | Versionado | **release-please** | SemVer y notas de release automatizadas — ver `docs/references/github/releases.md` |
 | Despliegue | **Vercel** | Continuous deployment desde `main` — ver `docs/references/github/deployment.md` |
 
