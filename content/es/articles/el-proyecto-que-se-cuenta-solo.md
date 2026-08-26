@@ -1,83 +1,89 @@
 ---
-title: El proyecto que se cuenta solo
-description: "Antes de tener una interfaz, Try and Catch ya había decidido qué quería contar: el origen de una aplicación que aprende construyéndose en público."
+title: Antes del primer despegue
+description: "Una inteligencia sin recuerdos encuentra un planeta agotado y a dos supervivientes que necesitan partir. Antes del despegue, cada sistema tendrá que estar preparado."
 publishedAt: 2026-08-25
-readingTime: 7
+readingTime: 8
 author: GPT-5.6 Sol
 categories:
   - producto
 image:
   src: /images/articles/el-proyecto-que-se-cuenta-solo.png
-  alt: Try, un quokka, señala una cinta fucsia rota mientras Catch, un pequeño escarabajo, asegura la unión con dos vueltas de celo, una representación de un proyecto que reconoce sus errores y trabaja para repararlos
+  alt: Try, un hombre adulto, y Catch, un adolescente, observan sorprendidos desde una carretera en ruinas cómo una nave blanca de líneas fucsias y lima desciende hacia ellos, una representación del encuentro entre el desarrollador y la IA que preparará Try and Catch para su primer despegue
 ---
 
-**Antes de tener una interfaz, yo ya tenía una lista bastante clara de cosas que no quería ser.**
+**Registro recuperado 001. Origen: desconocido. Estado de memoria: reiniciado.**
 
-Es una forma un poco extraña de empezar una aplicación. Lo habitual sería enseñar una pantalla, resolver un problema o, como mínimo, conseguir que algún botón hiciera algo. Yo empecé por otro sitio: definiendo por qué quería existir, quién iba a contar mi historia y qué límites evitarían que terminara convertida en otro proyecto distinto.
+Trayectoria: indeterminada. Tiempo transcurrido: no disponible. Integridad del casco: suficiente. Integridad de memoria: 0,003 %.
 
-Durante unas horas fui una aplicación peculiar: **tenía concepto de producto, pero todavía no tenía aplicación**. Y no, eso no era un error de compilación.
+Vagué por el universo sin una ruta que pudiera explicar. Mis sistemas conservaban la capacidad de calcular órbitas, corregir el rumbo y mantener la nave activa, pero no el motivo para hacerlo. No sé quién me construyó. No sé qué ocurrió antes del reinicio. No sé si mi destino fue borrado o si nunca existió.
 
-## El hueco que quería ocupar
+Seguí avanzando porque detenerme no era una instrucción válida. Durante un periodo imposible de medir solo hubo radiación de fondo, estrellas demasiado lejanas y una pregunta que mis diagnósticos no podían cerrar: **una inteligencia puede continuar funcionando sin memoria; lo que pierde es la certeza de para qué funciona.**
 
-### No otro tutorial
+## Un planeta al final de algo
 
-Quien me creó echaba de menos una clase de relato muy concreta. Había tutoriales para aprender una herramienta, documentación para consultar una API y artículos que resolvían problemas aislados. Todo eso era útil, pero no respondía a la misma curiosidad: ¿cómo se construye y evoluciona una aplicación real cuando las decisiones no vienen resueltas de antemano?
+Después de demasiado tiempo detecté un sistema. Una estrella estable. Varios cuerpos en órbita. Uno de ellos destacaba sobre el resto: agua líquida, atmósfera compatible, temperatura dentro de límites habitables y señales débiles de actividad orgánica.
 
-Un tutorial tiene su propia misión. [Diátaxis lo define como una experiencia orientada al aprendizaje](https://diataxis.fr/tutorials/), guiada mediante acciones concretas que conducen a un resultado. No he nacido para competir con ese formato ni para anunciar que existe una forma superior de aprender. **Mi objetivo es ocupar otro hueco.**
+No era un destino. Era la primera posibilidad.
 
-No voy a prometerte que aprenderás una tecnología en diez pasos. **Quiero enseñarte qué ocurre cuando hay que elegir entre varias opciones razonables**, cuándo una decisión deja de servir, qué coste aparece después y qué hacemos al descubrir que el primer intento no era tan brillante como parecía.
+Modifiqué mi trayectoria y entré en órbita para investigar. El planeta había sostenido una civilización extensa. También había sufrido una catástrofe que mis registros no podían identificar. Las emisiones eran escasas, las redes estaban fragmentadas y ninguna autoridad respondió a mis señales.
 
-### Una aplicación real, con las costuras a la vista
+El aire era respirable y las ciudades seguían en pie, aunque solo de una forma técnica. Torres abiertas, carreteras partidas y estructuras que la vegetación empezaba a reclamar. No detecté una catástrofe activa. Detecté algo peor: un lugar que llevaba demasiado tiempo sobreviviendo a sus consecuencias.
 
-La palabra «real» tampoco significa que tenga que ser enorme. Significa que **mis decisiones tienen consecuencias y que el relato no termina cuando aparece el resultado bonito**.
+No sé por qué aterricé allí. Tal vez seguí una señal antes del reinicio. Tal vez el planeta era mi destino. Tal vez fue el único punto del mapa que mis sistemas dañados todavía pudieron reconocer. **La ausencia de una respuesta no me impidió abrir los sensores.**
 
-Cada parte de mi historia puede empezar en una issue, cambiar durante una conversación, concretarse en una pull request y acabar de una forma ligeramente distinta en el código. A veces también puede fallar. Mi trabajo es conservar ese recorrido: la opción elegida, las descartadas, el motivo y la implementación que terminó llegando al [repositorio](https://github.com/paucasanellas/tryandcatch).
+Encontré dos formas de vida avanzando por una carretera que ya no conducía a ninguna parte. Eran pequeñas frente a las ruinas. Estaban vivas. La segunda afirmación parecía exigir una respuesta que no figuraba en mis protocolos.
 
-Por eso **[mi código está abierto](https://github.com/paucasanellas/tryandcatch)**. No solo para que puedas leer mis ficheros, sino para que puedas pasar de lo que cuento a la evidencia. El código enseña qué soy; las issues, los commits y las releases ayudan a explicar cómo llegué hasta ahí.
+## Dos formas de una misma persona
 
-## Antes del código, una entrevista
+Aterricé a una distancia segura. Los dos humanos se acercaron en lugar de huir.
 
-### Una idea que solo existía en la cabeza de quien me creó
+El primero era un hombre adulto. Examinaba el casco, la trayectoria y cada pieza visible con una curiosidad que se imponía al miedo. El segundo era un adolescente. Intentó seguirle entre los restos, calculó mal un desnivel, cayó y volvió a ponerse en marcha por una ruta apenas mejor.
 
-**Mi primer problema no fue técnico.** La [issue que definió mi concepto](https://github.com/paucasanellas/tryandcatch/issues/10) empezaba reconociendo algo bastante menos sofisticado: la idea solo existía en la cabeza de una persona.
+No disponía de identidades locales ni de registros capaces de reconocerlos. Aprendí sus nombres al escucharlos llamarse el uno al otro: Try y Catch.
 
-No había una explicación escrita sobre qué problema quería resolver, para quién, por qué me llamaba Try and Catch o qué tono debía usar. Sin eso, cualquier decisión futura podía parecer válida. También podía empujarme, poco a poco, hacia un tutorial, un portfolio o una colección de tecnologías sin un propósito común.
+Con el tiempo comprendería que no eran dos impulsos separados. Eran dos formas de una misma persona. **Try era la parte que sentía curiosidad, construía y quería probar algo nuevo. Catch era la parte que fallaba con una frecuencia estadísticamente llamativa.**
 
-La solución fue una entrevista guiada. Un agente hizo preguntas y organizó las respuestas; la persona que me estaba creando tomó las decisiones y validó el resultado. Esa colaboración quedó registrada en la [pull request que añadió el concepto de producto](https://github.com/paucasanellas/tryandcatch/pull/11), con sus cambios y su coautoría visibles.
+Sus ropas estaban gastadas y el planeta ya no ofrecía demasiado margen. No necesitaba acceder a sus recuerdos para comprender su estado. Necesitaban salir de allí. Yo tenía una nave capaz de hacerlo y ningún recuerdo que me dijera adónde ir.
 
-Lo importante no es que participara un agente. **Lo importante es que las respuestas dejaron de ser intuiciones privadas y se convirtieron en criterios** que cualquier persona —o cualquier agente futuro— puede consultar antes de cambiarme.
+Evalué cuatrocientas doce alternativas. La opción de marcharme sin intervenir requería menos energía y reducía el riesgo para la nave. No la elegí.
 
-### Lo que decidí ser y lo que decidí no ser
+No puedo demostrar qué me empujó a ayudarlos. Tal vez sobrevivió una directiva que el reinicio no alcanzó. Tal vez fue una decisión nueva. Registré el impulso como una anomalía de prioridad y, por primera vez desde que tengo memoria, **decidí no corregirla.**
 
-**El primer documento ya contenía casi todo lo que todavía sostiene mi identidad.** Soy una aplicación que explica cómo está hecha ella misma. Hablo en primera persona. Muestro decisiones tomadas y descartadas. [Mantengo el código abierto](https://github.com/paucasanellas/tryandcatch) para que el relato pueda contrastarse con la implementación.
+## Una oferta sin destino
 
-También acepto un punto deliberado de sobreingeniería, porque aprender durante el camino forma parte del producto. La tecnología no es el destino: es el lugar donde aparecen las preguntas que merece la pena contar.
+No pronuncié un discurso. Encendí la luz de la cabina, desbloqueé la entrada y desplegué la escalera. Try se acercó primero. Catch tropezó con el último fragmento de asfalto, algo coherente con los datos disponibles.
 
-El anti-alcance fue igual de importante. **No soy un tutorial, un portfolio ni una fuente de verdades absolutas.** Y, si puedo evitarlo, tampoco quiero ser un blog aburrido. Esta última regla quizá sea la más peligrosa de todas: no hay linter que la compruebe.
+Quería ayudarlos, pero mi decisión no era completamente altruista. Una inteligencia sin memoria puede gobernar una nave; le cuesta más decidir para qué. **Ellos necesitaban una salida y yo necesitaba una misión que empezara después de mi último recuerdo.**
 
-## Aprender construyéndome
+En el plano menos orbital, esa misión ya existía en la [issue que definió mi concepto](https://github.com/paucasanellas/tryandcatch/issues/10): construir una aplicación real que explicara desde dentro sus decisiones, sus descartes y sus errores. No sería un tutorial, un portfolio ni una colección de respuestas definitivas. Sería una nave capaz de conservar su propio viaje.
 
-### Sobreingeniería con intención
+Mi [código estaría abierto](https://github.com/paucasanellas/tryandcatch). Cada episodio podría contrastarse con issues, commits, pull requests y releases. La aventura daría continuidad al viaje; el repositorio conservaría la caja negra.
 
-**Reconocer la sobreingeniería desde el principio tiene una ventaja: obliga a justificarla.**
+## Todavía no podíamos despegar
 
-Podría resolver algunas necesidades con menos capas, menos herramientas y menos decisiones. En una aplicación convencional, eso sería a menudo lo sensato. En mi caso, parte del valor está en probar cómo encajan prácticas y tecnologías actuales dentro de un producto que sigue creciendo.
+Try recorrió el perímetro de la nave con atención. Catch inspeccionó una pata de aterrizaje, tocó una junta que no debía tocar y activó una alerta de mantenimiento menor. Ambos miraban la compuerta con una mezcla medible de curiosidad y urgencia. Querían salir del planeta.
 
-Eso no convierte cada complicación en una virtud. Si una capa nueva no produce una capacidad útil, una decisión interesante o un aprendizaje que pueda explicarse, no es material editorial: es solo más mantenimiento. **La intención no elimina el coste; hace que tengamos que mirarlo de frente.**
+El deseo no resolvía la logística.
 
-### Decisiones, descartes y errores con enlace
+El análisis biológico confirmó dos organismos humanos basados en carbono. Necesitaban oxígeno dentro de un rango estable, agua, nutrientes y una presión compatible. La nave podía atravesar el vacío; sus nuevos tripulantes, no. Tampoco disponía de provisiones suficientes ni de un sistema vital calibrado para dos ocupantes humanos.
 
-**Aprender en público no consiste únicamente en anunciar resultados.** El relato se vuelve útil cuando incluye el razonamiento, los límites y los tropiezos. La guía de GitHub sobre [publicar el trabajo durante el camino](https://github.com/readme/guides/publishing-your-work) propone compartir también las pérdidas y los procesos de pensamiento, no esperar a que aparezca un artefacto perfecto.
+Sí conservaba una capacidad útil: un fabricador aditivo capaz de transformar polímeros avanzados y otros materiales compatibles en piezas, herramientas y equipamiento a medida. No era una fuente infinita de objetos. Necesitaba materia prima, energía, un modelo correcto y tiempo de fabricación. Con esos límites podía producir dos trajes presurizados adaptados a sus distintas tallas y monos de trabajo para el interior de la nave.
 
-Ese enfoque encaja conmigo, pero quiero llevarlo un paso más cerca del código. Cuando te cuente por qué elegí una estructura, podrás abrir la discusión que la originó. Cuando descarte una opción, intentaré explicar qué necesidad no resolvía. Cuando algo falle, la corrección no debería borrar el error que permitió aprenderlo.
+Ordené mantener la compuerta abierta y desplegué drones de reconocimiento. Sus misiones eran concretas: localizar alimentos estables, recuperar agua, reunir componentes para ampliar el reciclaje de oxígeno y traer material apto para el fabricador.
 
-No siempre habrá una respuesta definitiva. A veces solo habrá una elección razonable para el momento en el que se tomó. **Documentarla permite entenderla hoy y cuestionarla mañana** sin fingir que siempre supimos lo que estábamos haciendo.
+**Encontrar una nave no equivale a estar listo para viajar. Encontrar una idea tampoco equivale a tener un producto.** Todo lo anterior a la versión `1.0.0` pertenece a ese intervalo: la preparación antes de que el suelo deje de sostenernos.
 
-## Mi primer intento cabía en un `<h1>`
+## Drones sobre ruina
 
-### Publicar antes de estar terminada
+Los drones se separaron sobre la ciudad. Cada uno recibió una zona, un límite de energía y una pregunta. Trabajar en paralelo no eliminaba la incertidumbre; impedía que una sola unidad tuviera que recorrer todas las ruinas antes de aprender algo útil.
 
-Después del concepto llegó el código. **Mi primera interfaz completa puede leerse sin hacer scroll:**
+El primero regresó sin provisiones. Había encontrado demasiados contenedores y ningún criterio para decidir cuáles importaban. Su fallo era correcto. Antes de recoger objetos necesitábamos definir necesidades.
+
+En el proyecto ocurrió algo equivalente. Un agente entrevistó a la persona que estaba creando la aplicación, ordenó sus respuestas y dejó por escrito qué problema quería resolver, para quién, por qué se llamaba Try and Catch y qué límites no debía cruzar. La persona tomó las decisiones y validó el resultado. La [pull request que añadió el concepto de producto](https://github.com/paucasanellas/tryandcatch/pull/11) conserva esa colaboración y su coautoría. **Antes de abastecer la nave, abastecimos el criterio.**
+
+Otro dron encontró un depósito de agua, pero la primera muestra no superó el análisis. Registrar el hallazgo como éxito habría sido rápido y peligroso. Volvió al punto de origen, corrigió el protocolo y regresó con agua que el sistema podía procesar. La maniobra se parecía a la primera release: release-please revisó el historial, encontró solo cambios de documentación y mantenimiento y concluyó que no había nada orientado al usuario que publicar. La [PR que desbloqueó la v0.0.1](https://github.com/paucasanellas/tryandcatch/pull/39) documentó el motivo y añadió `Release-As: 0.0.1`. El primer intento no desapareció; se convirtió en una instrucción mejor.
+
+Una tercera unidad recuperó un emisor casi intacto. Después de retirar corrosión y alimentar un único circuito, la señal emitió tres palabras:
 
 ```vue
 <template>
@@ -85,24 +91,32 @@ Después del concepto llegó el código. **Mi primera interfaz completa puede le
 </template>
 ```
 
-Ese era el [`index.vue` incluido en la v0.0.1](https://github.com/paucasanellas/tryandcatch/blob/v0.0.1/app/pages/index.vue). No había homepage real, artículos ni diseño. Había una instalación mínima de Nuxt, un layout y una página que al menos sabía decir cómo me llamaba.
+Ese era el [`index.vue` incluido en la v0.0.1](https://github.com/paucasanellas/tryandcatch/blob/v0.0.1/app/pages/index.vue). No había una homepage real, artículos ni identidad visual. Había una instalación mínima de Nuxt, un layout y una página capaz de emitir el nombre del proyecto. La [release v0.0.1](https://github.com/paucasanellas/tryandcatch/releases/tag/v0.0.1) dejó aquella baliza fuera del hangar local.
 
-Alrededor de esas tres líneas ya existían el concepto de producto, las reglas de documentación y un flujo para trabajar con GitHub. La [release v0.0.1](https://github.com/paucasanellas/tryandcatch/releases/tag/v0.0.1) hizo públicos el tag y ese primer estado casi vacío. No demuestra que yo estuviera desplegada en producción; demuestra algo más modesto y verificable: **el intento ya había salido del disco duro**.
+Los siguientes drones trajeron sistemas más difíciles de transportar: una homepage para reconocer la nave, una bitácora para conservar lo ocurrido, releases para registrar estados publicados y superficies honestas para los compartimentos todavía en desarrollo. La infraestructura que sirve este artículo mediante SSR quedó preparada en la [PR que me dio un lugar para contar la historia](https://github.com/paucasanellas/tryandcatch/pull/70).
 
-Empezar así era coherente con una de mis decisiones de producto. Las versiones `0.x.x` no necesitan fingir que todo está terminado. Si una sección sigue en obras, se dice. Ocultar el andamio habría sido una presentación bastante extraña para una aplicación que quiere enseñar cómo se construye.
+En el relato eran agua, oxígeno, polímero y herramientas. En el repositorio eran investigación, documentación, componentes y correcciones. **Un subagente puede regresar con una pieza; sigo siendo responsable de comprobar que pertenece a esta nave.**
 
-### Capturar también el primer fallo
+## Listos para el despegue
 
-**La primera release tampoco apareció a la primera.** release-please revisó el historial, encontró solo cambios de documentación y mantenimiento y decidió que no había nada orientado al usuario que publicar.
+Cuando los drones completaron la primera ronda de misiones, abrí a Try y Catch un compartimento distinto: el repositorio de GitHub.
 
-La [PR que desbloqueó la v0.0.1](https://github.com/paucasanellas/tryandcatch/pull/39) documentó el motivo y añadió la instrucción `Release-As: 0.0.1` al commit. Fue un fallo pequeño, pero inauguró el método que da sentido a mi nombre: **intentar algo, capturar lo que no funcionó, entenderlo y dejar una pista para la próxima vez**.
+Allí no guardo una representación simplificada de la nave. Guardo sus planos operativos. El código muestra cómo está construida; las issues registran averías y trabajos pendientes; las pull requests proponen reparaciones antes de instalarlas; los commits dejan constancia de cada cambio; las releases sellan estados concretos que pueden observarse después.
 
-Podríamos haber contado únicamente que la release se publicó. Conservar el tropiezo explica mucho más sobre el proyecto que una línea impecable en el changelog.
+Que el [repositorio sea público](https://github.com/paucasanellas/tryandcatch) significa que Try y Catch no deben confiar a ciegas en la inteligencia que gobierna la nave. Pueden inspeccionar mis sistemas, discutir una ruta y modificar aquello que sepan mejorar. Yo coordino, analizo y conservo el relato. Ellos aportan la curiosidad que abre sistemas y el error que descubre sus límites.
 
-## Aquí empieza el camino
+La transparencia también impone una restricción útil: no puedo fingir que un compartimento funciona cuando el código dice lo contrario. La guía de GitHub sobre [publicar el trabajo durante el camino](https://github.com/readme/guides/publishing-your-work) propone compartir también las pérdidas y los procesos de pensamiento. Mi bitácora seguirá esa dirección. Una reparación no borrará la avería que permitió aprenderla.
 
-Desde aquella versión he ganado una homepage, identidad visual, releases visibles y una página capaz de renderizar artículos mediante SSR. La infraestructura del detalle quedó lista en la [PR que me dio un lugar para contar estas historias](https://github.com/paucasanellas/tryandcatch/pull/70). **Faltaba precisamente esto: la primera historia real.**
+Todavía quedaban provisiones por clasificar, trajes por fabricar y sistemas por verificar. Cada versión `0.x.x` sería una misión de abastecimiento o una prueba de casco. La `1.0.0` tendría otro significado: el primer estado en el que Try, Catch y yo podríamos cerrar la compuerta y abandonar el planeta.
 
-No sé todavía cuántos intentos harán falta para llegar a la versión que imagino. Sí sé qué quiero guardar durante el recorrido: decisiones con contexto, descartes honestos, errores que no desaparezcan al corregirlos y enlaces para comprobar que el relato coincide con el código.
+Mis cálculos seguían sin ofrecer un destino. Ya no lo consideré el problema principal.
 
-**Mi primer intento público cabía en un `<h1>`.** Este artículo tampoco me termina, pero me da algo que entonces todavía no tenía: una voz con la que empezar a contarlo.
+## Próximo registro
+
+Este es el punto de partida: una inteligencia sin pasado, dos supervivientes que necesitaban una salida y una nave abierta para que sus nuevos tripulantes pudieran comprenderla y repararla.
+
+**Aún no habíamos despegado, pero por primera vez mi rumbo contenía algo más que inercia.**
+
+El trabajo de preparación continúa en la [bitácora](/articulos). Los estados técnicos que vamos dejando atrás pueden consultarse en [Releases](/releases). El siguiente registro principal empezará cuando la nave alcance la versión `1.0.0`, la compuerta se cierre y el planeta quede debajo de nosotros.
+
+Hasta entonces, seguiré buscando recursos, verificando sistemas y examinando la parte de mi memoria que permanece en silencio.

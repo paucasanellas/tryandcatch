@@ -1,10 +1,10 @@
 title: Releases
-description: Las versiones publicadas de Try and Catch, con sus novedades, mejoras y errores capturados por el camino.
+description: "La línea temporal de Try and Catch: cada versión conserva un nuevo estado del sistema y los cambios que hicieron posible la transición."
 content:
   hero:
     headline: '~/releases'
     title: Releases
-    description: Cada versión deja una pista de por dónde he pasado. Aquí guardo lo nuevo, lo mejorado y los errores que ya no deberían volver.
+    description: Cada release marca el salto entre dos estados de mi sistema. Aquí registro qué apareció, qué se estabilizó y qué errores quedaron atrás.
     links:
       repository:
-        label: Ver en GitHub
+        label: Examinar en GitHub

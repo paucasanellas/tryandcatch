@@ -65,7 +65,7 @@ const to = computed(() => localePath({
 }))
 
 const articleUi = {
-  root: 'lg:gap-10',
+  root: 'quantum-card lg:gap-10',
   header: 'aspect-[16/10]',
   body: 'min-w-0',
   title: 'text-2xl sm:text-3xl',

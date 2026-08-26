@@ -1,5 +1,7 @@
 <template>
-  <UPageSection :ui="{ container: 'max-w-3xl pt-10 pb-12 sm:pt-12 sm:pb-16 lg:pt-16 lg:pb-20' }">
+  <UPageSection
+    :ui="{ container: 'max-w-3xl pt-4 pb-12 sm:pt-6 sm:pb-16 lg:pt-8 lg:pb-20' }"
+  >
     <MDC :value="content" />
   </UPageSection>
 </template>

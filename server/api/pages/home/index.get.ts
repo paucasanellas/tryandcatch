@@ -17,7 +17,4 @@ export default defineCachedEventHandler<Promise<GetHomeResponse>>(async (event) 
   catch (error) {
     throw handleError(error)
   }
-}, {
-  maxAge: 900,
-  swr: true,
-})
+}, pageCacheOptions)

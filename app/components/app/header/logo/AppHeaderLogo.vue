@@ -25,7 +25,15 @@ const { t } = useI18n()
 <style scoped>
 .app-logo-brace,
 .app-logo-name {
-  transition: color 180ms ease, transform 180ms ease;
+  transition: color 180ms ease, text-shadow 180ms ease, transform 180ms ease;
+}
+
+.app-logo-brace-left {
+  text-shadow: 0 0 0.35rem color-mix(in srgb, var(--ui-primary) 48%, transparent), 0 0 0.8rem color-mix(in srgb, var(--ui-primary) 24%, transparent);
+}
+
+.app-logo-brace-right {
+  text-shadow: 0 0 0.35rem color-mix(in srgb, var(--ui-secondary) 48%, transparent), 0 0 0.8rem color-mix(in srgb, var(--ui-secondary) 24%, transparent);
 }
 
 .app-logo-name {
@@ -48,11 +56,13 @@ const { t } = useI18n()
 
 .app-logo:hover .app-logo-brace-left,
 :global(a:focus-visible) .app-logo-brace-left {
+  text-shadow: 0 0 0.45rem var(--ui-primary), 0 0 1.3rem color-mix(in srgb, var(--ui-primary) 70%, transparent);
   transform: translateX(-0.2rem) rotate(-3deg);
 }
 
 .app-logo:hover .app-logo-brace-right,
 :global(a:focus-visible) .app-logo-brace-right {
+  text-shadow: 0 0 0.45rem var(--ui-secondary), 0 0 1.3rem color-mix(in srgb, var(--ui-secondary) 70%, transparent);
   transform: translateX(0.2rem) rotate(3deg);
 }
 

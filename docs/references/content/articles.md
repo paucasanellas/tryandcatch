@@ -4,11 +4,13 @@ Qué es un artículo, qué contrato editorial debe cumplir y cómo se prepara.
 
 ## Definición
 
-- **Un artículo es una pieza editorial independiente sobre cómo se construye y evoluciona Try and Catch.**
+- **Un artículo es un episodio independiente de la bitácora de la nave Try and Catch.**
 - Puede explicar desde un cambio de un solo commit hasta varias versiones.
 - Puede tratar un tema sin relación con una versión, como producto o plataforma.
 - No es un tutorial ni necesita estar vinculado a una release.
-- La aplicación cuenta el relato en primera persona. La persona o modelo responsable de la redacción firma el artículo.
+- La IA de a bordo narra en primera persona. Try y Catch protagonizan la aventura como dos facetas de la persona que desarrolla la nave.
+- Cada episodio convierte trabajo real de desarrollo en una situación espacial sutil sin alterar los hechos.
+- La persona o modelo responsable de la redacción firma el artículo.
 
 ## Formato
 
@@ -57,7 +59,7 @@ image:
 
 ## Autoría
 
-**La autoría identifica quién redactó el artículo, no quién lo encargó, aprobó o revisó.** La voz narrativa sigue siendo Try and Catch aunque firme una persona o un modelo.
+**La autoría identifica quién redactó el artículo, no quién lo encargó, aprobó o revisó.** La voz narrativa sigue siendo la IA de a bordo aunque firme una persona o un modelo.
 
 | Autor | Formato | Ejemplo |
 |---|---|---|
@@ -74,6 +76,39 @@ image:
 - La autoría múltiple queda fuera del contrato actual. Si aparece esa necesidad, requiere un cambio de schema independiente.
 
 ## Escritura
+
+### Contrato narrativo
+
+**Cada episodio une una situación de la misión con una transformación verificable de la web.**
+
+| Capa | Función |
+|---|---|
+| Aventura | Da continuidad a la serie: exploración, maniobra, avería, reparación o cambio de rumbo |
+| Desarrollo | Explica qué se construyó, decidió, descartó o corrigió en la aplicación |
+| Evidencia | Enlaza issues, PRs, commits, releases o código que permiten comprobar el relato |
+
+- La IA narra siempre como sistema de a bordo y describe la nave en primera persona. No recuerda nada anterior a un reinicio ocurrido antes de detectar el planeta. No se cambia de punto de vista dentro de un episodio.
+- En los primeros episodios su voz es fría y mecánica: diagnósticos, datos incompletos, frases declarativas y conclusiones precisas. La prosa sigue siendo legible y no se convierte en una sucesión de registros técnicos.
+- Su bondad se revela mediante acciones, prioridades inexplicadas y decisiones que contradicen la optimización estricta. No declara emociones que todavía no sabe identificar.
+- La voz puede humanizarse gradualmente entre episodios, sin perder precisión, misterio ni humor seco.
+- Try expresa la curiosidad y el desarrollo. Catch expresa el fallo frecuente, la buena intención, la captura del error y el nuevo intento.
+- Try y Catch actúan sobre problemas concretos. No mantienen conversaciones inventadas para exponer información.
+- Los drones representan subagentes y solo aparecen cuando una tarea real puede describirse como una misión acotada.
+- El fabricador aditivo puede producir objetos útiles para la historia con polímeros avanzados y otros materiales compatibles. Toda creación exige materia prima, energía, un modelo y tiempo; no funciona como solución ilimitada ni retroactiva.
+- La situación espacial acompaña el razonamiento técnico. No hace falta introducir una metáfora en cada párrafo.
+- El capítulo puede abrir y cerrar con la misión. El cuerpo aterriza pronto en decisiones y consecuencias reales.
+- No se inventan capacidades implementadas, incidentes, motivaciones personales ni resultados técnicos.
+- El misterio afecta al destino del viaje, no a la claridad de la explicación.
+- El humor procede de la voz de la IA, los límites del sistema o los fallos reales. No infantiliza a la tripulación.
+- El tono es adulto y combina ciencia ficción, misterio cósmico, tensión y preguntas morales con explicaciones técnicas claras.
+- Brandon Sanderson y Pierce Brown funcionan como referencias de intención, no de estilo imitable. Se extraen principios generales —claridad y resolución estructural, misterio dosificado, límites consistentes, ritmo y conflicto moral— sin copiar vocabulario, sintaxis, cadencia, escenas ni elementos reconocibles de sus obras.
+
+### Continuidad de la serie
+
+- Las versiones `0.x.x` ocurren antes del primer despegue. Cada episodio prepara un sistema, una provisión o una capacidad de la nave.
+- La versión `1.0.0` habilita el despegue y necesita una nueva entrada principal de la bitácora.
+- El origen de la IA, su viaje anterior y la causa del reinicio permanecen sin resolver.
+- Un episodio puede aportar una pista, pero no resolver el misterio sin una decisión editorial explícita.
 
 ### Negritas
 
@@ -99,23 +134,33 @@ image:
 |---|---|
 | Concepto | Traducir la tesis, el conflicto o la transformación principal del artículo a una escena visual concreta |
 | Estilo | Ilustración editorial flat texturizada, con geometría clara y surrealismo leve |
+| Marco narrativo | Un episodio de la nave Try and Catch conectado con una experiencia concreta de desarrollo web |
 | Paleta | Fucsia y lima constantes en el entorno y los elementos narrativos; colores secundarios variables según el artículo |
-| Personajes | Try y Catch aparecen juntos como una sola identidad y conservan la representación definida en `docs/core/product/concept.md` |
+| Referencia canónica | `public/images/articles/el-proyecto-que-se-cuenta-solo.png` fija nave, personajes, equipamiento, textura, luz y profundidad |
+| Personajes | Try y Catch aparecen juntos como facetas del desarrollador y conservan la representación definida en `docs/core/product/concept.md` |
+| Nave | Casco predominantemente blanco con líneas estructurales fucsias y lima; diseño coherente con la referencia canónica |
+| Equipamiento | En atmósferas habitables usan ropa cotidiana; dentro de la nave pueden llevar monos; en entornos hostiles usan trajes presurizados |
+| Movimiento | La pose responde a la gravedad de la escena; la flotación se reserva para baja o microgravedad |
+| IA | Se sugiere mediante la nave, sus sensores, su luz o su actividad; nunca como robot humanoide genérico |
+| Drones | Representan subagentes y comparten el lenguaje formal de la nave sin parecer personajes humanoides |
 | Acabado | Formas grandes, dos o tres planos tonales, bordes gráficos y grano de serigrafía, semitono o aerógrafo dentro del color |
 | Composición | Formato horizontal 16:10, silueta dominante, foco central seguro, espacio negativo, profundidad plana por capas y lectura clara en miniatura |
 | Variación | La metáfora, el escenario, los objetos y los colores secundarios cambian con la idea de cada artículo |
 | Exclusiones | Texto, letras, números, código legible, logos, marcas de agua, estética de stock, fotorealismo, modelado naturalista, pincelada pictórica, 3D brillante y acabado genérico de imagen generada |
 
-- **La escena debe permitir intuir de qué trata el artículo sin depender del título.** La metáfora es clara e incorpora detalles tecnológicos solo cuando ayudan a precisar el tema.
-- El fucsia y el lima deben reconocerse a primera vista en el entorno o en los elementos narrativos. Try y Catch mantienen colores animales naturales.
+- **La escena debe permitir intuir de qué trata el episodio sin depender del título.** La acción de la tripulación representa el cambio o conflicto técnico principal.
+- Todas las portadas posteriores usan la portada canónica como referencia visual. Conservan continuidad sin copiar su composición ni su acción.
+- Antes de la `1.0.0`, el planeta postapocalíptico es el escenario estable. Después del despegue, cada destino responde al episodio y no funciona como una galaxia genérica.
+- El fucsia y el lima deben reconocerse a primera vista en el entorno o en los elementos narrativos. La ropa de Try y Catch usa colores naturales y sobrios que no compiten con esos acentos.
+- La ropa y los trajes permiten reconocer el rostro, la edad y las proporciones humanas de ambos personajes. Try se percibe como un hombre adulto y Catch como un adolescente, nunca como un niño o un adulto reducido.
 - **Flat describe la construcción de la imagen:** cada sujeto se resuelve con pocas formas interconectadas y el volumen procede de planos de color, no de pelo, materiales o iluminación realistas.
 - La textura vive dentro de las masas de color. Añade grano e imperfección de impresión sin convertir la imagen en una pintura.
 - Los fondos usan geometría, curvas amplias y espacio negativo. No describen un paisaje con profundidad naturalista salvo que la tesis lo necesite.
-- El surrealismo es leve y narrativo: altera una relación espacial, una escala o el comportamiento de un objeto para explicar la tesis sin deformar la anatomía ni convertir la escena en un sueño caótico.
+- El surrealismo es leve y narrativo: altera una relación espacial, una escala o el comportamiento de un objeto para explicar la tesis sin deformar la anatomía humana ni convertir la escena en un sueño caótico.
 - Los detalles tecnológicos se reducen a símbolos, conexiones o geometrías integradas en el mismo lenguaje flat. No imitan una interfaz real.
 - El acabado evita tanto el realismo como la perfección sintética: conserva grano, ligeras irregularidades, decisiones compositivas concretas y relaciones físicas comprensibles entre los elementos.
 - El prompt empieza por la idea que debe comprenderse, continúa con la metáfora y la acción de los personajes y aplica después el sistema visual compartido.
-- Una referencia visual define lenguaje, textura, tratamiento de color, luz y profundidad. **No se copian su composición, personajes, objetos ni escenario.**
+- La referencia canónica define personajes, nave, equipamiento, lenguaje, textura, tratamiento de color, luz y profundidad. **No se copian su composición, acción ni escenario.**
 - Las decisiones permanentes de estilo y personajes viven en esta referencia y en el concepto de producto. La issue solo concreta la metáfora, la acción, la composición, la paleta secundaria y las exclusiones propias del artículo.
 - Si el encargo no permite decidir alguno de esos elementos, el agente pregunta antes de generar. No vuelve a preguntar por decisiones permanentes ya documentadas.
 - La dirección visual del mockup identifica por separado: concepto, metáfora, elementos narrativos, estilo común, composición, paleta y exclusiones.

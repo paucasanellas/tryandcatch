@@ -5,7 +5,7 @@
     icon="lucide:circle-alert"
     :title="t('releases.error.title')"
     :description="t('releases.error.description')"
-    class="max-w-2xl mx-auto"
+    class="quantum-surface max-w-2xl mx-auto"
   >
     <template #actions>
       <UButton

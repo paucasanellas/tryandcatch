@@ -1,0 +1,119 @@
+.quantum-field {
+  --quantum-particle-rest: 0.055;
+  --quantum-particle-peak: 0.48;
+
+  pointer-events: none;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.quantum-field-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 92% 32% at 50% 0%, color-mix(in srgb, var(--ui-primary) 12%, transparent), transparent 72%),
+    radial-gradient(ellipse 42% 28% at 88% 100%, color-mix(in srgb, var(--ui-secondary) 8%, transparent), transparent 72%);
+}
+
+.quantum-field-particle {
+  position: absolute;
+  top: var(--particle-y);
+  left: var(--particle-x);
+  width: var(--particle-size);
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background: currentColor;
+  box-shadow: 0 0 calc(var(--particle-size) * 2.5) currentColor;
+  opacity: var(--quantum-particle-rest);
+  animation: quantum-particle-twinkle var(--particle-duration) ease-in-out var(--particle-delay) infinite;
+}
+
+.quantum-surface {
+  border: 1px solid color-mix(in srgb, var(--ui-border) 78%, transparent);
+  background: color-mix(in srgb, var(--ui-bg) 86%, transparent);
+  box-shadow:
+    0 1.5rem 4rem color-mix(in srgb, var(--ui-primary) 5%, transparent),
+    inset 0 1px color-mix(in srgb, var(--ui-secondary) 10%, transparent);
+  backdrop-filter: blur(1rem);
+}
+
+.quantum-divider {
+  position: relative;
+}
+
+.quantum-divider::before {
+  position: absolute;
+  top: 0;
+  right: 10%;
+  left: 10%;
+  height: 1px;
+  content: '';
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--ui-primary) 46%, transparent), color-mix(in srgb, var(--ui-secondary) 40%, transparent), transparent);
+  box-shadow: 0 0 1rem color-mix(in srgb, var(--ui-primary) 18%, transparent);
+}
+
+.quantum-chrome {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--ui-bg) 38%, transparent);
+  box-shadow: none;
+  backdrop-filter: blur(0.85rem) saturate(1.15);
+}
+
+.quantum-chrome::after {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 1px;
+  pointer-events: none;
+  content: '';
+  background: linear-gradient(90deg, transparent 5%, color-mix(in srgb, var(--ui-primary) 18%, transparent), color-mix(in srgb, var(--ui-secondary) 16%, transparent), transparent 95%);
+}
+
+.quantum-chrome-header::after {
+  bottom: 0;
+  box-shadow: 0 0.6rem 1.5rem color-mix(in srgb, var(--ui-primary) 8%, transparent);
+}
+
+.quantum-chrome-footer::after {
+  top: 0;
+  box-shadow: 0 -0.6rem 1.5rem color-mix(in srgb, var(--ui-secondary) 7%, transparent);
+}
+
+.quantum-card {
+  border: 1px solid transparent;
+  background: color-mix(in srgb, var(--ui-bg) 58%, transparent);
+  backdrop-filter: blur(0.5rem);
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+.quantum-card:hover,
+.quantum-card:has(> a:focus-visible) {
+  border-color: color-mix(in srgb, var(--ui-primary) 24%, transparent);
+  box-shadow:
+    0 1.25rem 3rem color-mix(in srgb, var(--ui-primary) 8%, transparent),
+    inset 0 1px color-mix(in srgb, var(--ui-secondary) 16%, transparent);
+  transform: translateY(-0.2rem);
+}
+
+@keyframes quantum-particle-twinkle {
+  0%, 100% { opacity: var(--quantum-particle-rest); scale: 0.65; }
+  45% { opacity: var(--quantum-particle-peak); scale: 1.15; }
+  52% { opacity: calc(var(--quantum-particle-peak) * 0.25); scale: 0.8; }
+  68% { opacity: calc(var(--quantum-particle-peak) * 0.7); scale: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quantum-field-particle {
+    opacity: calc(var(--quantum-particle-peak) * 0.4);
+    animation: none;
+  }
+
+  .quantum-card {
+    transition: none;
+  }
+
+  .quantum-card:hover,
+  .quantum-card:has(> a:focus-visible) {
+    transform: none;
+  }
+}

@@ -2,6 +2,7 @@
   <UNavigationMenu
     :items="items"
     orientation="vertical"
+    highlight
     :ui="{ link: 'font-mono text-xs' }"
   />
 </template>

@@ -17,8 +17,6 @@
       {{ title }} <span class="text-primary">{{ titleAccent }}</span>
     </template>
 
-    <HomeHeroSky />
-
     <HomeHeroOrbit
       :categories="categories"
       class="max-w-md lg:max-w-lg mx-auto"
@@ -38,6 +36,7 @@ const heroLinks = computed<ButtonProps[]>(() => [
   {
     label: props.links.articles.label,
     to: localePath('articles'),
+    icon: 'i-lucide-rocket',
   },
   {
     label: props.links.repository.label,

@@ -1,5 +1,5 @@
 <template>
-  <UPage class="relative min-h-full flex-1 overflow-hidden bg-default">
+  <UPage class="relative min-h-full flex-1 overflow-hidden">
     <ErrorsSceneBackdrop :status-code="statusCode" />
 
     <UPageSection

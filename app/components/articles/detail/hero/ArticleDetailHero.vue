@@ -4,7 +4,7 @@
     :title="article.title"
     :description="article.description"
     :ui="{
-      container: 'pt-12 pb-0! sm:pt-16 lg:pt-20 gap-10 sm:gap-12',
+      container: 'pt-12 pb-4! sm:pt-16 sm:pb-6! lg:pt-20 lg:pb-8! gap-10 sm:gap-12',
       headline: 'flex-col gap-5 font-mono',
       title: 'text-4xl sm:text-5xl lg:text-6xl',
       description: 'max-w-3xl mx-auto',

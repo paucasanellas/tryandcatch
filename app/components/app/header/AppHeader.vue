@@ -1,8 +1,12 @@
 <template>
   <UHeader
+    class="quantum-chrome quantum-chrome-header"
     :to="localePath('/')"
     :title="t('app.name')"
-    :ui="{ root: 'border-b border-default bg-default/80 backdrop-blur' }"
+    :ui="{
+      root: 'border-b-0 bg-transparent',
+      body: 'bg-default/70 backdrop-blur-xl',
+    }"
   >
     <template #title>
       <AppHeaderLogo />
