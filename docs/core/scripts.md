@@ -8,7 +8,7 @@ Los scripts de `package.json` y cuándo ejecutarlos.
 | `pnpm lint` | ESLint sobre todo el proyecto | Antes de dar un cambio por bueno; el `pre-commit` lo lanza solo |
 | `pnpm lint:fix` | ESLint arreglando lo autoarreglable (incluido el formato) | Cuando el lint falla por reglas autoarreglables |
 | `pnpm typecheck` | Verificación completa de tipos (vue-tsc) | Antes de dar un cambio por bueno; el `pre-commit` lo lanza solo |
-| `pnpm build` | Build de producción | Para verificar que el proyecto compila como en producción |
+| `pnpm build` | Build de producción | Lo usa el despliegue; los agentes y CI no lo ejecutan como validación |
 | `pnpm preview` | Sirve el build de producción en local | Para probar el resultado real de `build` |
 | `pnpm generate` | Genera el sitio estático | No se usa de momento; el deploy es SSR en Vercel |
 
