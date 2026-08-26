@@ -13,6 +13,20 @@ Qué es Try and Catch y con qué criterio se juzga cualquier decisión sobre ell
 
 «Try and Catch»: intentar cosas — si aciertas, adelante; si fallas, capturas el error, aprendes, lo cuentas y evitas que se repita. Juego de palabras con el try/catch de programación.
 
+## La bitácora
+
+**La bitácora es el registro narrativo del viaje de construcción de Try and Catch.** Conserva el rumbo, los desvíos y lo aprendido durante el desarrollo.
+
+| Concepto | Papel |
+|---|---|
+| Bitácora | El conjunto ordenado de historias sobre cómo evoluciona la aplicación |
+| Artículo | Una entrada de la bitácora sobre una iteración, decisión, descarte o error concreto |
+| Release | El registro técnico de los cambios publicados en una versión |
+
+- Como una bitácora de navegación, no recoge solo el destino: también documenta las maniobras, los cambios de rumbo y sus motivos.
+- Cada entrada enlaza el relato con evidencias reales del repositorio.
+- La bitácora explica cómo y por qué cambió la aplicación; las releases enumeran qué cambió en cada versión.
+
 ## Personajes
 
 **Try y Catch son dos personajes que encarnan juntos una única identidad: Try and Catch.** No son dos narradores ni dos productos distintos.
@@ -45,7 +59,7 @@ Qué es Try and Catch y con qué criterio se juzga cualquier decisión sobre ell
 | Núcleo (MVP, versión 1.0.0) | Qué hace |
 |---|---|
 | Homepage | Hub de entrada: presenta el concepto, el nombre y enlaza al resto |
-| Artículos | Cada iteración: qué se hizo, y las decisiones tomadas y descartadas dentro del propio artículo |
+| Bitácora | Artículos sobre cada iteración: qué se hizo, qué se decidió, qué se descartó y qué se aprendió |
 | Releases | Los cambios por versión, en formato clásico |
 | Página «en desarrollo» | El placeholder honesto para secciones a medias; permite estar en producción desde la 0.1.0 sin esconder nada |
 | Enlaces al código real | Cada artículo enlaza al PR, issue o diff que implementa lo que cuenta |
@@ -57,7 +71,7 @@ En orden de intención, sin compromiso de fechas:
 
 | Funcionalidad | Qué hace |
 |---|---|
-| RSS de artículos | La forma mínima de seguir el camino |
+| RSS de la bitácora | La forma mínima de seguir el camino |
 | Stack viva | Qué tecnologías usa la app ahora mismo y por qué, cada una enlazando a su artículo |
 | Roadmap público | El tablero del proyecto visible: el camino antes de andarse |
 | «Esta app ahora mismo» | Versión desplegada, último deploy y métricas de la propia app |

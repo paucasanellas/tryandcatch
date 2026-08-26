@@ -4,7 +4,7 @@ Qué es un artículo, qué contrato editorial debe cumplir y cómo se prepara.
 
 ## Definición
 
-- **Un artículo es una pieza editorial independiente sobre cómo se construye y evoluciona Try and Catch.**
+- **Un artículo es una entrada independiente de la bitácora sobre cómo se construye y evoluciona Try and Catch.**
 - Puede explicar desde un cambio de un solo commit hasta varias versiones.
 - Puede tratar un tema sin relación con una versión, como producto o plataforma.
 - No es un tutorial ni necesita estar vinculado a una release.
