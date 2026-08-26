@@ -1,5 +1,8 @@
 <template>
-  <UPageSection :ui="{ container: 'py-12 sm:py-16 lg:py-24' }">
+  <UPageSection
+    class="quantum-divider"
+    :ui="{ container: 'py-12 sm:py-16 lg:py-24' }"
+  >
     <UBlogPosts
       orientation="vertical"
       class="max-w-5xl mx-auto"

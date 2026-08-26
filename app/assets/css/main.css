@@ -4,4 +4,5 @@
 @source "../../../content/**/*";
 
 @import "./animations.css";
+@import "./quantum.css";
 @import "./theme.css";

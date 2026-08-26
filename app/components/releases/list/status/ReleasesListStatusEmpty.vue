@@ -3,7 +3,7 @@
     icon="lucide:package-open"
     :title="t('releases.empty.title')"
     :description="t('releases.empty.description')"
-    class="max-w-2xl mx-auto"
+    class="quantum-surface max-w-2xl mx-auto rounded-xl"
   />
 </template>
 

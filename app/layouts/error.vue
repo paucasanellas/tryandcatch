@@ -1,5 +1,7 @@
 <template>
-  <div class="flex min-h-screen flex-col bg-default">
+  <div class="relative isolate flex min-h-screen flex-col overflow-x-clip bg-default">
+    <AppQuantumField class="fixed inset-0 -z-10" />
+
     <AppHeader />
 
     <UMain class="flex flex-1">

@@ -1,6 +1,7 @@
 <template>
   <UNavigationMenu
     :items="items"
+    highlight
     :ui="{ link: 'font-mono text-xs' }"
   />
 </template>

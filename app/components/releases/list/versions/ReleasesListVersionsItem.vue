@@ -67,13 +67,14 @@ const { release, latest } = defineProps<{
 const { t } = useI18n()
 
 const releaseUi = {
-  root: 'flex items-start lg:gap-8',
+  root: 'quantum-state flex items-start lg:gap-8',
   container: 'w-full max-w-2xl',
   header: 'border-b border-default pb-4',
   title: 'font-mono text-2xl sm:text-3xl',
   date: 'font-mono text-xs/6 text-highlighted',
   indicator: 'sticky top-20 self-start',
-  dotInner: 'bg-secondary',
+  dot: 'shadow-[0_0_1rem_color-mix(in_srgb,var(--ui-secondary)_35%,transparent)]',
+  dotInner: 'bg-secondary shadow-[0_0_0.75rem_var(--ui-secondary)]',
   footer: 'mt-6',
 }
 </script>

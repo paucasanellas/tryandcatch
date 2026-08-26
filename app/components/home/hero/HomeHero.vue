@@ -17,8 +17,6 @@
       {{ title }} <span class="text-primary">{{ titleAccent }}</span>
     </template>
 
-    <HomeHeroSky />
-
     <HomeHeroOrbit
       :categories="categories"
       class="max-w-md lg:max-w-lg mx-auto"

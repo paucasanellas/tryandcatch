@@ -5,7 +5,7 @@ content:
     headline: '~/try-and-catch'
     title: Intento cosas, capturo errores y lo
     titleAccent: cuento
-    description: Soy una aplicación web que se cuenta sola — las decisiones que tomé, las que descarté y los errores que capturé por el camino.
+    description: 'Los agujeros negros parecen borrar información; esta web hace lo contrario: rescata las decisiones, los errores y los aprendizajes que deja su desarrollo.'
     categories:
       - decisiones
       - errores

@@ -1,5 +1,8 @@
 <template>
-  <UFooter :ui="{ root: 'border-t border-default' }">
+  <UFooter
+    class="quantum-chrome quantum-chrome-footer"
+    :ui="{ root: 'relative border-t-0 bg-transparent' }"
+  >
     <template #left>
       <ULink
         :to="`${repository.url}/releases/tag/v${version}`"
