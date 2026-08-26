@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.8.0](https://github.com/paucasanellas/tryandcatch/compare/v0.7.0...v0.8.0) (2026-08-26)
+
+
+### 🚀 Features
+
+* **brand:** add Try and Catch favicon ([#82](https://github.com/paucasanellas/tryandcatch/issues/82)) ([d8caad8](https://github.com/paucasanellas/tryandcatch/commit/d8caad8510e65b175fff631a73c4cd50042bdb75))
+* **errors:** add 404 and 500 pages ([#86](https://github.com/paucasanellas/tryandcatch/issues/86)) ([df1f2bb](https://github.com/paucasanellas/tryandcatch/commit/df1f2bb64dc39e3f21e44af390c4fcb587603c2a))
+
+
+### 🐛 Bug Fixes
+
+* **errors:** avoid 500 flash after 404 ([#100](https://github.com/paucasanellas/tryandcatch/issues/100)) ([4a56599](https://github.com/paucasanellas/tryandcatch/commit/4a565991138957f2a25939ac6d08920ee1917e2a))
+
+
+### 🧹 Chores
+
+* **deps-dev:** bump @iconify-json/lucide ([8da7a0f](https://github.com/paucasanellas/tryandcatch/commit/8da7a0f8da64d8c35b86d06ee19bdfde584e12f1))
+* **deps-dev:** bump @iconify-json/lucide from 1.2.123 to 1.2.125 in the development-minor-patch group ([#97](https://github.com/paucasanellas/tryandcatch/issues/97)) ([8da7a0f](https://github.com/paucasanellas/tryandcatch/commit/8da7a0f8da64d8c35b86d06ee19bdfde584e12f1))
+* **deps-dev:** bump vue-tsc from 3.3.10 to 3.3.11 in the vue-minor-patch group ([#96](https://github.com/paucasanellas/tryandcatch/issues/96)) ([ed5340b](https://github.com/paucasanellas/tryandcatch/commit/ed5340b8592941b478e9a30e7119b671f335a30e))
+* **deps-dev:** bump vue-tsc in the vue-minor-patch group ([ed5340b](https://github.com/paucasanellas/tryandcatch/commit/ed5340b8592941b478e9a30e7119b671f335a30e))
+* **deps:** add Dependabot updates ([#94](https://github.com/paucasanellas/tryandcatch/issues/94)) ([528ca10](https://github.com/paucasanellas/tryandcatch/commit/528ca1075d6f8e79b1ac82db2b32ff6cbf6a781e))
+
 ## [0.7.0](https://github.com/paucasanellas/tryandcatch/compare/v0.6.0...v0.7.0) (2026-08-25)
 
 
