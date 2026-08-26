@@ -20,7 +20,8 @@ const error = useError()
 const { t } = useI18n()
 const localePath = useLocalePath()
 
-const statusCode = computed(() => error.value?.status ?? error.value?.statusCode ?? 500)
+const initialStatusCode = error.value?.status ?? error.value?.statusCode ?? 500
+const statusCode = computed(() => error.value?.status ?? error.value?.statusCode ?? initialStatusCode)
 const isNotFound = computed(() => statusCode.value === 404)
 const title = computed(() => t(isNotFound.value ? 'errors.404.title' : 'errors.500.title'))
 const description = computed(() => t(isNotFound.value ? 'errors.404.description' : 'errors.500.description'))
