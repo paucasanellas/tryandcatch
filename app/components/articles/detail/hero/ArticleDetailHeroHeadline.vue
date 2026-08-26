@@ -4,7 +4,7 @@
       v-for="category in categories"
       :key="category"
       :label="t(`articles.categories.${category}`)"
-      color="secondary"
+      color="primary"
       variant="subtle"
     />
   </div>
