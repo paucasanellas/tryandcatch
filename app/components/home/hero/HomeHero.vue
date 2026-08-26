@@ -36,6 +36,7 @@ const heroLinks = computed<ButtonProps[]>(() => [
   {
     label: props.links.articles.label,
     to: localePath('articles'),
+    icon: 'i-lucide-rocket',
   },
   {
     label: props.links.repository.label,
