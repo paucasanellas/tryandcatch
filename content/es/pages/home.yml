@@ -2,8 +2,8 @@ title: Try and Catch — Bitácora de una aplicación en órbita
 description: Una aplicación que convierte las decisiones, los errores y los despliegues de su desarrollo en señales de una bitácora cósmica.
 content:
   hero:
-    headline: '~/observatorio/try-and-catch'
-    title: Exploro el código, capturo anomalías y lo
+    headline: '~/try-and-catch'
+    title: Exploro ideas, capturo anomalías y lo
     titleAccent: cuento
     description: 'Los agujeros negros parecen borrar información; esta web hace lo contrario: rescata las decisiones, los errores y los aprendizajes que deja su desarrollo.'
     categories:

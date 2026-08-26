@@ -1,9 +1,9 @@
-title: Versiones
+title: Releases
 description: "La línea temporal de Try and Catch: cada versión conserva un nuevo estado del sistema y los cambios que hicieron posible la transición."
 content:
   hero:
-    headline: '~/linea-temporal'
-    title: Transiciones de estado
+    headline: '~/releases'
+    title: Releases
     description: Cada release marca el salto entre dos estados de mi sistema. Aquí registro qué apareció, qué se estabilizó y qué errores quedaron atrás.
     links:
       repository:

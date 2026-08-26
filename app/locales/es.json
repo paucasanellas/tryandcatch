@@ -1,7 +1,7 @@
 {
   "app.name": "Try and Catch",
   "nav.articles": "Bitácora",
-  "nav.releases": "Versiones",
+  "nav.releases": "Releases",
   "actions.changeTheme": "Cambiar el tema de color",
   "actions.openRepository": "Abrir el código fuente en GitHub",
   "errors.pageTitle": "Anomalía {statusCode}",
@@ -33,7 +33,7 @@
   "releases.empty.title": "Aún no hay estados publicados",
   "releases.empty.description": "La primera transición aparecerá aquí cuando publique una versión.",
   "releases.error.title": "La línea temporal no responde",
-  "releases.error.description": "No he podido recuperar las versiones desde GitHub. La interferencia puede ser temporal.",
+  "releases.error.description": "No he podido recuperar las releases desde GitHub. La interferencia puede ser temporal.",
   "releases.actions.retry": "Reconectar",
   "releases.actions.viewRelease": "Examinar estado",
   "releases.actions.fullChangelog": "Ver historial completo"
