@@ -15,7 +15,4 @@ export default defineCachedEventHandler<Promise<GetArticleResponse>>(async (even
   catch (error) {
     throw handleError(error)
   }
-}, {
-  maxAge: 900,
-  swr: true,
-})
+}, pageCacheOptions)

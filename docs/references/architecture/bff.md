@@ -586,10 +586,7 @@ export default defineCachedEventHandler<Promise<GetReleasesResponse>>(async (eve
   catch (error) {
     throw handleError(error)
   }
-}, {
-  maxAge: 900,
-  swr: true,
-})
+}, pageCacheOptions)
 ```
 
 El endpoint no construye dependencias ni lee configuración. El contenedor es el único punto que conoce simultáneamente configuración, implementaciones y composición.
@@ -699,13 +696,16 @@ La caché pertenece al endpoint porque es una decisión de transporte.
 
 ```ts
 {
-  maxAge: 900,
+  maxAge: 1,
   swr: true,
 }
 ```
 
-- Las respuestas válidas de Home, Releases y el detalle de artículo se consideran frescas durante 15 minutos.
-- SWR permite servir la versión anterior mientras Nitro la revalida.
+- `server/utils/cache.ts` centraliza la política de todos los endpoints de página.
+- Las respuestas válidas se consideran frescas durante un segundo.
+- Después, SWR sirve la versión anterior y la revalida en segundo plano.
+- La siguiente petición recibe la versión actualizada cuando la revalidación ha terminado.
+- La primera petición sin una copia previa espera a que el endpoint produzca la respuesta.
 - Los casos de uso y repositorios no importan utilidades de caché de Nitro.
 - El almacenamiento por defecto sirve como primera implementación.
 - En producción, la caché en memoria puede estar separada por instancia.
@@ -750,8 +750,9 @@ Si varios endpoints necesitan reutilizar exactamente la misma consulta, se puede
 - `handleError` traduce `InvalidReleaseError` a 422 usando su nombre como código.
 - El plugin registra un `ServerContainer` en `NitroApp`.
 - Los endpoints resuelven `pageFinder` y `releaseSearcher` desde el contenedor.
-- Una segunda petición dentro de 15 minutos usa la respuesta cacheada.
-- Una petición posterior puede recibir la respuesta anterior durante la revalidación.
+- Una segunda petición dentro del primer segundo usa la respuesta cacheada.
+- La primera petición posterior recibe la respuesta anterior e inicia la revalidación.
+- La siguiente petición recibe la respuesta actualizada cuando la revalidación termina.
 - SSR consume `/api/pages/releases` sin acceder directamente a ungh.
 - SSR consume contenido editorial sin acceder directamente a Nuxt Content.
 - Un fallo del proveedor no expone detalles internos.
