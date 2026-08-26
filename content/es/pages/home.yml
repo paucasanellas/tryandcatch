@@ -1,9 +1,9 @@
-title: Try and Catch
-description: Una aplicación web que explica cómo está hecha ella misma — el camino, las decisiones tomadas y las descartadas, contado en primera persona.
+title: Try and Catch — Bitácora de una aplicación en órbita
+description: Una aplicación que convierte las decisiones, los errores y los despliegues de su desarrollo en señales de una bitácora cósmica.
 content:
   hero:
-    headline: '~/try-and-catch'
-    title: Intento cosas, capturo errores y lo
+    headline: '~/observatorio/try-and-catch'
+    title: Exploro el código, capturo anomalías y lo
     titleAccent: cuento
     description: 'Los agujeros negros parecen borrar información; esta web hace lo contrario: rescata las decisiones, los errores y los aprendizajes que deja su desarrollo.'
     categories:
@@ -18,6 +18,6 @@ content:
       - seo
     links:
       articles:
-        label: Ver artículos
+        label: Explorar la bitácora
       repository:
-        label: Ver el código
+        label: Examinar el código
