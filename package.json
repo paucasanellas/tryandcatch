@@ -26,14 +26,14 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@nuxt/content": "^3.15.2",
-    "@nuxt/ui": "^4.10.0",
+    "@nuxt/content": "^3.16.1",
+    "@nuxt/ui": "^4.11.3",
     "@nuxtjs/i18n": "^10.6.0",
-    "@nuxtjs/mdc": "^0.23.1",
-    "nuxt": "^4.5.2",
-    "vue": "^3.5.41",
-    "vue-router": "^5.2.0",
-    "zod": "4.4.3"
+    "@nuxtjs/mdc": "^0.23.2",
+    "nuxt": "^4.6.1",
+    "vue": "^3.5.44",
+    "vue-router": "^5.4.0",
+    "zod": "4.6.6"
   },
   "commitlint": {
     "extends": [
